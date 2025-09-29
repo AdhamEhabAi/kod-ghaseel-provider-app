@@ -11,7 +11,12 @@
 		<key>CFBundleIdentifier</key>
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 		<key>CFBundleInfoDictionaryVersion</key>
+
 		<string>6.0</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+        <string>This app needs access to your location for maps functionality.</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>This app needs access to your location to improve map experience.</string>
 		<key>CFBundleName</key>
 		<string>kod_ghaseel_provider_app</string>
 		<key>CFBundlePackageType</key>
