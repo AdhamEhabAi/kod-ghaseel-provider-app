@@ -38,12 +38,18 @@ dependencies:
   cupertino_icons: ^1.0.8
   go_router:
   flutter_screenutil:
+  pin_code_fields:
   flutter_svg:
   flutter_native_splash:
   lottie: ^3.3.2
+  badges: ^3.1.2
+  grouped_list: ^6.0.0
   google_maps_flutter: ^2.13.1
   google_maps_flutter_android: ^2.18.2
+  easy_date_timeline:
   fluttertoast:
+  dotted_border:
+  flutter_rating_bar:
   permission_handler: ^12.0.1
 dev_dependencies:
   flutter_test:

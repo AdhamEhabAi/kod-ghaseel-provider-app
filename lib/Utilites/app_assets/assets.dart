@@ -3,5 +3,46 @@ class Assets {
   static const String iconsPath = 'assets/icons';
   static const String animationsPath = 'assets/animations';
   static const String loadingAnimation = '$animationsPath/loading.json';
-
+  static const String logoSvg = '$iconsPath/LogoSvg.svg';
+  static const String chevronBackward = '$iconsPath/chevron_backward.svg';
+  static const String notificationIcon = '$iconsPath/Notification_icon.svg';
+  static const String walletIcon = '$iconsPath/Wallet_icon.svg';
+  static const String avatarIconSVG = '$iconsPath/avatar_icon.svg';
+  static const String lightningIconSVG = '$iconsPath/lightning_icon.svg';
+  static const String cameraIconSVG = '$iconsPath/Camera_icon.svg';
+  static const String personIconSVG = '$iconsPath/person_icon.svg';
+  static const String paymentCar = '$iconsPath/paymentCar.png';
+  static const String deleteIconSVG = '$iconsPath/trash_icon.svg';
+  static const String visibleIconSVG = '$iconsPath/visible_icon.svg';
+  static const String carIcon = '$iconsPath/caricon.png';
+  static const String filterIconSVG = '$iconsPath/filter_icon.svg';
+  static const String infoIconSVG = '$iconsPath/Info_icons.svg';
+  static const String paymentSuccess = '$imagesPath/paymentSuccess.png';
+  static const String carAddedSuccess = '$imagesPath/carAddedSuccess.png';
+  static const String offerBannerPopUp = '$imagesPath/popUpBanner.png';
+  static const String walletCardIconSVG = '$iconsPath/wallet_card_icon.svg';
+  static const String logoWhiteSvg = '$iconsPath/logoWhite.svg';
+  static const String topWalletBg = '$iconsPath/top_wallet_bg.svg';
+  static const String capIconSvg = '$iconsPath/cap_icon.svg';
+  static const String handIconSvg = '$iconsPath/hand_icon.svg';
+  static const String keyIconSvg = '$iconsPath/key_icon.svg';
+  static const String notificationPermissionIconSvg = '$iconsPath/notification_permission_icon.svg';
+  static const String calenderScreenIconSVG =
+      '$iconsPath/calender_screen_icon.svg';
+  static const String tabbyIconSVG = '$iconsPath/tabby_icon.svg';
+  static const String tamaraIconSVG = '$iconsPath/tamara_icon.svg';
+  static const String profileIconSVG = '$iconsPath/Profile_icon.svg';
+  static const String homeIconSVG = '$iconsPath/Home_icon.svg';
+  static const String packageIconSVG = '$iconsPath/package_icon.svg';
+  static const String riyal = '$iconsPath/Saudi_Riyal_Symbol.svg';
+  static const String editIcon = '$iconsPath/editIcon.svg';
+  static const String calendarIconSVG = '$iconsPath/Calendar_icon.svg';
+  static const String discountIconSVG = '$iconsPath/Discount_icon.svg';
+  static const String topOnboarding = '$imagesPath/TopOnboarding.svg';
+  static const String loginAvatar = '$imagesPath/loginAvatar.png';
+  static const String sparksLogin = '$imagesPath/sparksLogin.svg';
+  static const String upperLoginHalfCircle = '$imagesPath/upperLoginHalfCircle.svg';
+  static const String lowerHalfCircle = '$imagesPath/lowerHalfCircle.svg';
+  static const String homeBG = '$imagesPath/home_bg.png';
+  static const String avatarIconPng = '$imagesPath/avatar.png';
 }
