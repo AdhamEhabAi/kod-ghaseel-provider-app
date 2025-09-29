@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
-        android:label="kod_ghaseel_provider_app"
+        android:label="kod ghaseel provider app"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

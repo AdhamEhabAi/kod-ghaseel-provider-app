@@ -18,7 +18,7 @@
         <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
         <string>This app needs access to your location to improve map experience.</string>
 		<key>CFBundleName</key>
-		<string>kod_ghaseel_provider_app</string>
+		<string>kod ghaseel provider app</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 		<key>CFBundleShortVersionString</key>
