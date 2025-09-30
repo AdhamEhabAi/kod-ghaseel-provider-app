@@ -14,7 +14,7 @@ class ButtonSectionOnBoarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 62.w),
+      padding: EdgeInsets.symmetric(horizontal: 30.w),
       child: Column(
         spacing: 8.w,
         children: [
@@ -22,20 +22,26 @@ class ButtonSectionOnBoarding extends StatelessWidget {
             onPressed: () {
               GoRouter.of(context).push(AppRouter.registerScreen);
             },
-            backgroundColorButton: AppStyle.primaryColor,
+            backgroundColorButton: AppStyle.white,
             borderRadius: BorderRadius.circular(50.r),
             titleWidget: Text(
-              'تسجيل الدخول',
+              'تسجيــــــل الدخول',
+              style: AppTextStyle.whiteW600Size16Roboto.copyWith(color: AppStyle.primaryColor),
+            ),
+          ),
+          DefaultButton(
+            onPressed: () {
+              GoRouter.of(context).push(AppRouter.registerScreen);
+            },
+            backgroundColorButton: Colors.transparent,
+            borderRadius: BorderRadius.circular(50.r),
+            borderSideColor: AppStyle.white,
+            titleWidget: Text(
+              'إنشــــــــاء حساب',
               style: AppTextStyle.whiteW600Size16Roboto,
             ),
           ),
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'تصفح كزائر',
-              style: AppTextStyle.primaryW600Size16,
-            ),
-          ),
+
         ],
       ),
     );

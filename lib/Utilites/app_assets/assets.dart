@@ -44,6 +44,8 @@ class Assets {
   static const String calendarIconSVG = '$iconsPath/Calendar_icon.svg';
   static const String discountIconSVG = '$iconsPath/Discount_icon.svg';
   static const String topOnboarding = '$imagesPath/TopOnboarding.svg';
+  static const String topWaveOnboarding = '$imagesPath/topWaveOnboarding.svg';
+  static const String bottomWaveOnboarding = '$imagesPath/bottomWaveOnboarding.svg';
   static const String loginAvatar = '$imagesPath/loginAvatar.png';
   static const String sparksLogin = '$imagesPath/sparksLogin.svg';
   static const String upperLoginHalfCircle = '$imagesPath/upperLoginHalfCircle.svg';
