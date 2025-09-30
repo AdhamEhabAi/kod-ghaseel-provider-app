@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../Utilites/app_fonts/font.dart';
 
-class CalenderCardData extends StatelessWidget {
-  const CalenderCardData({super.key, required this.value, required this.field});
+class OrderCardData extends StatelessWidget {
+  const OrderCardData({super.key, required this.value, required this.field});
 
   final String field;
   final String value;

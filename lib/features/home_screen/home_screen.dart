@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/activity_tab/activity_tab.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/calender_tab/calender_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/home_tab.dart';
 
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab_controller.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/order_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/profile_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/widgets/wave_shape.dart';
 
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> pages = [
     const HomeTab(),
-    const CalenderTab(),
+     OrdersTab(),
     ActivityTab(),
     const ProfileTab(),
 
@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     BottomNavigationBarItem(
                       icon: SvgPicture.asset(
-                        "assets/icons/activity_icon.svg",
+                        Assets.activityIcon,
                         color: _selectedIndex == 2 ? AppStyle.primaryColor : null,
                       ),
                       label: 'activity',

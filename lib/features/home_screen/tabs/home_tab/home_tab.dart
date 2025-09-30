@@ -50,8 +50,8 @@ class HomeTab extends StatelessWidget {
                       UserDataSection(),
                       Text("الطلبات السابقة",style: AppTextStyle.blackW600Size14Roboto,),
                       SizedBox(height: 6.h,),
-                      OrderCard(clientName: "ساره", serviceDescription: "تويتا كامري - غسيل كامل - 2.5 كم"),
-                      OrderCard(clientName: "منى", serviceDescription: "تويتا كامري - غسيل كامل - 2.5 كم")
+                      OrderInformation(clientName: "ساره", serviceDescription: "تويتا كامري - غسيل كامل - 2.5 كم"),
+                      OrderInformation(clientName: "منى", serviceDescription: "تويتا كامري - غسيل كامل - 2.5 كم")
                     ],
                   ),
                 ),

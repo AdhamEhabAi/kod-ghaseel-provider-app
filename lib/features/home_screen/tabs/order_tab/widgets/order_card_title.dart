@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../Utilites/app_fonts/font.dart';
 
-class CalenderCardTitle extends StatelessWidget {
-  const CalenderCardTitle({
+class OrderCardTitle extends StatelessWidget {
+  const OrderCardTitle({
     super.key,
     required this.title,
     required this.value,
@@ -20,9 +20,7 @@ class CalenderCardTitle extends StatelessWidget {
         Spacer(),
         Text(
           value,
-          style: AppTextStyle.blackW600Size13Roboto.copyWith(
-            fontFamily: "Poppins",
-          ),
+          style: AppTextStyle.blackW600Size13Roboto
         ),
       ],
     );
