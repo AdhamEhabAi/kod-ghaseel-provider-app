@@ -23,6 +23,10 @@ class Assets {
   static const String walletCardIconSVG = '$iconsPath/wallet_card_icon.svg';
   static const String logoWhiteSvg = '$iconsPath/logoWhite.svg';
   static const String topWalletBg = '$iconsPath/top_wallet_bg.svg';
+  static const String boltIcon = '$iconsPath/bolt_icon.svg';
+  static const String uploadIcon = '$iconsPath/upload_icon.svg';
+  static const String lineBg = '$iconsPath/line_bg.svg';
+  static const String shieldIcons = '$iconsPath/shield_icon.svg';
   static const String capIconSvg = '$iconsPath/cap_icon.svg';
   static const String handIconSvg = '$iconsPath/hand_icon.svg';
   static const String keyIconSvg = '$iconsPath/key_icon.svg';
