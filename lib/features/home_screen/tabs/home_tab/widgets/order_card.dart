@@ -5,8 +5,8 @@ import '../../../../../Utilites/app_assets/assets.dart';
 import '../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../Utilites/app_style/style.dart';
 
-class OrderCard extends StatelessWidget {
-  const OrderCard({
+class OrderInformation extends StatelessWidget {
+  const OrderInformation({
     super.key,
     required this.clientName,
     required this.serviceDescription,

@@ -6,7 +6,7 @@ import '../../features/auth/otp_screen.dart';
 import '../../features/auth/register_screen.dart';
 import '../../features/chat/chat_screen.dart';
 import '../../features/home_screen/home_screen.dart';
-import '../../features/home_screen/tabs/calender_tab/calender_tab.dart';
+import '../../features/home_screen/tabs/order_tab/order_tab.dart';
 import '../../features/home_screen/tabs/profile_tab/edit_profile_screen.dart';
 import '../../features/home_screen/tabs/profile_tab/help_center/help_center_screen.dart';
 import '../../features/home_screen/tabs/profile_tab/help_center/question_screen.dart';
@@ -42,7 +42,7 @@ class AppRouter {
   static var globalNavKey = GlobalKey<NavigatorState>();
 
   static final GoRouter router = GoRouter(
-    initialLocation: splashScreen,
+    initialLocation: homeScreen,
     debugLogDiagnostics: true,
     navigatorKey: globalNavKey,
     redirect: (context, state) {
@@ -123,7 +123,7 @@ class AppRouter {
       GoRoute(
         path: calenderScreen,
         builder: (BuildContext context, GoRouterState state) {
-          return const CalenderTab();
+          return  OrdersTab();
         },
       ),
       GoRoute(

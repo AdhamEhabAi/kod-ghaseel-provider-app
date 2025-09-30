@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/calender_tab/widgets/calender_card.dart';
-
 import '../../widgets/home_sliver_app_bar.dart';
 
 class ActivityTab extends StatelessWidget {

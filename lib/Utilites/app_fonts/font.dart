@@ -90,6 +90,9 @@ class AppTextStyle {
   static TextStyle get whiteW400Size16Roboto =>
       _ts(fontSize: 16.sp, fontWeight: FontWeight.w400, color: AppStyle.white);
 
+  static TextStyle get greyW400Size14 =>
+      _ts(fontSize: 14.sp, fontWeight: FontWeight.w400, color: Color(0xff686873));
+
   static TextStyle get whiteW500Size20Roboto =>
       _ts(fontSize: 20.sp, fontWeight: FontWeight.w500, color: AppStyle.white);
 
