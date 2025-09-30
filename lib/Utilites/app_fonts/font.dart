@@ -138,7 +138,7 @@ class AppTextStyle {
   static TextStyle get blackW600Size14Roboto => _ts(
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
-    color: AppStyle.subTitle,
+    color: AppStyle.black,
   );
 
   static TextStyle get blackW600Size12Roboto =>
@@ -154,6 +154,11 @@ class AppTextStyle {
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
     color: AppStyle.subTitle,
+  );
+  static TextStyle get blackW400Size11Opacity40 => _ts(
+    fontSize: 11.sp,
+    fontWeight: FontWeight.w400,
+    color: Color(0x66000000),
   );
 
   static TextStyle get secTextW400Size12Roboto => _ts(
@@ -190,6 +195,10 @@ class AppTextStyle {
 
   static TextStyle get blackW500Size10 =>
       _ts(fontSize: 10.sp, fontWeight: FontWeight.w500, color: AppStyle.black);
+  static TextStyle get whiteW500Size10 =>
+      _ts(fontSize: 10.sp, fontWeight: FontWeight.w500, color: AppStyle.white);
+  static TextStyle get whiteW500Size40 =>
+      _ts(fontSize: 40.sp, fontWeight: FontWeight.w500, color: AppStyle.white);
 
   static TextStyle get blackW500Size14 =>
       _ts(fontSize: 14.sp, fontWeight: FontWeight.w500, color: AppStyle.black);
@@ -242,6 +251,9 @@ class AppTextStyle {
       _ts(color: AppStyle.white, fontSize: 17.sp, fontWeight: FontWeight.w700);
   static TextStyle get whiteW700Size24 =>
       _ts(color: AppStyle.white, fontSize: 24.sp, fontWeight: FontWeight.w700);
+
+  static TextStyle get whiteW700Size20 =>
+      _ts(color: AppStyle.white, fontSize: 20.sp, fontWeight: FontWeight.w700);
 
   static TextStyle get greenW700Size8 => _ts(
     color: AppStyle.greenColor,

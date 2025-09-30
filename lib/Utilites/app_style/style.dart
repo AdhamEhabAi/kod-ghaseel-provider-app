@@ -194,6 +194,7 @@ class AppStyle {
 
   static Color primaryColor = const Color(0xFF01D0FE);
   static Color primaryColorOpacity10 = const Color(0x1A01D0FE);
+  static Color primaryColorOpacity52 = const Color(0x8501D0FE);
   static Color textGreyColor = const Color(0x47101828);
   static const Color offWhite = Color(0xFFE8E8E8);
 

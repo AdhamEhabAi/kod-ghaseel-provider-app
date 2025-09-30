@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/activity_tab/activity_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/calender_tab/calender_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/home_tab.dart';
 
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     HomeTabController.value.addListener(_onTabChanged);
-
+    WidgetsBinding.instance.addPostFrameCallback((_) => _getBottomNavigationBarSize());
   }
   void _onTabChanged() {
     if (_selectedIndex != HomeTabController.value.value) {
@@ -51,7 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> pages = [
     const HomeTab(),
     const CalenderTab(),
+    ActivityTab(),
     const ProfileTab(),
+
   ];
 
   @override
@@ -94,32 +97,26 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     BottomNavigationBarItem(
                       icon: SvgPicture.asset(
-                        Assets.discountIconSVG,
+                        Assets.calendarIconSVG,
                         color: _selectedIndex == 1 ? AppStyle.primaryColor : null,
                       ),
                       label: 'discount',
                     ),
                     BottomNavigationBarItem(
                       icon: SvgPicture.asset(
-                        Assets.calendarIconSVG,
+                        "assets/icons/activity_icon.svg",
                         color: _selectedIndex == 2 ? AppStyle.primaryColor : null,
                       ),
-                      label: 'calendar',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        Assets.packageIconSVG,
-                        color: _selectedIndex == 3 ? AppStyle.primaryColor : null,
-                      ),
-                      label: 'package',
+                      label: 'activity',
                     ),
                     BottomNavigationBarItem(
                       icon: SvgPicture.asset(
                         Assets.profileIconSVG,
-                        color: _selectedIndex == 4 ? AppStyle.primaryColor : null,
+                        color: _selectedIndex == 3 ? AppStyle.primaryColor : null,
                       ),
-                      label: 'Profile',
+                      label: 'calendar',
                     ),
+
                   ],
                   currentIndex: _selectedIndex,
                   onTap: (index) {
@@ -131,13 +128,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             AnimatedPositioned(
-              duration: const Duration(milliseconds: 350),
+              duration:  Duration(milliseconds: 350),
               curve: Curves.easeOutCubic,
               bottom: 0,
               right:
-                  ((_bottomNavigationBarSize.width / 5) * _selectedIndex) -
-                  30.w,
-              child: const WaveShape(),
+                  ((_bottomNavigationBarSize.width / 4) * _selectedIndex) -
+                  25.w,
+              child:  WaveShape(),
             ),
           ],
         ),
