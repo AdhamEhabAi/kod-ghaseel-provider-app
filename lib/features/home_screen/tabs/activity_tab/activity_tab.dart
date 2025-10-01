@@ -4,7 +4,6 @@ import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-import '../../widgets/home_sliver_app_bar.dart';
 
 class ActivityTab extends StatelessWidget {
   const ActivityTab({super.key});
@@ -19,7 +18,6 @@ class ActivityTab extends StatelessWidget {
       backgroundColor: scaffold,
       body: CustomScrollView(
         slivers: [
-          HomeSliverAppBar(),
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 17.w),

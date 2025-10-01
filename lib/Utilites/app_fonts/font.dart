@@ -38,6 +38,11 @@ class AppTextStyle {
     fontWeight: FontWeight.w600,
     color: AppStyle.primaryColor,
   );
+static TextStyle get primaryW600Size18 => _ts(
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w600,
+    color: AppStyle.primaryColor,
+  );
 
   static TextStyle get primaryW600Size12 => _ts(
     fontSize: 12.sp,
@@ -106,11 +111,16 @@ class AppTextStyle {
   );
   static TextStyle get whiteW600Size16Roboto =>
       _ts(fontSize: 16.sp, fontWeight: FontWeight.w600, color: AppStyle.white);
+  static TextStyle get whiteW600Size14Roboto =>
+      _ts(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppStyle.white);
 
   static TextStyle get whiteW600Size39Roboto =>
       _ts(fontSize: 39.sp, fontWeight: FontWeight.w600, color: AppStyle.white);
   static TextStyle get whiteW800Size28Roboto =>
       _ts(fontSize: 28.sp, fontWeight: FontWeight.w800, color: AppStyle.white);
+
+  static TextStyle get whiteW800Size24Roboto =>
+      _ts(fontSize: 24.sp, fontWeight: FontWeight.w800, color: AppStyle.white);
   static TextStyle get whiteW800Size50Roboto =>
       _ts(fontSize: 50.sp, fontWeight: FontWeight.w800, color: AppStyle.white);
 
@@ -153,6 +163,9 @@ class AppTextStyle {
   static TextStyle get blackW600Size16Roboto =>
       _ts(fontSize: 16.sp, fontWeight: FontWeight.w600, color: AppStyle.black);
 
+  static TextStyle get blackW600Size15Roboto =>
+      _ts(fontSize: 15.sp, fontWeight: FontWeight.w600, color: AppStyle.black);
+
   static TextStyle get blackW400Size12Roboto => _ts(
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
@@ -162,6 +175,11 @@ class AppTextStyle {
     fontSize: 11.sp,
     fontWeight: FontWeight.w400,
     color: Color(0x66000000),
+  );
+  static TextStyle get blackW400Size11 => _ts(
+    fontSize: 11.sp,
+    fontWeight: FontWeight.w400,
+    color: AppStyle.black,
   );
 
   static TextStyle get secTextW400Size12Roboto => _ts(

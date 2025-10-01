@@ -197,6 +197,7 @@ class AppStyle {
   static Color primaryColorOpacity52 = const Color(0x8501D0FE);
   static Color textGreyColor = const Color(0x47101828);
   static const Color offWhite = Color(0xFFE8E8E8);
+  static const Color bottomNavBarColor = Color(0xFF192126);
 
   static Color textFieldBorderColor = const Color(0xffEEEEEE);
   static Color textSecondaryColor = const Color(0xFF475467);
