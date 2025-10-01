@@ -223,8 +223,8 @@ class AppStyle {
 
   // ----------------- spaces
   static EdgeInsetsGeometry paddingContainerHome = EdgeInsets.symmetric(
-    horizontal: 16.w,
-    vertical: 12.h,
+    horizontal: 35.w,
+    vertical: 24.h,
   );
 
   static ThemeData lightTheme = ThemeData(
