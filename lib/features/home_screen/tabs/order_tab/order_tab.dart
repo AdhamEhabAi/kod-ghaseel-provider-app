@@ -4,9 +4,8 @@ import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/widgets/order_card.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/widgets/order_screen_body.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/widgets/home_sliver_app_bar.dart';
 
-import '../home_tab/widgets/order_card.dart';
+import '../home_tab/widgets/order_information_card.dart';
 
 class OrdersTab extends StatelessWidget {
   const OrdersTab({super.key});
@@ -20,7 +19,6 @@ class OrdersTab extends StatelessWidget {
         backgroundColor: const Color(0xffF2F4F5),
         body: CustomScrollView(
           slivers: [
-            HomeSliverAppBar(),
             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 17.w),

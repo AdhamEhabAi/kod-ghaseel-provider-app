@@ -15,11 +15,11 @@ class BalanceContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: 20.h,
+        vertical: 24.h,
         horizontal: 20.w,
       ),
       decoration: BoxDecoration(
-        color: AppStyle.primaryColor.withValues(alpha: .52),
+        color: AppStyle.primaryColor.withValues(alpha: .50),
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
@@ -29,7 +29,7 @@ class BalanceContainer extends StatelessWidget {
             children: [
               Text(
                 "أرباح اليوم",
-                style: AppTextStyle.whiteW500Size14,
+                style: AppTextStyle.whiteW500Size14.copyWith(color: Colors.white.withValues(alpha: .80)),
               ),
               Text(
                 "12 طلب مكتمل",

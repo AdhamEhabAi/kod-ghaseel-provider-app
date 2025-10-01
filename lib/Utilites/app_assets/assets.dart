@@ -24,6 +24,8 @@ class Assets {
   static const String logoWhiteSvg = '$iconsPath/logoWhite.svg';
   static const String topWalletBg = '$iconsPath/top_wallet_bg.svg';
   static const String activityIcon = '$iconsPath/activity_icon.svg';
+  static const String messageIcon = '$iconsPath/message_icon.svg';
+  static const String phoneIcon = '$iconsPath/phone_icon.svg';
   static const String boltIcon = '$iconsPath/bolt_icon.svg';
   static const String uploadIcon = '$iconsPath/upload_icon.svg';
   static const String lineBg = '$iconsPath/line_bg.svg';
@@ -38,6 +40,8 @@ class Assets {
   static const String tamaraIconSVG = '$iconsPath/tamara_icon.svg';
   static const String profileIconSVG = '$iconsPath/Profile_icon.svg';
   static const String homeIconSVG = '$iconsPath/Home_icon.svg';
+  static const String paperIconSVG = '$iconsPath/paper_icon.svg';
+  static const String trophyIconSVG = '$iconsPath/trophy_icon.svg';
   static const String packageIconSVG = '$iconsPath/package_icon.svg';
   static const String riyal = '$iconsPath/Saudi_Riyal_Symbol.svg';
   static const String editIcon = '$iconsPath/editIcon.svg';
