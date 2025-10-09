@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_assets/assets.dart';
-import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/activity_tab/activity_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/home_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/order_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/profile_tab.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/report_tab/order_tab.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,8 +18,8 @@ class HomeScreen extends StatefulWidget {
  int currentIndex=0;
 final List<Widget> content=[
   HomeTab(),
-  ActivityTab(),
-  OrdersTab(),
+  OrderTab(),
+  ReportTab(),
   ProfileTab(),
 ];
 class _HomeScreenState extends State<HomeScreen> {

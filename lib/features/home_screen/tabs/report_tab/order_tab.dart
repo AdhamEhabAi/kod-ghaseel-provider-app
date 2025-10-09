@@ -5,8 +5,8 @@ import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 
-class ActivityTab extends StatelessWidget {
-  const ActivityTab({super.key});
+class ReportTab extends StatelessWidget {
+  const ReportTab({super.key});
 
   @override
   Widget build(BuildContext context) {
