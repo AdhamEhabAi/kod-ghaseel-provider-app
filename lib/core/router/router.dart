@@ -36,7 +36,7 @@ class AppRouter {
   static const String helpCenterScreen = '/helpCenterScreen';
   static const String filterScreen = '/filterScreen';
   static const String chatScreen = '/chatScreen';
-  static const String calenderScreen = '/calenderScreen';
+  static const String orderScreen = '/orderScreen';
 
 
   static var globalNavKey = GlobalKey<NavigatorState>();
@@ -121,9 +121,9 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: calenderScreen,
+        path: orderScreen,
         builder: (BuildContext context, GoRouterState state) {
-          return  OrdersTab();
+          return  OrderTab();
         },
       ),
       GoRoute(

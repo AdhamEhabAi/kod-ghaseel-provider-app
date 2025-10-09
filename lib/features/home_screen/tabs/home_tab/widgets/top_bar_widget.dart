@@ -1,9 +1,9 @@
-import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
+
 import '../../../../../Utilites/app_assets/assets.dart';
 import '../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../core/router/router.dart';

@@ -16,11 +16,11 @@ class OrderCardTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(title, style: AppTextStyle.blackW600Size13Roboto),
+        Text(title, style: AppTextStyle.blackW600Size16Roboto),
         Spacer(),
         Text(
           value,
-          style: AppTextStyle.blackW600Size13Roboto
+          style: AppTextStyle.blackW600Size16Roboto.copyWith(fontFamily: "Poppins")
         ),
       ],
     );
