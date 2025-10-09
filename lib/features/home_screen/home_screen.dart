@@ -6,7 +6,7 @@ import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/home_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/order_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/profile_tab.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/report_tab/order_tab.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/report_tab/report_tab.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class HomeScreen extends StatefulWidget {

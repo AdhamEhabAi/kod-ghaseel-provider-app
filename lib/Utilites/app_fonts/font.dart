@@ -54,6 +54,11 @@ static TextStyle get primaryW600Size18 => _ts(
     fontWeight: FontWeight.w500,
     color: AppStyle.primaryColor,
   );
+  static TextStyle get primaryW500Size12 => _ts(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
+    color: AppStyle.primaryColor,
+  );
   static TextStyle get primaryW700Size34 => _ts(
     fontSize: 34.sp,
     fontWeight: FontWeight.w700,
@@ -73,6 +78,11 @@ static TextStyle get primaryW600Size18 => _ts(
   );
   static TextStyle get primaryW700Size16 => _ts(
     fontSize: 16.sp,
+    fontWeight: FontWeight.w700,
+    color: AppStyle.primaryColor,
+  );
+  static TextStyle get primaryW700Size25 => _ts(
+    fontSize: 25.sp,
     fontWeight: FontWeight.w700,
     color: AppStyle.primaryColor,
   );
@@ -175,6 +185,11 @@ static TextStyle get primaryW600Size18 => _ts(
     fontSize: 11.sp,
     fontWeight: FontWeight.w400,
     color: Color(0x66000000),
+  );
+  static TextStyle get blackW400Size10 => _ts(
+    fontSize: 10.sp,
+    fontWeight: FontWeight.w400,
+    color: Color(0xff000000),
   );
   static TextStyle get blackW400Size11 => _ts(
     fontSize: 11.sp,
