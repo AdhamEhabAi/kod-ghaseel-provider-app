@@ -40,9 +40,8 @@ class OrderTab extends StatelessWidget {
                       ),
                       Spacer(),
                       CircleAvatar(
-                        maxRadius: 20.r,
                         backgroundColor: AppStyle.primaryColor,
-                        child: SvgPicture.asset(Assets.filterIconSVG),
+                        child: SvgPicture.asset(Assets.filterIconSVG,width: 17.w,height: 16.h,),
                       ),
                       SizedBox(width: 12.w,),
                       Icon(Icons.arrow_forward_ios_rounded,color: Colors.white,),
