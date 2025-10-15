@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../Utilites/app_fonts/font.dart';
-import '../../../../../../Utilites/app_style/style.dart';
+import '../../../../../../../Utilites/app_fonts/font.dart';
+import '../../../../../../../Utilites/app_style/style.dart';
 
 class NotificationSettingWidget extends StatelessWidget {
   NotificationSettingWidget({

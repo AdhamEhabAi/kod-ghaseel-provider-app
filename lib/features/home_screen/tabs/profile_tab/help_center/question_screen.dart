@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../core/widgets/setting_app_bar.dart';
+import '../../../../../../core/widgets/setting_app_bar.dart';
 import '../widgets/bullet_widget.dart';
 import '../widgets/choice_widget.dart';
 

@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/setting/widgets/setting_item_row.dart';
 
-import '../../../../../core/router/router.dart';
-import '../../../../../core/widgets/setting_app_bar.dart';
+import '../../../../../../core/router/router.dart';
+import '../../../../../../core/widgets/setting_app_bar.dart';
+
 
 
 class SettingScreen extends StatelessWidget {

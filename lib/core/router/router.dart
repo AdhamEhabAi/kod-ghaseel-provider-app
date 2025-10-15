@@ -123,7 +123,7 @@ class AppRouter {
       GoRoute(
         path: orderScreen,
         builder: (BuildContext context, GoRouterState state) {
-          return  OrderTab();
+          return  OrdersTab();
         },
       ),
       GoRoute(

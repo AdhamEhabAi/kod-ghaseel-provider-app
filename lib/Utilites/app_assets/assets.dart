@@ -17,6 +17,8 @@ class Assets {
   static const String carIcon = '$iconsPath/caricon.png';
   static const String filterIconSVG = '$iconsPath/filter_icon.svg';
   static const String infoIconSVG = '$iconsPath/Info_icons.svg';
+  static const String settingProfileTab = '$iconsPath/Setting_profiletab.png';
+
   static const String paymentSuccess = '$imagesPath/paymentSuccess.png';
   static const String carAddedSuccess = '$imagesPath/carAddedSuccess.png';
   static const String offerBannerPopUp = '$imagesPath/popUpBanner.png';
@@ -37,6 +39,9 @@ class Assets {
   static const String calenderScreenIconSVG =
       '$iconsPath/calender_screen_icon.svg';
   static const String tabbyIconSVG = '$iconsPath/tabby_icon.svg';
+  static const String emailProfileTab = '$iconsPath/email_profiletab.png';
+  static const String callProfileTab = '$iconsPath/Call_profiletab.png';
+
   static const String tamaraIconSVG = '$iconsPath/tamara_icon.svg';
   static const String profileIconSVG = '$iconsPath/Profile_icon.svg';
   static const String homeIconSVG = '$iconsPath/Home_icon.svg';
@@ -57,4 +62,11 @@ class Assets {
   static const String lowerHalfCircle = '$imagesPath/lowerHalfCircle.svg';
   static const String homeBG = '$imagesPath/home_bg.png';
   static const String avatarIconPng = '$imagesPath/avatar.png';
+  static const String infoSquareProfileTab = '$iconsPath/Info_Square_profiletab.png';
+  static const String notificationProfileTab = '$iconsPath/Notification_profiletab.png';
+  static const String shareProfileTab = '$iconsPath/Share_profiletab.png';
+  static const String starProfileTab = '$iconsPath/Star_profiletab.png';
+  static const String ticketStarProfileTab = '$iconsPath/Ticket_Star_profiletab.png';
+  static const String walletProfileTab = '$iconsPath/Wallet_profileTab.png';
+
 }

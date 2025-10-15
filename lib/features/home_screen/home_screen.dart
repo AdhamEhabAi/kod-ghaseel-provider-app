@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kod_ghaseel_provider_app/Utilites/app_assets/assets.dart';
-import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/home_tab.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab_controller.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/order_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/profile_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/report_tab/report_tab.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/widgets/wave_shape.dart';
+
+import '../../Utilites/app_assets/assets.dart';
+import '../../Utilites/app_style/style.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,57 +17,127 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
- int currentIndex=0;
-final List<Widget> content=[
-  HomeTab(),
-  OrderTab(),
-  ReportTab(),
-  ProfileTab(),
-];
+
 class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+  final GlobalKey _bottomNavigationBarKey = GlobalKey();
+  Size _bottomNavigationBarSize = Size(0, 0);
+
+  @override
+  void initState() {
+    super.initState();
+
+    HomeTabController.value.addListener(_onTabChanged);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _getBottomNavigationBarSize());
+  }
+  void _onTabChanged() {
+    if (_selectedIndex != HomeTabController.value.value) {
+      setState(() => _selectedIndex = HomeTabController.value.value);
+    }
+  }
+
+  void _getBottomNavigationBarSize() {
+    final RenderBox? bottomNavigationBarRenderBox =
+    _bottomNavigationBarKey.currentContext?.findRenderObject()
+    as RenderBox?;
+    if (bottomNavigationBarRenderBox != null) {
+      final bottomNavigationBarSize = bottomNavigationBarRenderBox.size;
+      setState(() {
+        _bottomNavigationBarSize = bottomNavigationBarSize;
+      });
+    }
+  }
+
+  final List<Widget> pages=[
+    HomeTab(),
+    OrdersTab(),
+    ReportTab(),
+    ProfileTab(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
+      backgroundColor: Colors.white,
       bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom:12.h,left: 15.w,right: 15.w),
-        child: ClipRRect(
-          borderRadius:BorderRadius.circular(32.r) ,
-          child: SalomonBottomBar(
-            selectedItemColor: AppStyle.primaryColor,
-            itemPadding: EdgeInsets.symmetric(horizontal: 21.w,vertical: 8.h),
-            selectedColorOpacity: 1,
-            backgroundColor: AppStyle.bottomNavBarColor,
-            currentIndex: currentIndex,
-            margin: EdgeInsets.symmetric(vertical: 14.h,horizontal: 15),
-            onTap: (value) {
-              setState(() {
-                currentIndex=value;
-              });
-            },
-            items: [
-              SalomonBottomBarItem(
-                icon: SvgPicture.asset(Assets.homeIconSVG,color: currentIndex ==0 ?AppStyle.bottomNavBarColor:Colors.white,),
-                title: Text("الرئيسية",style: TextStyle(color: AppStyle.black),),
-              ),
-              SalomonBottomBarItem(
-                icon:  SvgPicture.asset(Assets.paperIconSVG,color: currentIndex ==1 ?AppStyle.bottomNavBarColor:Colors.white,),
-                title: Text("الطلبات",style:TextStyle(color: AppStyle.black),),
-              ),
-              SalomonBottomBarItem(
-                icon:  SvgPicture.asset(Assets.activityIcon,color: currentIndex ==2 ?AppStyle.bottomNavBarColor:Colors.white,),
-                title: Text("التقارير",style: TextStyle(color: AppStyle.black),),
-              ),
-              SalomonBottomBarItem(
-                icon:  SvgPicture.asset(Assets.profileIconSVG,color: currentIndex ==3 ?AppStyle.bottomNavBarColor:Colors.white,),
-                title: Text("ملفي",style: TextStyle(color: AppStyle.black),),
-              ),
-            ],
-
+        decoration: BoxDecoration(
+          borderRadius: BorderRadiusGeometry.only(
+            topLeft: Radius.circular(24.r),
+            topRight: Radius.circular(24.r),
           ),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withAlpha(128), blurRadius: 10),
+          ],
+        ),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadiusGeometry.only(
+                topLeft: Radius.circular(24.r),
+                topRight: Radius.circular(24.r),
+              ),
+              child: SizedBox(
+                height: 70.h,
+                child: BottomNavigationBar(
+                  backgroundColor: AppStyle.white,
+                  enableFeedback: false,
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  type: BottomNavigationBarType.fixed,
+                  key: _bottomNavigationBarKey,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        Assets.homeIconSVG,
+                        color: _selectedIndex == 0 ? AppStyle.primaryColor : null,
+                      ),
+                      label: 'Home',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        Assets.calendarIconSVG,
+                        color: _selectedIndex == 1 ? AppStyle.primaryColor : null,
+                      ),
+                      label: 'discount',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        Assets.activityIcon,
+                        color: _selectedIndex == 2 ? AppStyle.primaryColor : null,
+                      ),
+                      label: 'activity',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        Assets.profileIconSVG,
+                        color: _selectedIndex == 3 ? AppStyle.primaryColor : null,
+                      ),
+                      label: 'calendar',
+                    ),
+
+                  ],
+                  currentIndex: _selectedIndex,
+                  onTap: (index) {
+                    setState(() {
+                      HomeTabController.value.value = index;
+                    });
+                  },
+                ),
+              ),
+            ),
+            AnimatedPositioned(
+              duration:  Duration(milliseconds: 350),
+              curve: Curves.easeOutCubic,
+              bottom: 0,
+              right:
+              ((_bottomNavigationBarSize.width / 4) * _selectedIndex) -
+                  25.w,
+              child:  WaveShape(),
+            ),
+          ],
         ),
       ),
-      body:content[currentIndex] ,
+      body: pages[_selectedIndex],
     );
   }
 }

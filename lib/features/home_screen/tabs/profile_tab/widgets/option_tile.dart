@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../Utilites/app_fonts/font.dart';
+
+import '../../../../../../Utilites/app_fonts/font.dart';
 
 class OptionTile extends StatelessWidget {
   final String title;
-  final IconData icon;
+  final String iconPath; // SVG icon asset path
   final VoidCallback onTap;
-  const OptionTile({super.key, required this.title, required this.icon,required this.onTap});
+
+  const OptionTile({
+    super.key,
+    required this.title,
+    required this.iconPath,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +21,7 @@ class OptionTile extends StatelessWidget {
       borderRadius: BorderRadius.circular(20.r),
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 18.w),
+        padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 16.w),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20.r),
@@ -24,16 +31,19 @@ class OptionTile extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(icon, color: Colors.black54, size: 30.w),
-                SizedBox(width: 20.w,),
+                Image.asset(
+                  iconPath,
+                  width: 24.w,
+                  height: 24.h,
+                ),
+                SizedBox(width: 14.w),
                 Text(
                   title,
                   style: AppTextStyle.blackW600Size16Roboto,
                 ),
               ],
             ),
-            Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 18.w),
-
+            Icon(Icons.arrow_forward_ios, size: 18.w, color: Colors.grey),
           ],
         ),
       ),

@@ -4,12 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/TextFiledTitle.dart';
 
-
-import '../../../../Utilites/app_assets/assets.dart';
-import '../../../../Utilites/app_fonts/font.dart';
-import '../../../../Utilites/app_style/style.dart';
-import '../../../../core/widgets/setting_app_bar.dart';
-import '../../../../shared/shared_widget.dart';
+import '../../../../../Utilites/app_assets/assets.dart';
+import '../../../../../Utilites/app_fonts/font.dart';
+import '../../../../../Utilites/app_style/style.dart';
+import '../../../../../core/widgets/setting_app_bar.dart';
+import '../../../../../shared/shared_widget.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
