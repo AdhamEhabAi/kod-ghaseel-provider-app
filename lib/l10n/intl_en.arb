@@ -13,5 +13,9 @@
   "enterYourName": "Enter your name...",
   "browseAsGuest": "Login as Guest",
   "appName": "Kod Ghaseel",
-  "onboardingDescription": "A mobile car wash service that comes to you, provided by a qualified and equipped team."
+  "onboardingDescription": "A mobile car wash service that comes to you, provided by a qualified and equipped team.",
+  "settingsTitle": "Settings",
+  "change_language": "Change Language",
+  "security_and_privacy": "Security and Privacy",
+  "help": "Help"
 }
