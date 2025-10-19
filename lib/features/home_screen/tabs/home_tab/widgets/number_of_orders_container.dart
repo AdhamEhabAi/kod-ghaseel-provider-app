@@ -18,7 +18,7 @@ class NumberOfOrdersContainer extends StatelessWidget {
     return Container(
       width: size.width*(156/390),
       height: 156.h,
-      padding: EdgeInsets.symmetric(horizontal: 15.w,vertical: 15.h),
+      padding: EdgeInsets.symmetric(horizontal: 15.w,vertical: 12.h),
       decoration: BoxDecoration(
         color: AppStyle.primaryColorOpacity10,
         borderRadius:BorderRadius.circular(19.r),
