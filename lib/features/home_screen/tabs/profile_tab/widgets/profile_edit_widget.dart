@@ -7,17 +7,19 @@ import '../../../../../../Utilites/app_assets/assets.dart';
 import '../../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../../Utilites/app_style/style.dart';
 import '../../../../../../core/router/router.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
 
 class ProfileEditWidget extends StatelessWidget {
   const ProfileEditWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         GoRouter.of(context).push(AppRouter.editProfileScreen);
       },
-
       child: Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
@@ -27,7 +29,7 @@ class ProfileEditWidget extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: AppStyle.primaryColor,
                 borderRadius: BorderRadius.circular(21.r),
@@ -38,13 +40,16 @@ class ProfileEditWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("سارة محمد", style: AppTextStyle.blackW600Size20Roboto),
+                Text(
+                  s.profile_name_sample, // "سارة محمد"
+                  style: AppTextStyle.blackW600Size20Roboto,
+                ),
                 Row(
                   children: [
                     SvgPicture.asset(Assets.editIcon),
                     SizedBox(width: 15.w),
                     Text(
-                      "باقة ذهبية",
+                      s.gold_plan, // "باقة ذهبية"
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: AppStyle.primaryColor,
@@ -54,8 +59,8 @@ class ProfileEditWidget extends StatelessWidget {
                 ),
               ],
             ),
-            Spacer(),
-            Icon(Icons.edit, color: Colors.black),
+            const Spacer(),
+            const Icon(Icons.edit, color: Colors.black),
           ],
         ),
       ),

@@ -6,8 +6,11 @@ import '../../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../../Utilites/app_style/style.dart';
 import '../../../../../../core/router/router.dart';
 import '../../../../../../shared/shared_widget.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- l10n
 
 void showExitDialog(BuildContext context) {
+  final s = S.of(context);
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -16,7 +19,7 @@ void showExitDialog(BuildContext context) {
           borderRadius: BorderRadius.circular(20.0.r),
         ),
         title: Center(
-          child: Text('تسجيل الخروج!', style: AppTextStyle.blackW600Size24),
+          child: Text(s.logoutTitle, style: AppTextStyle.blackW600Size24),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -28,7 +31,7 @@ void showExitDialog(BuildContext context) {
                 GoRouter.of(context).go(AppRouter.loginScreen);
               },
               titleWidget: Text(
-                'نعم, بالتأكيد!',
+                s.logoutConfirm, // "نعم, بالتأكيد!"
                 style: AppTextStyle.blackW600Size16Roboto.copyWith(
                   color: AppStyle.red,
                 ),
@@ -42,12 +45,13 @@ void showExitDialog(BuildContext context) {
                 GoRouter.of(context).pop();
               },
               titleWidget: Text(
-                'لا',
+                s.no, // "لا"
                 style: AppTextStyle.blackW600Size16Roboto.copyWith(
                   color: AppStyle.white,
                 ),
               ),
-            ),          ],
+            ),
+          ],
         ),
       );
     },

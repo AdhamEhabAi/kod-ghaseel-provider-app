@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/custom_back_button.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/custom_check_boc.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- added for localization
 import '../../Utilites/app_fonts/font.dart';
 
 class FilterScreen extends StatefulWidget {
@@ -17,6 +18,8 @@ class _FilterScreenState extends State<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context); // <-- localization instance
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -25,14 +28,16 @@ class _FilterScreenState extends State<FilterScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              CustomBackButton(),
+              const CustomBackButton(),
               SizedBox(height: 42.h),
               Row(
                 children: [
-                  Text("فلترة", style: AppTextStyle.blackW600Size28Roboto),
+                  Text(s.filter, style: AppTextStyle.blackW600Size28Roboto),
                 ],
               ),
               SizedBox(height: 25.h),
+
+              // Filter by date
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                 decoration: BoxDecoration(
@@ -50,8 +55,8 @@ class _FilterScreenState extends State<FilterScreen> {
                     GestureDetector(
                       onTap: () {},
                       child: Text(
+                        s.date,
                         textDirection: TextDirection.rtl,
-                        'التاريخ',
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
@@ -62,13 +67,15 @@ class _FilterScreenState extends State<FilterScreen> {
                   ],
                 ),
               ),
+
               SizedBox(height: 8.h),
+
+              // Unread only
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16.r),
-
                   border: Border.all(color: const Color(0xFFEDEDED)),
                 ),
                 child: Row(
@@ -81,8 +88,8 @@ class _FilterScreenState extends State<FilterScreen> {
                     GestureDetector(
                       onTap: () {},
                       child: Text(
+                        s.unread,
                         textDirection: TextDirection.rtl,
-                        'غير مقروء',
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
@@ -93,14 +100,17 @@ class _FilterScreenState extends State<FilterScreen> {
                   ],
                 ),
               ),
-              Spacer(),
+
+              const Spacer(),
+
+              // Apply button
               Center(
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff01D0FE),
+                    backgroundColor: const Color(0xff01D0FE),
                     elevation: 0,
                   ),
                   child: Padding(
@@ -109,7 +119,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       vertical: 15.h,
                     ),
                     child: Text(
-                      'تطبيق الفلتر',
+                      s.apply_filter,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,

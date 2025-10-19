@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <- adjust if your S path differs
 
 class AvailabilityPillSwitch extends StatefulWidget {
   const AvailabilityPillSwitch({
@@ -33,7 +34,7 @@ class AvailabilityPillSwitch extends StatefulWidget {
 }
 
 class _AvailabilityPillSwitchState extends State<AvailabilityPillSwitch> {
-  bool _animating = false; // to avoid spam taps during animation
+  bool _animating = false; // avoid spam taps during animation
 
   Future<void> _tryToggle() async {
     if (_animating) return;
@@ -45,7 +46,6 @@ class _AvailabilityPillSwitchState extends State<AvailabilityPillSwitch> {
     if (proceed) {
       setState(() => _animating = true);
       widget.onChanged?.call(next);
-      // small delay equal to animation so it feels responsive
       await Future.delayed(const Duration(milliseconds: 230));
       if (mounted) setState(() => _animating = false);
     }
@@ -53,6 +53,7 @@ class _AvailabilityPillSwitchState extends State<AvailabilityPillSwitch> {
 
   @override
   Widget build(BuildContext context) {
+    final l = S.of(context); // localization
     final isOn = widget.value;
 
     final w = (widget.width ?? 90.w).clamp(96.0, 220.0);
@@ -60,8 +61,9 @@ class _AvailabilityPillSwitchState extends State<AvailabilityPillSwitch> {
 
     final double dotSize = (h * 0.52).clamp(12.0, 22.0);
     const double innerMargin = 4.0;
-    final double textSidePadding = 6.0;
-    final double safePad = (dotSize / 2) + innerMargin + (widget.textGap ?? 2.0);
+    const double textSidePadding = 6.0;
+    final double safePad =
+        (dotSize / 2) + innerMargin + (widget.textGap ?? 2.0);
 
     const duration = Duration(milliseconds: 220);
     const curve = Curves.easeOut;
@@ -82,7 +84,8 @@ class _AvailabilityPillSwitchState extends State<AvailabilityPillSwitch> {
                 width: w,
                 height: h,
                 decoration: BoxDecoration(
-                  color: (widget.backgroundColor ??
+                  color:
+                      (widget.backgroundColor ??
                       const Color(0xFF1FA4B5).withOpacity(0.85)),
                   borderRadius: BorderRadius.circular(h / 2),
                 ),
@@ -109,7 +112,7 @@ class _AvailabilityPillSwitchState extends State<AvailabilityPillSwitch> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'متاح الآن',
+                              l.status_availableNow, // "متاح الآن"
                               maxLines: 1,
                               overflow: TextOverflow.fade,
                               softWrap: false,
@@ -138,7 +141,7 @@ class _AvailabilityPillSwitchState extends State<AvailabilityPillSwitch> {
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              'غير متاح',
+                              l.status_unavailable, // "غير متاح"
                               maxLines: 1,
                               overflow: TextOverflow.fade,
                               softWrap: false,
@@ -162,8 +165,9 @@ class _AvailabilityPillSwitchState extends State<AvailabilityPillSwitch> {
                 child: AnimatedAlign(
                   duration: duration,
                   curve: curve,
-                  alignment:
-                  isOn ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: isOn
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Container(
                     width: dotSize,
                     height: dotSize,

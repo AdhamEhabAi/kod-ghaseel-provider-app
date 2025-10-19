@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/widgets/setting_app_bar.dart';
 import '../widgets/bullet_widget.dart';
 import '../widgets/choice_widget.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
 
 class QuestionScreen extends StatefulWidget {
   const QuestionScreen({super.key});
@@ -14,16 +15,18 @@ class QuestionScreen extends StatefulWidget {
 
 class _QuestionScreenState extends State<QuestionScreen> {
   static const primary = Color(0xFF00D8FF);
-  int? helpful; // null: لسه ما اختارش, 1: نعم, 0: لا
+  int? helpful;
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SettingAppBar(title: "الاسئلة الشائعة"),
+            SettingAppBar(title: s.faq_title),
             SizedBox(height: 35.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -31,7 +34,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'كم من الوقت تحتاجون للوصول؟',
+                    s.faq_q_how_long_arrive,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: primary,
@@ -41,7 +44,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   ),
                   SizedBox(height: 12.h),
                   Text(
-                    'الحجز السريع: 15 - 30 دقيقة',
+                    s.faq_a_quick_booking_time, // "Quick booking: 15–30 min"
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: const Color(0xFF9AA3AA),
@@ -50,12 +53,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     ),
                   ),
                   SizedBox(height: 10.h),
-                  Bullet(text: 'الحجز المجدول: حسب الموعد المختار'),
+                  Bullet(text: s.faq_bullet_scheduled),   // "Scheduled: per selected time"
                   SizedBox(height: 6.h),
-                  Bullet(text: 'أوقات الذروة: قد تستغرق 45 دقيقة كحد أقصى'),
+                  Bullet(text: s.faq_bullet_peak),        // "Peak times: up to 45 min"
                   SizedBox(height: 20.h),
                   Text(
-                    'هل ساعدك ذلك في حل مشكلتك؟',
+                    s.faq_did_this_help,                  // "Did this solve your issue?"
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: primary,
@@ -68,13 +71,13 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ChoicePill(
-                        label: 'نعم',
+                        label: s.yes,                     // "Yes"
                         selected: helpful == 1,
                         onTap: () => setState(() => helpful = 1),
                       ),
                       SizedBox(width: 12.w),
                       ChoicePill(
-                        label: 'لا',
+                        label: s.no,                      // "No"
                         selected: helpful == 0,
                         onTap: () => setState(() => helpful = 0),
                       ),
@@ -89,5 +92,3 @@ class _QuestionScreenState extends State<QuestionScreen> {
     );
   }
 }
-
-

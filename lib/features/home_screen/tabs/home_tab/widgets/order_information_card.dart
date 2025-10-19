@@ -5,99 +5,121 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../../Utilites/app_assets/assets.dart';
 import '../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../Utilites/app_style/style.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // adjust if your l10n path differs
 
 class OrderInformation extends StatelessWidget {
   const OrderInformation({
     super.key,
     required this.serviceDescription,
-    required this.clientName
+    required this.clientName,
+    this.onViewPressed,
   });
 
   final String clientName;
   final String serviceDescription;
+  final VoidCallback? onViewPressed; // optional callback for the "View" pill
 
   @override
   Widget build(BuildContext context) {
-    return  GestureDetector(
-      onTap: (){
-        // GoRouter.of(context).push();
+    final l = S.of(context);
 
-      },
+    return GestureDetector(
+      onTap: onViewPressed,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 12.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.r),
-          border: Border.all(color: Color(0xffEAECF0), width: 0.98),
-          color: Color(0xffF9FAFB),
+          border: Border.all(color: const Color(0xffEAECF0), width: 0.98),
+          color: const Color(0xffF9FAFB),
         ),
         child: Column(
           children: [
+            // Header row: client name + lightning icon
             Row(
               children: [
-                Text(clientName, style: AppTextStyle.blackW500Size14),
-                Spacer(),
-
-                SizedBox(width: 6.w),
-                SvgPicture.asset(Assets.lightningIconSVG, height: 25.sp),
-              ],
-            ),
-            SizedBox(height: 12.h),
-            Divider(
-              radius: BorderRadius.circular(29.3.r),
-              thickness: 4.h,
-              color: Color(0xffE7E7E7),
-              endIndent: 3.w,
-              indent: 3.w,
-            ),
-            SizedBox(height: 11.7.h),
-            Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(98.r),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        Assets.calenderScreenIconSVG,
-                        height: 20.h,
-                      ),
-                      SizedBox(width: 5.w),
-                      SizedBox(
-                        width: 200.w,
-                        child: Text(
-                          softWrap: true,
-                          overflow: TextOverflow.visible,
-                          serviceDescription,
-                          style: AppTextStyle.blackW500Size10,
-                        ),
-                      ),
-                    ],
+                Expanded(
+                  child: Text(
+                    clientName,
+                    style: AppTextStyle.blackW500Size14,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Spacer(),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(98.r),
+                SizedBox(width: 6.w),
+                SvgPicture.asset(Assets.lightningIconSVG, height: 22.h),
+              ],
+            ),
+
+            SizedBox(height: 12.h),
+
+            // Rounded divider bar
+            Container(
+              height: 4.h,
+              margin: EdgeInsets.symmetric(horizontal: 3.w),
+              decoration: BoxDecoration(
+                color: const Color(0xffE7E7E7),
+                borderRadius: BorderRadius.circular(29.3.r),
+              ),
+            ),
+
+            SizedBox(height: 11.7.h),
+
+            // Bottom row: service description pill + "View" pill
+            Row(
+              children: [
+                // Description pill
+                Flexible(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(98.r),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(Assets.calenderScreenIconSVG, height: 18.h),
+                        SizedBox(width: 6.w),
+                        Flexible(
+                          child: Text(
+                            serviceDescription,
+                            style: AppTextStyle.blackW500Size10,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
-                  child: Row(
-                    children: [
-                      Text(
-                        "عرض",
-                        style: AppTextStyle.blackW700Size14Roboto.copyWith(
-                            fontFamily: "Inter"),
-                      ),
-                      SizedBox(width: 2.w),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 15.h,
-                        color: AppStyle.primaryColor,
-                      ),
-                    ],
+                ),
+
+                SizedBox(width: 8.w),
+
+                // "View" pill
+                InkWell(
+                  borderRadius: BorderRadius.circular(98.r),
+                  onTap: onViewPressed,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(98.r),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          l.view, // localized "عرض"
+                          style: AppTextStyle.blackW700Size14Roboto.copyWith(fontFamily: "Inter"),
+                        ),
+                        SizedBox(width: 4.w),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 14.h,
+                          color: AppStyle.primaryColor,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

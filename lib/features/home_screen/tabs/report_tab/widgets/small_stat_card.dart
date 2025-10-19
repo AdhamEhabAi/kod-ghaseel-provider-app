@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
 import '../../../../../Utilites/app_fonts/font.dart';
 
@@ -12,6 +13,7 @@ class SmallStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Container(
       height: MediaQuery.of(context).size.height*(70/844),
       width: MediaQuery.of(context).size.width*(112/390),
@@ -42,7 +44,7 @@ class SmallStatCard extends StatelessWidget {
                 ),
                 SizedBox(width: 5.w,),
                 Text(
-                  "ريال",
+                    s.currency_sar,
                   style: AppTextStyle.blackW600Size14Roboto
                 ),
               ],

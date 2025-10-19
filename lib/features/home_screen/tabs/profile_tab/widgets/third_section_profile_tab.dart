@@ -3,14 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/option_tile.dart';
 
 import '../../../../../../Utilites/app_assets/assets.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- l10n
 
 class ThirdSectionProfileTab extends StatelessWidget {
-  const ThirdSectionProfileTab({
-    super.key,
-  });
+  const ThirdSectionProfileTab({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+
     return Container(
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
@@ -20,36 +21,34 @@ class ThirdSectionProfileTab extends StatelessWidget {
       child: Column(
         children: [
           OptionTile(
-            title: "تقييم التطبيق",
+            title: s.rateApp, // "تقييم التطبيق"
             iconPath: Assets.starProfileTab,
-            onTap: () {
-
-            },
+            onTap: () {},
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: Divider(height: 24.h, thickness: 1, color: Color(0xFFF2F4F5)),
+            child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
           ),
           OptionTile(
-            title: "شارك مع اصدقائك",
+            title: s.shareWithFriends, // "شارك مع اصدقائك"
             iconPath: Assets.shareProfileTab,
             onTap: () {},
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: Divider(height: 24.h, thickness: 1, color: Color(0xFFF2F4F5)),
+            child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
           ),
           OptionTile(
-            title: "من نحن؟",
+            title: s.aboutUs, // "من نحن؟"
             iconPath: Assets.infoSquareProfileTab,
             onTap: () {},
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: Divider(height: 24.h, thickness: 1, color: Color(0xFFF2F4F5)),
+            child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
           ),
           OptionTile(
-            title: "الدعم",
+            title: s.support, // "الدعم"
             iconPath: Assets.infoSquareProfileTab,
             onTap: () {},
           ),

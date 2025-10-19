@@ -7,6 +7,7 @@ import '../../../../../../core/router/router.dart';
 import '../../../../../../core/widgets/setting_app_bar.dart';
 import '../../../../../../shared/shared_widget.dart';
 import '../widgets/question_card.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <— localization
 
 class HelpCenterScreen extends StatelessWidget {
   HelpCenterScreen({super.key});
@@ -15,57 +16,69 @@ class HelpCenterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 40.h),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SettingAppBar(title: "الاسئلة الشائعة"),
+              SettingAppBar(title: s.faq_title),
               SizedBox(height: 35.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 27.w),
                 child: Column(
                   children: [
                     CustomTextFormField(
-                      hintText: "ابحث عن ما يدور ببالك.......",
+                      hintText: s.faq_search_hint,
                       controller: searchCtrl,
-                      colorBorder: Color(0xffDADADA),
+                      colorBorder: const Color(0xffDADADA),
                       radius: 24.r,
                       prefixIcon: Icon(Icons.search, color: AppStyle.primaryColor),
                     ),
-                    SizedBox(height: 25.h,),
+                    SizedBox(height: 25.h),
+
+                    // Q1
                     QuestionCard(
-                      title: "كم من الوقت تحتاجون للوصول؟",
-                      subtitle: "الحجز السريع: 15-30 دقيقة",
-                      onTap: () {
-                        GoRouter.of(context).push(AppRouter.questionScreen);
-                      },
+                      title: s.faq_q_how_long_arrive,
+                      subtitle: s.faq_a_quick_booking_time,
+                      onTap: () => GoRouter.of(context).push(AppRouter.questionScreen),
                     ),
-                    SizedBox(height: 25.h,),
+                    SizedBox(height: 25.h),
+
+                    // Q2
                     QuestionCard(
-                      title: "ما هي طرق الدفع المتاحة؟",
-                      subtitle: "بطاقات الائتمان والخصم (فيزا، ماستركارد)",
+                      title: s.faq_q_payment_methods,
+                      subtitle: s.faq_a_payment_methods_list,
                     ),
-                    SizedBox(height: 25.h,),
+                    SizedBox(height: 25.h),
+
+                    // Q3 (repeat sample)
                     QuestionCard(
-                      title: "كم من الوقت تحتاجون للوصول؟",
-                      subtitle: "الحجز السريع: 15-30 دقيقة",
+                      title: s.faq_q_how_long_arrive,
+                      subtitle: s.faq_a_quick_booking_time,
                     ),
-                    SizedBox(height: 25.h,),
+                    SizedBox(height: 25.h),
+
+                    // Q4
                     QuestionCard(
-                      title: "ما هي طرق الدفع المتاحة؟",
-                      subtitle: "بطاقات الائتمان والخصم (فيزا، ماستركارد)",
+                      title: s.faq_q_payment_methods,
+                      subtitle: s.faq_a_payment_methods_list,
                     ),
-                    SizedBox(height: 25.h,),
+                    SizedBox(height: 25.h),
+
+                    // Q5
                     QuestionCard(
-                      title: "كم من الوقت تحتاجون للوصول؟",
-                      subtitle: "الحجز السريع: 15-30 دقيقة",
+                      title: s.faq_q_how_long_arrive,
+                      subtitle: s.faq_a_quick_booking_time,
                     ),
-                    SizedBox(height: 25.h,),
+                    SizedBox(height: 25.h),
+
+                    // Q6
                     QuestionCard(
-                      title: "ما هي طرق الدفع المتاحة؟",
-                      subtitle: "بطاقات الائتمان والخصم (فيزا، ماستركارد)",
+                      title: s.faq_q_payment_methods,
+                      subtitle: s.faq_a_payment_methods_list,
                     ),
                   ],
                 ),
@@ -77,4 +90,3 @@ class HelpCenterScreen extends StatelessWidget {
     );
   }
 }
-

@@ -3,15 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/widgets/order_screen_body.dart';
-
 import '../../widgets/home_sliver_app_bar.dart';
-
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
 
 class OrdersTab extends StatelessWidget {
   const OrdersTab({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context); // <-- localization accessor
+
     return DefaultTabController(
       length: 3,
       initialIndex: 0,
@@ -19,7 +20,7 @@ class OrdersTab extends StatelessWidget {
         backgroundColor: const Color(0xffF2F4F5),
         body: CustomScrollView(
           slivers: [
-            HomeSliverAppBar(isFilter: true,),
+            const HomeSliverAppBar(isFilter: true),
             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 17.w),
@@ -43,10 +44,10 @@ class OrdersTab extends StatelessWidget {
                         labelColor: AppStyle.primaryColor,
                         labelStyle: AppTextStyle.greyW400Size14,
                         unselectedLabelColor: const Color(0xff7A7A7A),
-                        tabs: const [
-                          Tab(text: "القادمة"),
-                          Tab(text: "الحالية"),
-                          Tab(text: "السابقة"),
+                        tabs: [
+                          Tab(text: s.orders_upcoming), // "القادمة"
+                          Tab(text: s.orders_current),  // "الحالية"
+                          Tab(text: s.orders_past),     // "السابقة"
                         ],
                       ),
                     ),
@@ -57,9 +58,8 @@ class OrdersTab extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: OrderScreenBody(),
+                      child: const OrderScreenBody(),
                     ),
-
                     SizedBox(height: 24.h),
                   ],
                 ),

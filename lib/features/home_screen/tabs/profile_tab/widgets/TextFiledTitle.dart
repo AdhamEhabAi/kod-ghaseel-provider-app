@@ -6,7 +6,7 @@ import '../../../../../../Utilites/app_fonts/font.dart';
 class TextFiledTitle extends StatelessWidget {
   final String text;
 
-  const TextFiledTitle(this.text);
+  const TextFiledTitle(this.text, {super.key});
 
   @override
   Widget build(BuildContext context) {
