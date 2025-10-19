@@ -19,7 +19,7 @@ class ProfitCard extends StatelessWidget {
         color: const Color(0xFF192126),
         borderRadius: BorderRadius.circular(15.r),
       ),
-      padding: EdgeInsets.only(top:31.h,bottom: 25.h,left: 11.w,right: 11.w),
+      padding: EdgeInsets.only(top:31.h,bottom: 20.h,left: 11.w,right: 11.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
