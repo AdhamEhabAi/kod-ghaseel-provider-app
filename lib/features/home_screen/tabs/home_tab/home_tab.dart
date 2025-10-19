@@ -14,7 +14,6 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size=MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color(0xffF2F4F5),
       body: CustomScrollView(
@@ -36,29 +35,43 @@ class HomeTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BalanceContainer(),
+                  BalanceContainer(amount: 245, completedOrders: 12),
                   SizedBox(height: 12.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      NumberOfOrdersContainer(),
+                      NumberOfOrdersContainer(
+                        totalOrders: 125,
+                        dailyOrders: 10,
+                      ),
                       AcceptingRateContainer(),
                     ],
                   ),
-                  SizedBox(height: 12.h,),
-                  Text("الطلب الحالي",style: AppTextStyle.blackW600Size14Roboto,),
-                  SizedBox(height: 12.h,),
+                  SizedBox(height: 12.h),
+                  Text(
+                    "الطلب الحالي",
+                    style: AppTextStyle.blackW600Size14Roboto,
+                  ),
+                  SizedBox(height: 12.h),
                   UserDataSection(),
-                  SizedBox(height: 12.h,),
-                  Text("الطلبات السابقة",style: AppTextStyle.blackW600Size14Roboto,),
-                  SizedBox(height: 6.h,),
-                  OrderInformation(clientName: "ساره على", serviceDescription: "تويتا كامري - غسيل كامل - 2.5 كم"),
-                  SizedBox(height: 12.h,),
-                  OrderInformation(clientName: "منى خالد", serviceDescription: "تويتا كامري - غسيل كامل - 2.5 كم")
+                  SizedBox(height: 12.h),
+                  Text(
+                    "الطلبات السابقة",
+                    style: AppTextStyle.blackW600Size14Roboto,
+                  ),
+                  SizedBox(height: 6.h),
+                  OrderInformation(
+                    clientName: "ساره على",
+                    serviceDescription: "تويتا كامري - غسيل كامل - 2.5 كم",
+                  ),
+                  SizedBox(height: 12.h),
+                  OrderInformation(
+                    clientName: "منى خالد",
+                    serviceDescription: "تويتا كامري - غسيل كامل - 2.5 كم",
+                  ),
                 ],
               ),
             ),
-
           ),
         ],
       ),

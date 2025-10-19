@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../Utilites/app_style/style.dart';
 import 'order_card.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // adjust if your path differs
 
 class OrderScreenBody extends StatelessWidget {
   const OrderScreenBody({super.key});
@@ -11,13 +12,14 @@ class OrderScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tabController = DefaultTabController.of(context);
+    final s = S.of(context); // <-- localization accessor
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Text("الطلبات", style: AppTextStyle.blackW600Size14Roboto),
+            Text(s.orders_title, style: AppTextStyle.blackW600Size14Roboto),
             SizedBox(width: 4.w),
             Container(
               padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 7.w),
@@ -26,8 +28,8 @@ class OrderScreenBody extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5.r),
               ),
               child: Text(
-                "4",
-                style: AppTextStyle.primaryW600Size12.copyWith(fontFamily: "Inter"),
+                "4", // keep your count as-is (replace with real value if needed)
+                style: AppTextStyle.primaryW600Size12,
               ),
             ),
           ],

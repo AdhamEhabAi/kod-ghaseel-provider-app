@@ -36,5 +36,131 @@
   "filter_opt_9_12": "الطلبات من الساعه 9 الى 12",
   "filter_opt_12_3": "الطلبات من الساعه 12 الى 3",
   "filter_opt_3_6": "الطلبات من الساعه 3 الى 6",
-  "filter_opt_6_9": "الطلبات من الساعه 6 الى 9"
+  "filter_opt_6_9": "الطلبات من الساعه 6 الى 9",
+
+  "acceptance_rate_title": "معدل القبول",
+  "acceptance_rate_excellent": "ممتاز",
+
+
+  "status_availableNow": "متاح الآن",
+  "status_unavailable": "غير متاح",
+  "today_earnings": "أرباح اليوم",
+  "completed_orders": "{count, plural, =0{لا يوجد طلبات مكتملة} =1{طلب واحد مكتمل} other{{count} طلب مكتمل}}",
+  "@completed_orders": {
+    "description": "صياغة جمع لعبارة عدد الطلبات المكتملة"
+  },
+
+
+  "orders_so_far_title": "عدد الطلبات حتى الآن",
+  "orders_count": "{count, plural, =0{طلبات} =1{طلب} other{طلبات}}",
+  "daily_orders": "{count, plural, =0{طلبات يومياً} =1{طلب يومياً} other{طلبات يومياً}}",
+  "view": "عرض",
+  "unavailableForLabel": "غير متاح لمدة",
+  "oneHour": "ساعة",
+  "twoHours": "ساعتين",
+  "threeHours": "ثلاث ساعات",
+  "other": "أخرى",
+  "enterMinutesHint": "اكتب عدد الدقائق",
+  "done": "تم",
+  "invalidMinutesMsg": "من فضلك أدخل عدد دقائق صالح",
+  "helloName": "مرحباً {name} 👋",
+  "@helloName": {
+    "description": "تحية بالاسم",
+    "placeholders": { "name": { "type": "String" } }
+  },
+
+  "roleDelegate": "مندوب",
+
+  "autoEnabledSnackbar": "تم تفعيل التوفر تلقائياً",
+
+  "cannotEnableYet": "لا يمكنك التفعيل الآن. متبقي {minutes}د {seconds}ث",
+  "@cannotEnableYet": {
+    "description": "تظهر عند محاولة التفعيل قبل انتهاء المدة",
+    "placeholders": {
+      "minutes": { "type": "int" },
+      "seconds": { "type": "int" }
+    }
+  },
+
+  "order_number": "رقم الطلب",
+  "package": "الباقة",
+  "washes_count": "عدد الغسلات",
+  "date_label": "التاريخ",
+  "time_label": "الوقت",
+  "service_label": "الخدمة",
+  "status_label": "الحالة",
+
+  "package_silver": "الفضية",
+  "service_inside_out": "غسيل خارجي وداخلي",
+  "status_in_progress": "قيد التنفيذ",
+
+  "orders_title": "الطلبات",
+  "orders_upcoming": "القادمة",
+  "orders_current": "الحالية",
+  "orders_past": "السابقة",
+  "faq_title": "الأسئلة الشائعة",
+  "faq_search_hint": "ابحث عمّا يدور ببالك…",
+  "faq_q_how_long_arrive": "كم من الوقت تحتاجون للوصول؟",
+  "faq_a_quick_booking_time": "الحجز السريع: 15–30 دقيقة",
+  "faq_q_payment_methods": "ما هي طرق الدفع المتاحة؟",
+  "faq_a_payment_methods_list": "بطاقات الائتمان والخصم (فيزا، ماستركارد)",
+
+  "faq_bullet_scheduled": "الحجز المجدول: حسب الموعد المختار",
+  "faq_bullet_peak": "أوقات الذروة: قد تستغرق حتى 45 دقيقة",
+  "faq_did_this_help": "هل ساعدك ذلك في حل مشكلتك؟",
+  "yes": "نعم",
+  "no": "لا",
+
+  "notifications_title": "الإشعارات",
+  "notifications_payment": "إشعارات إتمام الدفع",
+  "notifications_messages": "إشعارات الرسائل",
+  "notifications_reminders": "إشعارات التذكير",
+  "notifications_offers": "إشعارات العروض",
+  "save": "حفظ",
+  "privacy_title": "الخصوصية",
+  "search_hint": "ابحث عن ما يدور ببالك.......",
+  "privacy_policy": "سياسة الخصوصية",
+  "terms_conditions": "الشروط والأحكام",
+  "refund_cancellation_policy": "سياسة الاسترداد والإلغاء",
+  "cookies_policy": "سياسة ملفات الارتباط",
+  "user_agreement": "اتفاقية الاستخدام",
+
+  "add_personal_email": "اضف ايميل شخصي",
+  "profile_name_sample": "سارة محمد",
+  "gold_plan": "باقة ذهبية",
+  "settings": "الإعدادات",
+  "notifications": "الاشعارات",
+  "wallet": "محفظتك",
+  "packages": "الباقات",
+  "logoutTitle": "تسجيل الخروج!",
+  "logoutConfirm": "نعم، بالتأكيد!",
+  "rateApp": "تقييم التطبيق",
+  "shareWithFriends": "شارك مع أصدقائك",
+  "aboutUs": "من نحن؟",
+  "support": "الدعم",
+  "profile_title": "حسابي الشخصي",
+  "profile_username": "اسم المستخدم",
+  "profile_email": "عنوان البريد",
+  "profile_phone": "رقم الهاتف",
+  "acceptance_rate": "معدل القبول",
+
+  "today_profit": "أرباح اليوم",
+  "currency_sar": "ريال",
+  "from_orders": "من {count} طلبات",
+  "completed": "مكتمل",
+  "avg_order": "متوسط الطلب",
+  "last_earnings": "آخر الأرباح",
+  "today_orders": "طلبات اليوم",
+  "daily": "يومي",
+  "monthly": "شهري",
+  "keep_it_up": "واصل تميزك!",
+  "you_got_this": "إنت قدّها، كفو! 💪",
+  "service_example": "{service} - {time}",
+  "mark_as_read": "تمييز كمقروء",
+  "delete": "حذف",
+  "filter": "فلترة",
+  "date": "التاريخ",
+  "unread": "غير مقروء",
+  "apply_filter": "تطبيق الفلتر"
+
 }

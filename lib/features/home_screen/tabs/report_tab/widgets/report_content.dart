@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/report_tab/widgets/profit_card.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/report_tab/widgets/small_stat_card.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/report_tab/widgets/today_order_card.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- added for localization
 
 import '../../../../../Utilites/app_fonts/font.dart';
 import '../data/model.dart';
@@ -16,6 +17,8 @@ class ReportContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context); // <-- localization instance
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -25,7 +28,7 @@ class ReportContent extends StatelessWidget {
               flex: 2,
               child: Column(
                 children: [
-                  SmallStatCard(title: 'متوسط الطلب', value: data.avgOrderText),
+                  SmallStatCard(title: s.avg_order, value: data.avgOrderText),
                   SizedBox(height: 10.h),
                   AcceptanceRate(
                     rate: data.acceptanceRate,
@@ -36,7 +39,7 @@ class ReportContent extends StatelessWidget {
             SizedBox(width: 10.w),
             Expanded(
               flex: 3,
-              child: ProfitCard(
+              child: ProfitCard(progressValue: 0.82,
                 profit: data.profit,
                 ordersCount: data.ordersCount,
                 ordersGoal: data.ordersGoal,
@@ -67,11 +70,15 @@ class ReportContent extends StatelessWidget {
           ],
         ),
         SizedBox(height: 22.h),
-        Text('آخر الأرباح', style: AppTextStyle.blackW600Size15Roboto),
+        Text(s.last_earnings, style: AppTextStyle.blackW600Size15Roboto),
         SizedBox(height: 10.h),
         ...data.lastEarnings.map((e) => Padding(
           padding: EdgeInsets.only(bottom: 8.h),
-          child: EarningItem(amount: e.amount, name: e.name, subtitle: e.subtitle),
+          child: EarningItem(
+            amount: e.amount,
+            name: e.name,
+            subtitle: e.subtitle,
+          ),
         )),
         SizedBox(height: 80.h),
       ],

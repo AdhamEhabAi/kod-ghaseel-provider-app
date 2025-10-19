@@ -9,6 +9,7 @@ import '../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../Utilites/app_style/style.dart';
 import '../../../../../core/widgets/setting_app_bar.dart';
 import '../../../../../shared/shared_widget.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- l10n import
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -30,15 +31,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+
     return Scaffold(
-      backgroundColor: Color(0xFFF3F6F7),
+      backgroundColor: const Color(0xFFF3F6F7),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             children: [
-              SizedBox(height: 8),
-              SettingAppBar(title: 'حسابي الشخصي'),
+              const SizedBox(height: 8),
+              SettingAppBar(title: s.profile_title), // "حسابي الشخصي"
               SizedBox(height: 45.h),
               SizedBox(
                 height: 110.h,
@@ -51,9 +54,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       height: 120.h,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Color(0xFFBEEAF7), // light teal/blue
+                        color: Color(0xFFBEEAF7),
                       ),
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         backgroundColor: Colors.transparent,
                         child: Text('🧑🏻‍🦱', style: TextStyle(fontSize: 54)),
                       ),
@@ -84,7 +87,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextFiledTitle('اسم المستخدم'),
+                      TextFiledTitle(s.profile_username), // "اسم المستخدم"
                       SizedBox(height: 12.h),
                       CustomTextFormField(
                         colorBorder: AppStyle.textFieldBorderColor,
@@ -99,7 +102,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         textInputAction: TextInputAction.next,
                       ),
                       SizedBox(height: 12.h),
-                      TextFiledTitle('عنوان البريد'),
+                      TextFiledTitle(s.profile_email), // "عنوان البريد"
                       SizedBox(height: 12.h),
                       CustomTextFormField(
                         textDirection: TextDirection.ltr,
@@ -107,12 +110,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         style: AppTextStyle.blackW600Size16Roboto,
                         color: Colors.transparent,
                         radius: 16.r,
-                        suffixIcon: Icon(Icons.email),
+                        suffixIcon: const Icon(Icons.email),
                         controller: emailController,
                         textInputAction: TextInputAction.next,
                       ),
                       SizedBox(height: 12.h),
-                      TextFiledTitle('رقم الهاتف'),
+                      TextFiledTitle(s.profile_phone), // "رقم الهاتف"
                       SizedBox(height: 12.h),
                       CustomTextFormField(
                         color: Colors.transparent,
@@ -139,14 +142,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       SizedBox(height: 70.h),
                       Center(
                         child: Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: 40.w),
+                          padding: EdgeInsets.symmetric(horizontal: 40.w),
                           child: DefaultButton(
                             backgroundColorButton: AppStyle.primaryColorOpacity10,
-                            onPressed: (){
+                            onPressed: () {
                               GoRouter.of(context).pop();
                             },
                             borderRadius: BorderRadius.circular(50.r),
-                            titleWidget: Text('حفظ',style: AppTextStyle.blackW600Size16Roboto.copyWith(color: Color(0xFF01D0FE)),),
+                            titleWidget: Text(
+                              s.save, // "حفظ"
+                              style: AppTextStyle.blackW600Size16Roboto
+                                  .copyWith(color: const Color(0xFF01D0FE)),
+                            ),
                           ),
                         ),
                       ),
@@ -161,6 +168,3 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
-
-
-

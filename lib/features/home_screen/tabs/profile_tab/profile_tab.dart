@@ -7,11 +7,15 @@ import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/w
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/third_section_profile_tab.dart';
 
 import '../../../../../Utilites/app_fonts/font.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- l10n import
+
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFFF2F4F5),
@@ -24,25 +28,25 @@ class ProfileTab extends StatelessWidget {
                 const ProfileTabAppBar(),
                 SizedBox(height: 24.h),
                 Text(
-                  'حسابي الشخصي',
+                  s.profile_title, // "حسابي الشخصي"
                   style: AppTextStyle.blackW700Size14Roboto.copyWith(
                     fontSize: 28.sp,
                   ),
                 ),
                 SizedBox(height: 24.h),
 
-                ProfileEditWidget(),
+                const ProfileEditWidget(),
                 SizedBox(height: 20.h),
 
-                FirstSectionProfileTab(),
+                const FirstSectionProfileTab(),
 
                 SizedBox(height: 16.h),
 
-                SecondSectionProfileTab(),
+                const SecondSectionProfileTab(),
 
                 SizedBox(height: 16.h),
 
-                ThirdSectionProfileTab(),
+                const ThirdSectionProfileTab(),
 
                 SizedBox(height: 30.h),
               ],
