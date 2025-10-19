@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
+    _getBottomNavigationBarSize();
     HomeTabController.value.addListener(_onTabChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) => _getBottomNavigationBarSize());
   }
@@ -35,15 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() => _selectedIndex = HomeTabController.value.value);
     }
   }
-
   void _getBottomNavigationBarSize() {
     final RenderBox? bottomNavigationBarRenderBox =
-    _bottomNavigationBarKey.currentContext?.findRenderObject()
-    as RenderBox?;
+    _bottomNavigationBarKey.currentContext?.findRenderObject() as RenderBox?;
     if (bottomNavigationBarRenderBox != null) {
-      final bottomNavigationBarSize = bottomNavigationBarRenderBox.size;
       setState(() {
-        _bottomNavigationBarSize = bottomNavigationBarSize;
+        _bottomNavigationBarSize = bottomNavigationBarRenderBox.size;
       });
     }
   }
@@ -57,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final itemWidth = _bottomNavigationBarSize.width / 4;
+
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: Container(
@@ -69,72 +68,74 @@ class _HomeScreenState extends State<HomeScreen> {
             BoxShadow(color: Colors.black.withAlpha(128), blurRadius: 10),
           ],
         ),
-        child: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadiusGeometry.only(
-                topLeft: Radius.circular(24.r),
-                topRight: Radius.circular(24.r),
-              ),
-              child: SizedBox(
-                height: 70.h,
-                child: BottomNavigationBar(
-                  backgroundColor: AppStyle.white,
-                  enableFeedback: false,
-                  showSelectedLabels: false,
-                  showUnselectedLabels: false,
-                  type: BottomNavigationBarType.fixed,
-                  key: _bottomNavigationBarKey,
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        Assets.homeIconSVG,
-                        color: _selectedIndex == 0 ? AppStyle.primaryColor : null,
-                      ),
-                      label: 'Home',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        Assets.calendarIconSVG,
-                        color: _selectedIndex == 1 ? AppStyle.primaryColor : null,
-                      ),
-                      label: 'discount',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        Assets.activityIcon,
-                        color: _selectedIndex == 2 ? AppStyle.primaryColor : null,
-                      ),
-                      label: 'activity',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        Assets.profileIconSVG,
-                        color: _selectedIndex == 3 ? AppStyle.primaryColor : null,
-                      ),
-                      label: 'calendar',
-                    ),
+        child: Directionality(
+          textDirection: TextDirection.rtl,
 
-                  ],
-                  currentIndex: _selectedIndex,
-                  onTap: (index) {
-                    setState(() {
-                      HomeTabController.value.value = index;
-                    });
-                  },
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadiusGeometry.only(
+                  topLeft: Radius.circular(24.r),
+                  topRight: Radius.circular(24.r),
+                ),
+                child: SizedBox(
+                  height: 70.h,
+                  child: BottomNavigationBar(
+                    backgroundColor: AppStyle.white,
+                    enableFeedback: false,
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    type: BottomNavigationBarType.fixed,
+                    key: _bottomNavigationBarKey,
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: SvgPicture.asset(
+                          Assets.homeIconSVG,
+                          color: _selectedIndex == 0 ? AppStyle.primaryColor : null,
+                        ),
+                        label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: SvgPicture.asset(
+                          Assets.calendarIconSVG,
+                          color: _selectedIndex == 1 ? AppStyle.primaryColor : null,
+                        ),
+                        label: 'discount',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: SvgPicture.asset(
+                          Assets.activityIcon,
+                          color: _selectedIndex == 2 ? AppStyle.primaryColor : null,
+                        ),
+                        label: 'activity',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: SvgPicture.asset(
+                          Assets.profileIconSVG,
+                          color: _selectedIndex == 3 ? AppStyle.primaryColor : null,
+                        ),
+                        label: 'calendar',
+                      ),
+
+                    ],
+                    currentIndex: _selectedIndex,
+                    onTap: (index) {
+                      setState(() {
+                        HomeTabController.value.value = index;
+                      });
+                    },
+                  ),
                 ),
               ),
-            ),
-            AnimatedPositioned(
-              duration:  Duration(milliseconds: 350),
-              curve: Curves.easeOutCubic,
-              bottom: 0,
-              right:
-              ((_bottomNavigationBarSize.width / 4) * _selectedIndex) -
-                  25.w,
-              child:  WaveShape(),
-            ),
-          ],
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeOutCubic,
+                bottom: 0,
+                right: (itemWidth * _selectedIndex) - 30.w,
+                child: const WaveShape(),
+              ),
+            ],
+          ),
         ),
       ),
       body: pages[_selectedIndex],

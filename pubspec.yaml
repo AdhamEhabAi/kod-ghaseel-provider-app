@@ -41,6 +41,7 @@ dependencies:
   pin_code_fields:
   flutter_svg:
   flutter_native_splash:
+  flutter_bloc:
   lottie: ^3.3.2
   google_maps_flutter: ^2.13.1
   google_maps_flutter_android: ^2.18.2
@@ -50,6 +51,7 @@ dependencies:
   percent_indicator: ^4.2.5
   salomon_bottom_bar: ^3.3.2
   badges: ^3.1.2
+  shared_preferences:
 dev_dependencies:
   flutter_test:
     sdk: flutter

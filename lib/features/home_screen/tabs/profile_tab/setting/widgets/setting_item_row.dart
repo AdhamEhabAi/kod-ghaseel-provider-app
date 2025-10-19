@@ -19,7 +19,7 @@ class SettingItemsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 40.w),
+      padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: InkWell(
         onTap: onTap,
         child: Row(
@@ -35,7 +35,7 @@ class SettingItemsRow extends StatelessWidget {
             SizedBox(width: 30.w,),
             Text(title,style: AppTextStyle.blackW500Size14,),
             Spacer(),
-            Icon(Icons.arrow_forward_ios_rounded,color: Color(0xffD3D5DA))
+            Icon(Icons.arrow_forward_ios_rounded,size: 18.w,)
           ],
         ),
       ),

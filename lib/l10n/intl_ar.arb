@@ -13,5 +13,9 @@
   "enterYourName": "ادخل اسمك..",
   "browseAsGuest": "تصفح كزائر",
   "appName": "كود غسيل",
-  "onboardingDescription": "خدمة غسيل سيارات متنقلة نقدم الخدمة في مكان العميل بواسطة فريق مؤهل ومجهز"
+  "onboardingDescription": "خدمة غسيل سيارات متنقلة نقدم الخدمة في مكان العميل بواسطة فريق مؤهل ومجهز",
+  "settingsTitle": "الإعدادات",
+  "change_language": "تغيير اللغة",
+  "security_and_privacy": "الأمان والخصوصية",
+  "help": "المساعدة"
 }
