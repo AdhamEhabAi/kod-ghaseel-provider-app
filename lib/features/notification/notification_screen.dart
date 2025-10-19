@@ -4,7 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/custom_back_button.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/custom_filter_button.dart';
+import 'package:kod_ghaseel_provider_app/features/notification/widgets/notification_permission_sheet/show_notification_permission.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/notificatoin_card.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../Utilites/app_fonts/font.dart';
 import '../../core/router/router.dart';
 import '../../shared/shared_widget.dart';
@@ -18,13 +21,18 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 1), () async {
+      if (!mounted) return;
+      if (!(await Permission.notification.isGranted)) {
+        showNotificationPermission(context);
+      }
+    });
+  }
 
   final TextEditingController searchController = TextEditingController();
-
-  final bool isSelectedRead = false;
-
-  final bool isSelectedDelete = false;
 
   final List<NotificationModel> notifications = [
     NotificationModel(
@@ -40,94 +48,62 @@ class _NotificationScreenState extends State<NotificationScreen> {
     NotificationModel(
       title: "⏰ لا تنسَ سيارتك!",
       subtitle: "احجز غسيلك القادم.",
-      createdAt: DateTime.now().subtract(
-        const Duration(days: 1, hours: 1),
-      ), // أمس
+      createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 1)), // أمس
     ),
     NotificationModel(
       title: "💦 طلبك قيد التنفيذ",
       subtitle: "جاري غسيل السيارة.",
-      createdAt: DateTime.now().subtract(
-        const Duration(days: 1, hours: 4),
-      ), // أمس
+      createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 4)), // أمس
     ),
     NotificationModel(
       title: "🕒 المندوب وصل!",
       subtitle: "سيارتك بتتغسل الآن.",
-      createdAt: DateTime.now().subtract(
-        const Duration(days: 1, hours: 6),
-      ), // أمس
-    ),
-    NotificationModel(
-      title: "🚗 غسيل سيارتك بدأ!",
-      subtitle: "المندوب في الطريق.",
-      createdAt: DateTime.now().subtract(const Duration(days: 7)), // منذ 7 أيام
-    ),
-    NotificationModel(
-      title: "✨ سيارتك صارت جديدة!",
-      subtitle: "تم إنهاء طلبك.",
-      createdAt: DateTime.now().subtract(
-        const Duration(days: 7, hours: 2),
-      ), // منذ 7 أيام
-    ),
-    NotificationModel(
-      title: "⏰ لا تنسَ سيارتك!",
-      subtitle: "احجز غسيلك القادم.",
-      createdAt: DateTime.now().subtract(const Duration(days: 8)), // منذ 8 أيام
-    ),
-    NotificationModel(
-      title: "💦 طلبك قيد التنفيذ",
-      subtitle: "جاري غسيل السيارة.",
-      createdAt: DateTime.now().subtract(const Duration(days: 9)), // منذ 9 أيام
-    ),
-    NotificationModel(
-      title: "🕒 المندوب وصل!",
-      subtitle: "سيارتك بتتغسل الآن.",
-      createdAt: DateTime.now().subtract(
-        const Duration(days: 10),
-      ), // منذ 10 أيام
+      createdAt: DateTime.now().subtract(const Duration(days: 10)), // منذ 10 أيام
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context); // ✅ localization instance
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 21.w),
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          GoRouter.of(context).push(AppRouter.filterScreen);
-                        },
-                        child: CustomFilterButton(),
-                      ),
-                      Spacer(),
-                      CustomBackButton(),
-                    ],
+                  InkWell(
+                    onTap: () => GoRouter.of(context).push(AppRouter.filterScreen),
+                    child: const CustomFilterButton(),
                   ),
-                  SizedBox(height: 25.h),
-                  Text("الإشعارات", style: AppTextStyle.blackW600Size28Roboto),
-                  SizedBox(height: 12.h),
-                  CustomTextFormField(
-                    textDirection: TextDirection.rtl,
-                    prefixIcon: Icon(Icons.search, color: Colors.black),
-                    hintText: "ابحث في الإشعارات",
-                    hintTextDirection: TextDirection.rtl,
-                    colorBorder: Color(0xffEEEEEE),
-                    color: Colors.transparent,
-                    controller: searchController,
-                  ),
-                  SizedBox(height: 33.5.h),
+                  const Spacer(),
+                  const CustomBackButton(),
                 ],
               ),
+              SizedBox(height: 25.h),
+
+              // ✅ Localized title
+              Text(
+                s.notificationsTitle,
+                style: AppTextStyle.blackW600Size28Roboto,
+              ),
+              SizedBox(height: 12.h),
+
+              // ✅ Localized search field
+              CustomTextFormField(
+                textDirection: TextDirection.rtl,
+                prefixIcon: const Icon(Icons.search, color: Colors.black),
+                hintText: s.searchNotifications,
+                hintTextDirection: TextDirection.rtl,
+                colorBorder: const Color(0xffEEEEEE),
+                color: Colors.transparent,
+                controller: searchController,
+              ),
+              SizedBox(height: 33.5.h),
+
+              // ✅ Notifications list
               Expanded(
                 child: GroupedListView<NotificationModel, int>(
                   elements: notifications,
@@ -140,15 +116,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       bottom: 8.h,
                     ),
                     child: Text(
-                      NotificationModel.arabicRelativeLabel(diff),
+                      NotificationModel.localizedRelativeLabel(context, diff), // ✅ Localized helper
                       style: TextStyle(
-                        color: Color(0xff808080),
+                        color: const Color(0xff808080),
                         fontSize: 13.sp,
                       ),
                     ),
                   ),
-                  itemBuilder: (context, n) =>
-                      NotificationCard(notification: n),
+                  itemBuilder: (context, n) => NotificationCard(notification: n),
                   separator: SizedBox(height: 15.h),
                 ),
               ),

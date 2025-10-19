@@ -17,5 +17,18 @@
   "settingsTitle": "Settings",
   "change_language": "Change Language",
   "security_and_privacy": "Security and Privacy",
-  "help": "Help"
+  "help": "Help",
+  "notificationsTitle": "Notifications",
+  "searchNotifications": "Search notifications",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "twoDaysAgo": "Two days ago",
+  "daysAgo": "{count} days ago",
+  "tryMobileWashComfort": "Experience the comfort of mobile washing",
+  "enableNotificationDescription": "Be the first to know about offers and new services... Enable notifications and stay ready!",
+  "exclusiveDiscounts": "Exclusive discounts for you",
+  "fastOffersAndAlerts": "Quick offers and alerts you won’t miss",
+  "carTipsAndSolutions": "Tips and tricks to keep your car clean",
+  "enableNotifications": "Enable Notifications",
+  "later": "Later"
 }

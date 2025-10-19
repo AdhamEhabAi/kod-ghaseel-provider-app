@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
+
 class NotificationModel {
   String title;
   String subtitle;
@@ -19,10 +22,14 @@ class NotificationModel {
     return db.difference(da).inDays;
   }
 
-  static String arabicRelativeLabel(int diff) {
-    if (diff == 0) return 'اليوم';
-    if (diff == 1) return 'أمس';
-    if (diff == 2) return 'منذ يومين';
-    return 'منذ $diff أيام';
+  /// ✅ Localized label (Arabic / English)
+  static String localizedRelativeLabel(BuildContext context, int diff) {
+    final s = S.of(context);
+
+    if (diff == 0) return s.today;
+    if (diff == 1) return s.yesterday;
+    if (diff == 2) return s.twoDaysAgo;
+    return s.daysAgo(diff);
   }
 }
+

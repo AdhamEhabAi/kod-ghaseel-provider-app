@@ -17,5 +17,18 @@
   "settingsTitle": "الإعدادات",
   "change_language": "تغيير اللغة",
   "security_and_privacy": "الأمان والخصوصية",
-  "help": "المساعدة"
+  "help": "المساعدة",
+  "notificationsTitle": "الإشعارات",
+  "searchNotifications": "ابحث في الإشعارات",
+  "today": "اليوم",
+  "yesterday": "أمس",
+  "twoDaysAgo": "منذ يومين",
+  "daysAgo": "{count} أيام مضت",
+  "tryMobileWashComfort": "جرب راحة الغسيل المتنقل",
+  "enableNotificationDescription": "خليك دايمًا أول من يعرف بالعروض والخدمات الجديدة... فعِّل الإشعارات وخليك مستعد!",
+  "exclusiveDiscounts": "خصومات حصرية لك",
+  "fastOffersAndAlerts": "عروض وتنبيهات سريعة ما تفوتك",
+  "carTipsAndSolutions": "نصائح وحلول للحفاظ على سيارتك نظيفة",
+  "enableNotifications": "فعِّل الإشعارات",
+  "later": "لاحقًا"
 }
