@@ -59,7 +59,11 @@ class _TopBarWidgetState extends State<TopBarWidget> {
             const Spacer(),
 
             if (widget.isFilterIconExists)
-              SvgPicture.asset(Assets.filterIconSVG)
+              GestureDetector(
+                onTap: (){
+                  GoRouter.of(context).push(AppRouter.filterHomeScreen);
+                },
+                  child: SvgPicture.asset(Assets.filterIconSVG))
             else
               AvailabilityPillSwitch(
                 value: _isAvailable,

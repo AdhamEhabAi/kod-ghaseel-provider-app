@@ -30,5 +30,11 @@
   "fastOffersAndAlerts": "Quick offers and alerts you won’t miss",
   "carTipsAndSolutions": "Tips and tricks to keep your car clean",
   "enableNotifications": "Enable Notifications",
-  "later": "Later"
+  "later": "Later",
+  "filter_title": "Filter orders",
+  "filter_apply": "Apply filter",
+  "filter_opt_9_12": "Orders from 9 to 12",
+  "filter_opt_12_3": "Orders from 12 to 3",
+  "filter_opt_3_6": "Orders from 3 to 6",
+  "filter_opt_6_9": "Orders from 6 to 9"
 }
