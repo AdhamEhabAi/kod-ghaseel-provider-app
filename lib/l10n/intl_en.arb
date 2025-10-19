@@ -1,1 +1,17 @@
-{}
+{
+  "phoneNumber": "Phone Number",
+  "phoneNumberHint": "0000...",
+  "getVerificationCode": "Get Verification Code",
+  "loginTitle": "Log In.",
+  "login": "Login",
+  "resendCode": "Resend code.",
+  "enterCode": "Enter the code",
+  "didNotReceiveCode": "Didn’t receive the code? ",
+  "fieldRequired": "This field is required",
+  "alreadyHaveAccount": "Already have an account?",
+  "name": "Name",
+  "enterYourName": "Enter your name...",
+  "browseAsGuest": "Login as Guest",
+  "appName": "Kod Ghaseel",
+  "onboardingDescription": "A mobile car wash service that comes to you, provided by a qualified and equipped team."
+}

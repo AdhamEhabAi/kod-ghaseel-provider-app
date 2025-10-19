@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kod_ghaseel_provider_app/Utilites/app_assets/assets.dart';
+import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/widgets/register_form.dart';
-
-import '../../Utilites/app_assets/assets.dart';
-import '../../Utilites/app_fonts/font.dart';
-
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -13,6 +12,7 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController textEditingController = TextEditingController();
+    final loc = S.of(context);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -52,7 +52,7 @@ class RegisterScreen extends StatelessWidget {
                         vertical: 20.h,
                       ),
                       child: Text(
-                        'سجل دخولك.',
+                        loc.loginTitle,
                         style: AppTextStyle.blackW700Size30,
                       ),
                     ),

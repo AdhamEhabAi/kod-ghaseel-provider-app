@@ -1,1 +1,17 @@
-{}
+{
+  "phoneNumber": "رقم الهاتف",
+  "phoneNumberHint": "0000...",
+  "getVerificationCode": "احصل على رمز التحقق",
+  "loginTitle": "سجل دخولك.",
+  "login": "تسجيل الدخول",
+  "resendCode": "أعد إرسال الرمز.",
+  "didNotReceiveCode": "لم تصلك الرسالة؟ ",
+  "enterCode": "أدخل الرمز",
+  "fieldRequired": "هذا الحقل مطلوب",
+  "alreadyHaveAccount": "لديك حساب بالفعل؟",
+  "name": "الاسم",
+  "enterYourName": "ادخل اسمك..",
+  "browseAsGuest": "تصفح كزائر",
+  "appName": "كود غسيل",
+  "onboardingDescription": "خدمة غسيل سيارات متنقلة نقدم الخدمة في مكان العميل بواسطة فريق مؤهل ومجهز"
+}

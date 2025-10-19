@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
+import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
-import '../../../Utilites/app_fonts/font.dart';
-import '../../../Utilites/app_style/style.dart';
 
 class OTPTextField extends StatelessWidget {
   final bool hasError;
@@ -23,16 +23,16 @@ class OTPTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController otpController = TextEditingController();
     final isOtpEnabled = true;
+    final loc = S.of(context);
 
-    return Directionality(
-      // 🔹 Force Left-to-Right
+    return Directionality( // 🔹 Force Left-to-Right
       textDirection: TextDirection.ltr,
       child: PinCodeTextField(
         cursorHeight: 30.h,
         enabled: isOtpEnabled,
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'هذا مطلوب';
+            return loc.fieldRequired;
           }
           return null;
         },
@@ -56,7 +56,7 @@ class OTPTextField extends StatelessWidget {
               ? Colors.red
               : success
               ? AppStyle.green
-              : AppStyle.grey,
+              : AppStyle.offWhite,
           inactiveColor: AppStyle.black.withValues(alpha: 0.5),
           activeColor: hasError
               ? Colors.red

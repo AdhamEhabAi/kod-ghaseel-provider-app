@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kod_ghaseel_provider_app/Utilites/app_assets/assets.dart';
+import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
+import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
+import 'package:kod_ghaseel_provider_app/core/router/router.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/widgets/otp_text_field_widget.dart';
-
-import '../../Utilites/app_assets/assets.dart';
-import '../../Utilites/app_fonts/font.dart';
-import '../../Utilites/app_style/style.dart';
-import '../../core/router/router.dart';
-import '../../shared/shared_widget.dart';
-
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
+import 'package:kod_ghaseel_provider_app/shared/shared_widget.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loc = S.of(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -27,8 +28,8 @@ class OtpScreen extends StatelessWidget {
               onTap: () {
                 FocusScope.of(context).unfocus();
                 Future.delayed(
-                  Duration(milliseconds: 300),
-                  () => GoRouter.of(context).pop(),
+                  const Duration(milliseconds: 300),
+                      () => GoRouter.of(context).pop(),
                 );
               },
               child: SvgPicture.asset(Assets.chevronBackward),
@@ -36,7 +37,10 @@ class OtpScreen extends StatelessWidget {
           ),
         ],
         centerTitle: true,
-        title: Text('أدخل الرمز', style: AppTextStyle.blackW600Size28Roboto),
+        title: Text(
+          loc.enterCode,
+          style: AppTextStyle.blackW600Size28Roboto,
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(30.w),
@@ -52,15 +56,17 @@ class OtpScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'لم تصلك الرسالة؟ ',
+                      loc.didNotReceiveCode,
                       style: AppTextStyle.blackW400Size14Roboto.copyWith(
                         color: Colors.grey,
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        // TODO: Add resend OTP functionality
+                      },
                       child: Text(
-                        'أعد إرسال الرمز.',
+                        loc.resendCode,
                         style: AppTextStyle.blackW400Size14Roboto.copyWith(
                           color: Colors.black,
                           decoration: TextDecoration.underline,
@@ -81,7 +87,7 @@ class OtpScreen extends StatelessWidget {
               backgroundColorButton: AppStyle.primaryColor,
               borderRadius: BorderRadius.circular(50.r),
               titleWidget: Text(
-                'تسجيل الدخول',
+                loc.login,
                 style: AppTextStyle.whiteW600Size16Roboto,
               ),
             ),
