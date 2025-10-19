@@ -214,6 +214,7 @@ class AppStyle {
   static const Color white = Colors.white;
   static const Color green = Colors.green;
   static const Color red = Colors.red;
+  static const Color scaffoldBackground = Color(0xFFF2F4F5);
 
   // NOTE: Your current fonts all point to 'Poppins'. Keep as-is.
   static const String cairoFont = 'Cairo';
