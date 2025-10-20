@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/filter/filter_home_screen.dart';
+import 'package:kod_ghaseel_provider_app/features/service_screen/service_screen.dart';
 
 import '../../features/auth/login_screen.dart';
 import '../../features/auth/otp_screen.dart';
@@ -39,6 +40,7 @@ class AppRouter {
   static const String filterHomeScreen = '/FilterHomeScreen';
   static const String chatScreen = '/chatScreen';
   static const String orderScreen = '/orderScreen';
+  static const String serviceScreen = '/serviceScreen';
 
 
   static var globalNavKey = GlobalKey<NavigatorState>();
@@ -57,6 +59,14 @@ class AppRouter {
         pageBuilder: (context, state) => TransitionHelper.page(
           state: state,
           child: const FilterScreen(),
+          transition: AppTransition.fade,
+        ),
+      ),
+      GoRoute(
+        path: serviceScreen,
+        pageBuilder: (context, state) => TransitionHelper.page(
+          state: state,
+          child: const ServiceScreen(),
           transition: AppTransition.fade,
         ),
       ),

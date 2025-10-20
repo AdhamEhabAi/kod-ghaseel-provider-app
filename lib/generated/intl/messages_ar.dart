@@ -20,6 +20,253 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
+  static String m0(minutes, seconds) =>
+      "لا يمكنك التفعيل الآن. متبقي ${minutes}د ${seconds}ث";
+
+  static String m1(count) =>
+      "${Intl.plural(count, zero: 'لا يوجد طلبات مكتملة', one: 'طلب واحد مكتمل', other: '${count} طلب مكتمل')}";
+
+  static String m2(count) =>
+      "${Intl.plural(count, zero: 'طلبات يومياً', one: 'طلب يومياً', other: 'طلبات يومياً')}";
+
+  static String m3(count) => "${count} أيام مضت";
+
+  static String m4(count) => "من ${count} طلبات";
+
+  static String m5(name) => "مرحباً ${name} 👋";
+
+  static String m6(count) =>
+      "${Intl.plural(count, zero: 'طلبات', one: 'طلب', other: 'طلبات')}";
+
+  static String m7(service, time) => "${service} - ${time}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "aboutUs": MessageLookupByLibrary.simpleMessage("من نحن؟"),
+    "acceptance_rate": MessageLookupByLibrary.simpleMessage("معدل القبول"),
+    "acceptance_rate_excellent": MessageLookupByLibrary.simpleMessage("ممتاز"),
+    "acceptance_rate_title": MessageLookupByLibrary.simpleMessage(
+      "معدل القبول",
+    ),
+    "add_personal_email": MessageLookupByLibrary.simpleMessage(
+      "اضف ايميل شخصي",
+    ),
+    "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "لديك حساب بالفعل؟",
+    ),
+    "appName": MessageLookupByLibrary.simpleMessage("كود غسيل"),
+    "apply_filter": MessageLookupByLibrary.simpleMessage("تطبيق الفلتر"),
+    "autoEnabledSnackbar": MessageLookupByLibrary.simpleMessage(
+      "تم تفعيل التوفر تلقائياً",
+    ),
+    "avg_order": MessageLookupByLibrary.simpleMessage("متوسط الطلب"),
+    "browseAsGuest": MessageLookupByLibrary.simpleMessage("تصفح كزائر"),
+    "cannotEnableYet": m0,
+    "carTipsAndSolutions": MessageLookupByLibrary.simpleMessage(
+      "نصائح وحلول للحفاظ على سيارتك نظيفة",
+    ),
+    "car_data": MessageLookupByLibrary.simpleMessage(
+      "تويوتا كامري 2022 - أبيض - أ ب ج 123",
+    ),
+    "change_language": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
+    "client": MessageLookupByLibrary.simpleMessage("عميل"),
+    "completed": MessageLookupByLibrary.simpleMessage("مكتمل"),
+    "completed_orders": m1,
+    "cookies_policy": MessageLookupByLibrary.simpleMessage(
+      "سياسة ملفات الارتباط",
+    ),
+    "currency_sar": MessageLookupByLibrary.simpleMessage("ريال"),
+    "daily": MessageLookupByLibrary.simpleMessage("يومي"),
+    "daily_orders": m2,
+    "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
+    "date_label": MessageLookupByLibrary.simpleMessage("التاريخ"),
+    "day_and_time": MessageLookupByLibrary.simpleMessage("الوقت و اليوم"),
+    "day_time_for_service": MessageLookupByLibrary.simpleMessage(
+      "الخميس 10 اغسطس",
+    ),
+    "daysAgo": m3,
+    "delete": MessageLookupByLibrary.simpleMessage("حذف"),
+    "didNotReceiveCode": MessageLookupByLibrary.simpleMessage(
+      "لم تصلك الرسالة؟ ",
+    ),
+    "done": MessageLookupByLibrary.simpleMessage("تم"),
+    "enableNotificationDescription": MessageLookupByLibrary.simpleMessage(
+      "خليك دايمًا أول من يعرف بالعروض والخدمات الجديدة... فعِّل الإشعارات وخليك مستعد!",
+    ),
+    "enableNotifications": MessageLookupByLibrary.simpleMessage(
+      "فعِّل الإشعارات",
+    ),
+    "enterCode": MessageLookupByLibrary.simpleMessage("أدخل الرمز"),
+    "enterMinutesHint": MessageLookupByLibrary.simpleMessage(
+      "اكتب عدد الدقائق",
+    ),
+    "enterYourName": MessageLookupByLibrary.simpleMessage("ادخل اسمك.."),
+    "exclusiveDiscounts": MessageLookupByLibrary.simpleMessage(
+      "خصومات حصرية لك",
+    ),
+    "faq_a_payment_methods_list": MessageLookupByLibrary.simpleMessage(
+      "بطاقات الائتمان والخصم (فيزا، ماستركارد)",
+    ),
+    "faq_a_quick_booking_time": MessageLookupByLibrary.simpleMessage(
+      "الحجز السريع: 15–30 دقيقة",
+    ),
+    "faq_bullet_peak": MessageLookupByLibrary.simpleMessage(
+      "أوقات الذروة: قد تستغرق حتى 45 دقيقة",
+    ),
+    "faq_bullet_scheduled": MessageLookupByLibrary.simpleMessage(
+      "الحجز المجدول: حسب الموعد المختار",
+    ),
+    "faq_did_this_help": MessageLookupByLibrary.simpleMessage(
+      "هل ساعدك ذلك في حل مشكلتك؟",
+    ),
+    "faq_q_how_long_arrive": MessageLookupByLibrary.simpleMessage(
+      "كم من الوقت تحتاجون للوصول؟",
+    ),
+    "faq_q_payment_methods": MessageLookupByLibrary.simpleMessage(
+      "ما هي طرق الدفع المتاحة؟",
+    ),
+    "faq_search_hint": MessageLookupByLibrary.simpleMessage(
+      "ابحث عمّا يدور ببالك…",
+    ),
+    "faq_title": MessageLookupByLibrary.simpleMessage("الأسئلة الشائعة"),
+    "fastOffersAndAlerts": MessageLookupByLibrary.simpleMessage(
+      "عروض وتنبيهات سريعة ما تفوتك",
+    ),
+    "fieldRequired": MessageLookupByLibrary.simpleMessage("هذا الحقل مطلوب"),
+    "filter": MessageLookupByLibrary.simpleMessage("فلترة"),
+    "filter_apply": MessageLookupByLibrary.simpleMessage("تطبيق الفلتر"),
+    "filter_opt_12_3": MessageLookupByLibrary.simpleMessage(
+      "الطلبات من الساعه 12 الى 3",
+    ),
+    "filter_opt_3_6": MessageLookupByLibrary.simpleMessage(
+      "الطلبات من الساعه 3 الى 6",
+    ),
+    "filter_opt_6_9": MessageLookupByLibrary.simpleMessage(
+      "الطلبات من الساعه 6 الى 9",
+    ),
+    "filter_opt_9_12": MessageLookupByLibrary.simpleMessage(
+      "الطلبات من الساعه 9 الى 12",
+    ),
+    "filter_title": MessageLookupByLibrary.simpleMessage("فلترة الطلبات"),
+    "from_orders": m4,
+    "getVerificationCode": MessageLookupByLibrary.simpleMessage(
+      "احصل على رمز التحقق",
+    ),
+    "gold_plan": MessageLookupByLibrary.simpleMessage("باقة ذهبية"),
+    "helloName": m5,
+    "help": MessageLookupByLibrary.simpleMessage("المساعدة"),
+    "invalidMinutesMsg": MessageLookupByLibrary.simpleMessage(
+      "من فضلك أدخل عدد دقائق صالح",
+    ),
+    "keep_it_up": MessageLookupByLibrary.simpleMessage("واصل تميزك!"),
+    "last_earnings": MessageLookupByLibrary.simpleMessage("آخر الأرباح"),
+    "later": MessageLookupByLibrary.simpleMessage("لاحقًا"),
+    "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+    "loginTitle": MessageLookupByLibrary.simpleMessage("سجل دخولك."),
+    "logoutConfirm": MessageLookupByLibrary.simpleMessage("نعم، بالتأكيد!"),
+    "logoutTitle": MessageLookupByLibrary.simpleMessage("تسجيل الخروج!"),
+    "mapAddress": MessageLookupByLibrary.simpleMessage(
+      "شارع الملك فهد، الرياض",
+    ),
+    "mark_as_read": MessageLookupByLibrary.simpleMessage("تمييز كمقروء"),
+    "monthly": MessageLookupByLibrary.simpleMessage("شهري"),
+    "name": MessageLookupByLibrary.simpleMessage("الاسم"),
+    "no": MessageLookupByLibrary.simpleMessage("لا"),
+    "notifications": MessageLookupByLibrary.simpleMessage("الاشعارات"),
+    "notificationsTitle": MessageLookupByLibrary.simpleMessage("الإشعارات"),
+    "notifications_messages": MessageLookupByLibrary.simpleMessage(
+      "إشعارات الرسائل",
+    ),
+    "notifications_offers": MessageLookupByLibrary.simpleMessage(
+      "إشعارات العروض",
+    ),
+    "notifications_payment": MessageLookupByLibrary.simpleMessage(
+      "إشعارات إتمام الدفع",
+    ),
+    "notifications_reminders": MessageLookupByLibrary.simpleMessage(
+      "إشعارات التذكير",
+    ),
+    "notifications_title": MessageLookupByLibrary.simpleMessage("الإشعارات"),
+    "onboardingDescription": MessageLookupByLibrary.simpleMessage(
+      "خدمة غسيل سيارات متنقلة نقدم الخدمة في مكان العميل بواسطة فريق مؤهل ومجهز",
+    ),
+    "oneHour": MessageLookupByLibrary.simpleMessage("ساعة"),
+    "order_number": MessageLookupByLibrary.simpleMessage("رقم الطلب"),
+    "orders_count": m6,
+    "orders_current": MessageLookupByLibrary.simpleMessage("الحالية"),
+    "orders_past": MessageLookupByLibrary.simpleMessage("السابقة"),
+    "orders_so_far_title": MessageLookupByLibrary.simpleMessage(
+      "عدد الطلبات حتى الآن",
+    ),
+    "orders_title": MessageLookupByLibrary.simpleMessage("الطلبات"),
+    "orders_upcoming": MessageLookupByLibrary.simpleMessage("القادمة"),
+    "other": MessageLookupByLibrary.simpleMessage("أخرى"),
+    "package": MessageLookupByLibrary.simpleMessage("الباقة"),
+    "package_silver": MessageLookupByLibrary.simpleMessage("الفضية"),
+    "packages": MessageLookupByLibrary.simpleMessage("الباقات"),
+    "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "phoneNumberHint": MessageLookupByLibrary.simpleMessage("0000..."),
+    "privacy_policy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
+    "privacy_title": MessageLookupByLibrary.simpleMessage("الخصوصية"),
+    "profile_email": MessageLookupByLibrary.simpleMessage("عنوان البريد"),
+    "profile_name_sample": MessageLookupByLibrary.simpleMessage("سارة محمد"),
+    "profile_phone": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "profile_title": MessageLookupByLibrary.simpleMessage("حسابي الشخصي"),
+    "profile_username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
+    "rateApp": MessageLookupByLibrary.simpleMessage("تقييم التطبيق"),
+    "refund_cancellation_policy": MessageLookupByLibrary.simpleMessage(
+      "سياسة الاسترداد والإلغاء",
+    ),
+    "resendCode": MessageLookupByLibrary.simpleMessage("أعد إرسال الرمز."),
+    "roleDelegate": MessageLookupByLibrary.simpleMessage("مندوب"),
+    "save": MessageLookupByLibrary.simpleMessage("حفظ"),
+    "searchNotifications": MessageLookupByLibrary.simpleMessage(
+      "ابحث في الإشعارات",
+    ),
+    "search_hint": MessageLookupByLibrary.simpleMessage(
+      "ابحث عن ما يدور ببالك.......",
+    ),
+    "security_and_privacy": MessageLookupByLibrary.simpleMessage(
+      "الأمان والخصوصية",
+    ),
+    "service_example": m7,
+    "service_inside_out": MessageLookupByLibrary.simpleMessage(
+      "غسيل خارجي وداخلي",
+    ),
+    "service_label": MessageLookupByLibrary.simpleMessage("الخدمة"),
+    "service_title": MessageLookupByLibrary.simpleMessage("غسيل خارجي"),
+    "service_type": MessageLookupByLibrary.simpleMessage("نوع الخدمه"),
+    "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+    "settingsTitle": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+    "shareWithFriends": MessageLookupByLibrary.simpleMessage("شارك مع أصدقائك"),
+    "startService": MessageLookupByLibrary.simpleMessage("بدء الخدمه"),
+    "status_availableNow": MessageLookupByLibrary.simpleMessage("متاح الآن"),
+    "status_in_progress": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
+    "status_label": MessageLookupByLibrary.simpleMessage("الحالة"),
+    "status_unavailable": MessageLookupByLibrary.simpleMessage("غير متاح"),
+    "support": MessageLookupByLibrary.simpleMessage("الدعم"),
+    "terms_conditions": MessageLookupByLibrary.simpleMessage("الشروط والأحكام"),
+    "threeHours": MessageLookupByLibrary.simpleMessage("ثلاث ساعات"),
+    "time_label": MessageLookupByLibrary.simpleMessage("الوقت"),
+    "today": MessageLookupByLibrary.simpleMessage("اليوم"),
+    "today_earnings": MessageLookupByLibrary.simpleMessage("أرباح اليوم"),
+    "today_orders": MessageLookupByLibrary.simpleMessage("طلبات اليوم"),
+    "today_profit": MessageLookupByLibrary.simpleMessage("أرباح اليوم"),
+    "tryMobileWashComfort": MessageLookupByLibrary.simpleMessage(
+      "جرب راحة الغسيل المتنقل",
+    ),
+    "twoDaysAgo": MessageLookupByLibrary.simpleMessage("منذ يومين"),
+    "twoHours": MessageLookupByLibrary.simpleMessage("ساعتين"),
+    "unavailableForLabel": MessageLookupByLibrary.simpleMessage(
+      "غير متاح لمدة",
+    ),
+    "unread": MessageLookupByLibrary.simpleMessage("غير مقروء"),
+    "user_agreement": MessageLookupByLibrary.simpleMessage("اتفاقية الاستخدام"),
+    "view": MessageLookupByLibrary.simpleMessage("عرض"),
+    "wallet": MessageLookupByLibrary.simpleMessage("محفظتك"),
+    "washes_count": MessageLookupByLibrary.simpleMessage("عدد الغسلات"),
+    "yes": MessageLookupByLibrary.simpleMessage("نعم"),
+    "yesterday": MessageLookupByLibrary.simpleMessage("أمس"),
+    "you_got_this": MessageLookupByLibrary.simpleMessage("إنت قدّها، كفو! 💪"),
+  };
 }

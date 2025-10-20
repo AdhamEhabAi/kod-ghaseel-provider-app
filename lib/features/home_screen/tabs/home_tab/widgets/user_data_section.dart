@@ -9,7 +9,9 @@ import '../../../../../Utilites/app_style/style.dart';
 import '../../../../../core/router/router.dart';
 
 class UserDataSection extends StatelessWidget {
-  const UserDataSection({super.key});
+  const UserDataSection({super.key, required this.name, required this.subtitle});
+  final String name;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +28,11 @@ class UserDataSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "سارة محمد",
+                name,
                 style: AppTextStyle.blackW600Size16Roboto,
               ),
               Text(
-                "شارع الملك فهد, الرياض",
+                subtitle,
                 style: AppTextStyle.greyTextW600Size12.copyWith(fontSize: 16.sp),
               ),
             ],
