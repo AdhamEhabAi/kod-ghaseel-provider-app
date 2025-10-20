@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/accepting_rate_container.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/balance_container.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/number_of_orders_container.dart';
@@ -7,6 +8,8 @@ import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widg
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/user_data_section.dart';
 
 import '../../../../Utilites/app_fonts/font.dart';
+import '../../../../core/router/router.dart';
+import '../../../../generated/l10n.dart';
 import '../../widgets/home_sliver_app_bar.dart';
 
 class HomeTab extends StatelessWidget {
@@ -14,6 +17,7 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var s=S.of(context);
     return Scaffold(
       backgroundColor: const Color(0xffF2F4F5),
       body: CustomScrollView(
@@ -53,7 +57,9 @@ class HomeTab extends StatelessWidget {
                     style: AppTextStyle.blackW600Size14Roboto,
                   ),
                   SizedBox(height: 12.h),
-                  UserDataSection(),
+                  InkWell(
+                      onTap: () => GoRouter.of(context).push(AppRouter.serviceScreen),
+                      child: UserDataSection(subtitle:s.mapAddress ,name: "سارة محمد",)),
                   SizedBox(height: 12.h),
                   Text(
                     "الطلبات السابقة",

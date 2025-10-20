@@ -161,6 +161,13 @@
   "filter": "فلترة",
   "date": "التاريخ",
   "unread": "غير مقروء",
-  "apply_filter": "تطبيق الفلتر"
-
+  "apply_filter": "تطبيق الفلتر",
+  "mapAddress": "شارع الملك فهد، الرياض",
+  "startService": "بدء الخدمه",
+  "client": "عميل",
+  "day_and_time": "الوقت و اليوم",
+  "day_time_for_service": "الخميس 10 اغسطس",
+  "service_type": "نوع الخدمه",
+  "service_title": "غسيل خارجي",
+  "car_data": "تويوتا كامري 2022 - أبيض - أ ب ج 123"
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 // adjust this import to your app's localization path
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
@@ -18,7 +17,7 @@ class AcceptingRateContainer extends StatelessWidget {
     final l = S.of(context); // localization
 
     return Container(
-      height: 156.h,
+      height: 165.h,
       width: size.width * (156 / 390),
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
       decoration: BoxDecoration(

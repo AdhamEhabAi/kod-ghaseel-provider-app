@@ -159,5 +159,13 @@
   "filter": "Filter",
   "date": "Date",
   "unread": "Unread",
-  "apply_filter": "Apply Filter"
+  "apply_filter": "Apply Filter",
+  "mapAddress": "King Fahd Street, Riyadh",
+  "startService": "start service",
+  "client": "Client",
+  "day_and_time": "Day and Time",
+  "day_time_for_service": "Thursday, August 10",
+  "service_type": "Type of Service",
+  "service_title": "Exterior Wash",
+  "car_data": "Toyota Camry 2022 - White - A B J 123"
 }

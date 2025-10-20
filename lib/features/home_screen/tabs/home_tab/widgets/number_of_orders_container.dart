@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // adjust path if needed
 
 import '../../../../../Utilites/app_assets/assets.dart';
 import '../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../Utilites/app_style/style.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // adjust path if needed
 
 class NumberOfOrdersContainer extends StatelessWidget {
   const NumberOfOrdersContainer({
@@ -24,7 +24,7 @@ class NumberOfOrdersContainer extends StatelessWidget {
 
     return Container(
       width: size.width * (156 / 390),
-      height: 156.h,
+      height: 165.h,
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 12.h),
       decoration: BoxDecoration(
         color: AppStyle.primaryColorOpacity10,
