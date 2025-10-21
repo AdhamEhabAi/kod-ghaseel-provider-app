@@ -40,7 +40,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             children: [
-              const SizedBox(height: 8),
+               SizedBox(height: 8.h),
               SettingAppBar(title: s.profile_title), // "حسابي الشخصي"
               SizedBox(height: 45.h),
               SizedBox(

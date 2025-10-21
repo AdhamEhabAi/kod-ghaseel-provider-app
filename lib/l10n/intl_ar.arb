@@ -159,6 +159,9 @@
   "mark_as_read": "تمييز كمقروء",
   "delete": "حذف",
   "filter": "فلترة",
+  "orderProgressTitle": "تقدم الطلب",
+  "finishService": "إنهاء الخدمة",
+  "pauseTemporarily": "إيقاف مؤقت",
   "date": "التاريخ",
   "unread": "غير مقروء",
   "apply_filter": "تطبيق الفلتر",
@@ -169,5 +172,31 @@
   "day_time_for_service": "الخميس 10 اغسطس",
   "service_type": "نوع الخدمه",
   "service_title": "غسيل خارجي",
-  "car_data": "تويوتا كامري 2022 - أبيض - أ ب ج 123"
+  "car_data": "تويوتا كامري 2022 - أبيض - أ ب ج 123",
+  "step_arrival": "الوصول للموقع",
+  "step_checkCar": "التحقق من السيارة",
+  "step_startWashing": "بدء الغسيل",
+  "step_drying": "التجفيف",
+  "step_finishService": "إنهاء الخدمة",
+
+  "timeRange": "{from} - {to}",
+  "@timeRange": {
+    "description": "نطاق الوقت أسفل الخطوة",
+    "placeholders": {
+      "from": {"type": "String"},
+      "to": {"type": "String"}
+    }
+  },
+
+  "nMinutes": "{count} دقائق",
+  "@nMinutes": {
+    "description": "صيغة مختصرة للدقائق",
+    "placeholders": { "count": {"type": "int"} }
+  },
+
+  "nMinutesToFinish": "{count} دقائق حتى الانتهاء",
+  "@nMinutesToFinish": {
+    "description": "الوقت المتبقي حتى الانتهاء",
+    "placeholders": { "count": {"type": "int"} }
+  }
 }

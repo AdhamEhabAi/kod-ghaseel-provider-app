@@ -141,7 +141,9 @@
   "profile_phone": "Phone number",
 
   "acceptance_rate": "Acceptance rate",
-
+  "orderProgressTitle": "Order progress",
+  "finishService": "Finish service",
+  "pauseTemporarily": "Pause",
   "today_profit": "Today's Profit",
   "currency_sar": "SAR",
   "from_orders": "From {count} orders",
@@ -167,5 +169,33 @@
   "day_time_for_service": "Thursday, August 10",
   "service_type": "Type of Service",
   "service_title": "Exterior Wash",
-  "car_data": "Toyota Camry 2022 - White - A B J 123"
+  "car_data": "Toyota Camry 2022 - White - A B J 123",
+
+
+  "step_arrival": "Arrival to location",
+  "step_checkCar": "Check the car",
+  "step_startWashing": "Start washing",
+  "step_drying": "Drying",
+  "step_finishService": "Finish service",
+
+  "timeRange": "{from} - {to}",
+  "@timeRange": {
+    "description": "Time range shown under the step",
+    "placeholders": {
+      "from": {"type": "String"},
+      "to": {"type": "String"}
+    }
+  },
+
+  "nMinutes": "{count} min",
+  "@nMinutes": {
+    "description": "Short minutes label",
+    "placeholders": { "count": {"type": "int"} }
+  },
+
+  "nMinutesToFinish": "{count} min to finish",
+  "@nMinutesToFinish": {
+    "description": "Minutes remaining to finish",
+    "placeholders": { "count": {"type": "int"} }
+  }
 }
