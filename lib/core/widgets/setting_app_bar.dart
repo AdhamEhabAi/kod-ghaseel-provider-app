@@ -20,28 +20,31 @@ class SettingAppBar extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(14.r),
           ),
-          child: Row(
-            children: [
-              Spacer(),
-              Text(title, style: AppTextStyle.blackW600Size16Roboto),
-              Spacer(),
-              InkWell(
-                borderRadius: BorderRadius.circular(10),
-                onTap: () {
-                  GoRouter.of(context).pop();
-                },
-                child: Container(
-                  width: 36.w,
-                  height: 36.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppStyle.whereto),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(7.r),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Row(
+              children: [
+                Spacer(),
+                Text(title, style: AppTextStyle.blackW600Size16Roboto),
+                Spacer(),
+                InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () {
+                    GoRouter.of(context).pop();
+                  },
+                  child: Container(
+                    width: 36.w,
+                    height: 36.h,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppStyle.whereto),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(7.r),
+                    ),
+                    child: Icon(Icons.arrow_forward_ios_rounded, size: 18),
                   ),
-                  child: Icon(Icons.arrow_forward_ios_rounded, size: 18),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

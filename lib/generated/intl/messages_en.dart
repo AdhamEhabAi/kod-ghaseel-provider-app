@@ -64,6 +64,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "avg_order": MessageLookupByLibrary.simpleMessage("Average Order"),
     "browseAsGuest": MessageLookupByLibrary.simpleMessage("Login as Guest"),
     "cannotEnableYet": m0,
+    "carServiceDescription": MessageLookupByLibrary.simpleMessage(
+      "Toyota Camry - full wash - 2.5 km",
+    ),
     "carTipsAndSolutions": MessageLookupByLibrary.simpleMessage(
       "Tips and tricks to keep your car clean",
     ),
@@ -76,6 +79,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "completed_orders": m1,
     "cookies_policy": MessageLookupByLibrary.simpleMessage("Cookies Policy"),
     "currency_sar": MessageLookupByLibrary.simpleMessage("SAR"),
+    "currentOrder": MessageLookupByLibrary.simpleMessage("current order"),
     "daily": MessageLookupByLibrary.simpleMessage("Daily"),
     "daily_orders": m2,
     "date": MessageLookupByLibrary.simpleMessage("Date"),
@@ -170,10 +174,41 @@ class MessageLookup extends MessageLookupByLibrary {
     "mapAddress": MessageLookupByLibrary.simpleMessage(
       "King Fahd Street, Riyadh",
     ),
+    "markAsRead": MessageLookupByLibrary.simpleMessage("Mark as read"),
     "mark_as_read": MessageLookupByLibrary.simpleMessage("Mark as read"),
     "monthly": MessageLookupByLibrary.simpleMessage("Monthly"),
     "name": MessageLookupByLibrary.simpleMessage("Name"),
     "no": MessageLookupByLibrary.simpleMessage("No"),
+    "notification1Subtitle": MessageLookupByLibrary.simpleMessage(
+      "Enjoy shopping while we clean it.",
+    ),
+    "notification1Title": MessageLookupByLibrary.simpleMessage(
+      "Your car wash has started! 🚗",
+    ),
+    "notification2Subtitle": MessageLookupByLibrary.simpleMessage(
+      "The wash is complete successfully.",
+    ),
+    "notification2Title": MessageLookupByLibrary.simpleMessage(
+      "Your car is sparkling clean! ✨",
+    ),
+    "notification3Subtitle": MessageLookupByLibrary.simpleMessage(
+      "Book your next wash now.",
+    ),
+    "notification3Title": MessageLookupByLibrary.simpleMessage(
+      "Your car has been delivered! 🌺",
+    ),
+    "notification4Subtitle": MessageLookupByLibrary.simpleMessage(
+      "Our driver is on the way to pick up the car.",
+    ),
+    "notification4Title": MessageLookupByLibrary.simpleMessage(
+      "Your order is being processed 🧽",
+    ),
+    "notification5Subtitle": MessageLookupByLibrary.simpleMessage(
+      "Your car will be washed regularly.",
+    ),
+    "notification5Title": MessageLookupByLibrary.simpleMessage(
+      "Your subscription is active! 🧼",
+    ),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
     "notificationsTitle": MessageLookupByLibrary.simpleMessage("Notifications"),
     "notifications_messages": MessageLookupByLibrary.simpleMessage(
@@ -210,6 +245,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "packages": MessageLookupByLibrary.simpleMessage("Packages"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
     "phoneNumberHint": MessageLookupByLibrary.simpleMessage("0000..."),
+    "previousOrders": MessageLookupByLibrary.simpleMessage("previous orders"),
     "privacy_policy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "privacy_title": MessageLookupByLibrary.simpleMessage("Privacy"),
     "profile_email": MessageLookupByLibrary.simpleMessage("Email address"),
@@ -257,6 +293,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Terms & Conditions",
     ),
     "threeHours": MessageLookupByLibrary.simpleMessage("3 hours"),
+    "timeYesterday": MessageLookupByLibrary.simpleMessage("Yesterday"),
     "time_label": MessageLookupByLibrary.simpleMessage("Time"),
     "today": MessageLookupByLibrary.simpleMessage("Today"),
     "today_earnings": MessageLookupByLibrary.simpleMessage("Today\'s earnings"),
@@ -275,6 +312,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "view": MessageLookupByLibrary.simpleMessage("View"),
     "wallet": MessageLookupByLibrary.simpleMessage("Your Wallet"),
     "washes_count": MessageLookupByLibrary.simpleMessage("Washes"),
+    "writeMessage": MessageLookupByLibrary.simpleMessage("Write Message..."),
     "yes": MessageLookupByLibrary.simpleMessage("Yes"),
     "yesterday": MessageLookupByLibrary.simpleMessage("Yesterday"),
     "you_got_this": MessageLookupByLibrary.simpleMessage(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // adjust if your l10n path differs
 
 import '../../../../../Utilites/app_assets/assets.dart';
 import '../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../Utilites/app_style/style.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // adjust if your l10n path differs
 
 class OrderInformation extends StatelessWidget {
   const OrderInformation({
@@ -35,19 +35,22 @@ class OrderInformation extends StatelessWidget {
         child: Column(
           children: [
             // Header row: client name + lightning icon
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    clientName,
-                    style: AppTextStyle.blackW500Size14,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      clientName,
+                      style: AppTextStyle.blackW500Size14,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                SizedBox(width: 6.w),
-                SvgPicture.asset(Assets.lightningIconSVG, height: 22.h),
-              ],
+                  SizedBox(width: 6.w),
+                  SvgPicture.asset(Assets.lightningIconSVG, height: 22.h),
+                ],
+              ),
             ),
 
             SizedBox(height: 12.h),
@@ -68,32 +71,30 @@ class OrderInformation extends StatelessWidget {
             Row(
               children: [
                 // Description pill
-                Flexible(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(98.r),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(Assets.calenderScreenIconSVG, height: 18.h),
-                        SizedBox(width: 6.w),
-                        Flexible(
-                          child: Text(
-                            serviceDescription,
-                            style: AppTextStyle.blackW500Size10,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(98.r),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset(Assets.calenderScreenIconSVG, height: 18.h),
+                      SizedBox(width: 6.w),
+                      Flexible(
+                        child: Text(
+                          serviceDescription,
+                          style: AppTextStyle.blackW500Size10,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
 
-                SizedBox(width: 8.w),
+               Spacer(),
 
                 // "View" pill
                 InkWell(

@@ -8,6 +8,7 @@ import 'package:kod_ghaseel_provider_app/features/notification/widgets/notificat
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/notificatoin_card.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 import '../../Utilites/app_fonts/font.dart';
 import '../../core/router/router.dart';
 import '../../shared/shared_widget.dart';
@@ -34,33 +35,38 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   final TextEditingController searchController = TextEditingController();
 
-  final List<NotificationModel> notifications = [
-    NotificationModel(
-      title: "🚗 غسيل سيارتك بدأ!",
-      subtitle: "المندوب في الطريق.",
-      createdAt: DateTime.now().subtract(const Duration(hours: 1)), // اليوم
-    ),
-    NotificationModel(
-      title: "✨ سيارتك صارت جديدة!",
-      subtitle: "تم إنهاء طلبك.",
-      createdAt: DateTime.now().subtract(const Duration(hours: 3)), // اليوم
-    ),
-    NotificationModel(
-      title: "⏰ لا تنسَ سيارتك!",
-      subtitle: "احجز غسيلك القادم.",
-      createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 1)), // أمس
-    ),
-    NotificationModel(
-      title: "💦 طلبك قيد التنفيذ",
-      subtitle: "جاري غسيل السيارة.",
-      createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 4)), // أمس
-    ),
-    NotificationModel(
-      title: "🕒 المندوب وصل!",
-      subtitle: "سيارتك بتتغسل الآن.",
-      createdAt: DateTime.now().subtract(const Duration(days: 10)), // منذ 10 أيام
-    ),
-  ];
+  List<NotificationModel> buildNotifications(BuildContext context) {
+    final l10n = S.of(context);
+
+    return [
+      NotificationModel(
+        title: l10n.notification1Title,
+        subtitle: l10n.notification1Subtitle,
+        createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+      ),
+      NotificationModel(
+        title: l10n.notification2Title,
+        subtitle: l10n.notification2Subtitle,
+        createdAt: DateTime.now().subtract(const Duration(hours: 3)),
+      ),
+      NotificationModel(
+        title: l10n.notification3Title,
+        subtitle: l10n.notification3Subtitle,
+        createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 1)),
+      ),
+      NotificationModel(
+        title: l10n.notification4Title,
+        subtitle: l10n.notification4Subtitle,
+        createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 4)),
+      ),
+      NotificationModel(
+        title: l10n.notification5Title,
+        subtitle: l10n.notification5Subtitle,
+        createdAt: DateTime.now().subtract(const Duration(days: 10)),
+      ),
+    ];
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,15 +78,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
           padding: EdgeInsets.symmetric(horizontal: 21.w),
           child: Column(
             children: [
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () => GoRouter.of(context).push(AppRouter.filterScreen),
-                    child: const CustomFilterButton(),
-                  ),
-                  const Spacer(),
-                  const CustomBackButton(),
-                ],
+              Directionality(
+                textDirection: TextDirection.rtl,
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () => GoRouter.of(context).push(AppRouter.filterScreen),
+                      child: const CustomFilterButton(),
+                    ),
+                    const Spacer(),
+                    const CustomBackButton(),
+                  ],
+                ),
               ),
               SizedBox(height: 25.h),
 
@@ -93,10 +102,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
               // ✅ Localized search field
               CustomTextFormField(
-                textDirection: TextDirection.rtl,
+                textDirection: TextDirection.ltr,
                 prefixIcon: const Icon(Icons.search, color: Colors.black),
                 hintText: s.searchNotifications,
-                hintTextDirection: TextDirection.rtl,
+                hintTextDirection: TextDirection.ltr,
                 colorBorder: const Color(0xffEEEEEE),
                 color: Colors.transparent,
                 controller: searchController,
@@ -106,7 +115,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               // ✅ Notifications list
               Expanded(
                 child: GroupedListView<NotificationModel, int>(
-                  elements: notifications,
+                  elements: buildNotifications(context),
                   groupBy: (n) => n.daysBetween,
                   order: GroupedListOrder.ASC,
                   groupSeparatorBuilder: (diff) => Padding(

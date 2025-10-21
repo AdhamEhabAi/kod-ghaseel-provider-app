@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../Utilites/app_fonts/font.dart';
 import '../../Utilites/app_style/style.dart';
+import '../../generated/l10n.dart';
 
 
 class ChatScreen extends StatefulWidget {
@@ -65,7 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
-
+    var s=S.of(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppStyle.grey,
@@ -80,34 +81,37 @@ class _ChatScreenState extends State<ChatScreen> {
                 borderRadius: BorderRadius.circular(12.r),
                 border: Border.all(color: AppStyle.grey, width: 1),
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        widget.userName,
-                        style: AppTextStyle.blackW600Size16Roboto,
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          widget.userName,
+                          style: AppTextStyle.blackW600Size16Roboto,
+                        ),
                       ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () => GoRouter.of(context).pop(),
-                    child: Container(
-                      width: 40.w,
-                      height: 40.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.r),
-                        color: Colors.white,
-                        border: Border.all(color: AppStyle.grey),
-                      ),
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20.w,
-                        color: Colors.black,
+                    InkWell(
+                      onTap: () => GoRouter.of(context).pop(),
+                      child: Container(
+                        width: 40.w,
+                        height: 40.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.r),
+                          color: Colors.white,
+                          border: Border.all(color: AppStyle.grey),
+                        ),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20.w,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
 
@@ -192,8 +196,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: TextField(
                         controller: _controller,
                         style: TextStyle(fontSize: 14.sp),
-                        decoration: const InputDecoration(
-                          hintText: 'اكتب رسالة...',
+                        decoration:  InputDecoration(
+                          hintText:s.writeMessage,
                           border: InputBorder.none,
                         ),
                       ),
