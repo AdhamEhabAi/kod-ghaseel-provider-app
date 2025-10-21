@@ -199,4 +199,20 @@
     "description": "الوقت المتبقي حتى الانتهاء",
     "placeholders": { "count": {"type": "int"} }
   }
+  "currentOrder": "الطلب الحالي",
+  "previousOrders": "الطلبات السابقة",
+  "carServiceDescription": "تويتا كامري - غسيل كامل - 2.5 كم",
+  "notification1Title": "غسيل سيارتك بدأ! 🚗",
+  "notification1Subtitle": "استمتع في التسوّق بينما نغسلها.",
+  "notification2Title": "سيارتك جاهزة جميلة! ✨",
+  "notification2Subtitle": "تم غسيل سيارتك بنجاح.",
+  "notification3Title": "تم تسليم سيارتك! 🌺",
+  "notification3Subtitle": "احجز غسيلك القادم الآن.",
+  "notification4Title": "طلبك قيد التنفيذ 🧽",
+  "notification4Subtitle": "سائقنا في الطريق لاستلام السيارة.",
+  "notification5Title": "اشتراكك وصل! 🧼",
+  "notification5Subtitle": "سيارتك ستتلقى غسيلًا دوريًا.",
+  "timeYesterday": "أمس",
+  "markAsRead": "تمييز كمقروء",
+  "writeMessage": "اكتب رسالة..."
 }

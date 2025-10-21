@@ -198,4 +198,20 @@
     "description": "Minutes remaining to finish",
     "placeholders": { "count": {"type": "int"} }
   }
+  "currentOrder": "current order",
+  "previousOrders": "previous orders",
+  "carServiceDescription": "Toyota Camry - full wash - 2.5 km",
+  "notification1Title": "Your car wash has started! 🚗",
+  "notification1Subtitle": "Enjoy shopping while we clean it.",
+  "notification2Title": "Your car is sparkling clean! ✨",
+  "notification2Subtitle": "The wash is complete successfully.",
+  "notification3Title": "Your car has been delivered! 🌺",
+  "notification3Subtitle": "Book your next wash now.",
+  "notification4Title": "Your order is being processed 🧽",
+  "notification4Subtitle": "Our driver is on the way to pick up the car.",
+  "notification5Title": "Your subscription is active! 🧼",
+  "notification5Subtitle": "Your car will be washed regularly.",
+  "timeYesterday": "Yesterday",
+  "markAsRead": "Mark as read",
+  "writeMessage": "Write Message..."
 }

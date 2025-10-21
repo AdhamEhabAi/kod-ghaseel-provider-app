@@ -53,7 +53,7 @@ class HomeTab extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
                   Text(
-                    "الطلب الحالي",
+                    s.currentOrder,
                     style: AppTextStyle.blackW600Size14Roboto,
                   ),
                   SizedBox(height: 12.h),
@@ -62,18 +62,18 @@ class HomeTab extends StatelessWidget {
                       child: UserDataSection(subtitle:s.mapAddress ,name: "سارة محمد",)),
                   SizedBox(height: 12.h),
                   Text(
-                    "الطلبات السابقة",
+                    s.previousOrders,
                     style: AppTextStyle.blackW600Size14Roboto,
                   ),
                   SizedBox(height: 6.h),
                   OrderInformation(
                     clientName: "ساره على",
-                    serviceDescription: "تويتا كامري - غسيل كامل - 2.5 كم",
+                    serviceDescription: s.carServiceDescription,
                   ),
                   SizedBox(height: 12.h),
                   OrderInformation(
                     clientName: "منى خالد",
-                    serviceDescription: "تويتا كامري - غسيل كامل - 2.5 كم",
+                    serviceDescription: s.carServiceDescription
                   ),
                 ],
               ),

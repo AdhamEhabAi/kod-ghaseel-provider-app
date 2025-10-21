@@ -1218,6 +1218,156 @@ class S {
       args: [],
     );
   }
+
+  /// `current order`
+  String get currentOrder {
+    return Intl.message(
+      'current order',
+      name: 'currentOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `previous orders`
+  String get previousOrders {
+    return Intl.message(
+      'previous orders',
+      name: 'previousOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Toyota Camry - full wash - 2.5 km`
+  String get carServiceDescription {
+    return Intl.message(
+      'Toyota Camry - full wash - 2.5 km',
+      name: 'carServiceDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your car wash has started! 🚗`
+  String get notification1Title {
+    return Intl.message(
+      'Your car wash has started! 🚗',
+      name: 'notification1Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enjoy shopping while we clean it.`
+  String get notification1Subtitle {
+    return Intl.message(
+      'Enjoy shopping while we clean it.',
+      name: 'notification1Subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your car is sparkling clean! ✨`
+  String get notification2Title {
+    return Intl.message(
+      'Your car is sparkling clean! ✨',
+      name: 'notification2Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The wash is complete successfully.`
+  String get notification2Subtitle {
+    return Intl.message(
+      'The wash is complete successfully.',
+      name: 'notification2Subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your car has been delivered! 🌺`
+  String get notification3Title {
+    return Intl.message(
+      'Your car has been delivered! 🌺',
+      name: 'notification3Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Book your next wash now.`
+  String get notification3Subtitle {
+    return Intl.message(
+      'Book your next wash now.',
+      name: 'notification3Subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your order is being processed 🧽`
+  String get notification4Title {
+    return Intl.message(
+      'Your order is being processed 🧽',
+      name: 'notification4Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Our driver is on the way to pick up the car.`
+  String get notification4Subtitle {
+    return Intl.message(
+      'Our driver is on the way to pick up the car.',
+      name: 'notification4Subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your subscription is active! 🧼`
+  String get notification5Title {
+    return Intl.message(
+      'Your subscription is active! 🧼',
+      name: 'notification5Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your car will be washed regularly.`
+  String get notification5Subtitle {
+    return Intl.message(
+      'Your car will be washed regularly.',
+      name: 'notification5Subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yesterday`
+  String get timeYesterday {
+    return Intl.message('Yesterday', name: 'timeYesterday', desc: '', args: []);
+  }
+
+  /// `Mark as read`
+  String get markAsRead {
+    return Intl.message('Mark as read', name: 'markAsRead', desc: '', args: []);
+  }
+
+  /// `Write Message...`
+  String get writeMessage {
+    return Intl.message(
+      'Write Message...',
+      name: 'writeMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
