@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kod_ghaseel_provider_app/core/router/router.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/user_data_section.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/widgets/adding_address_title_widget.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/widgets/service_screen_app_bar.dart';
@@ -85,7 +87,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
 
       floatingActionButton: DefaultButton(
         onPressed: () {
-          // Todo: navigate to order progress screen
+          GoRouter.of(context).push(AppRouter.serviceProgressScreen);
         },
         titleWidget: Text(
           s.startService, 
