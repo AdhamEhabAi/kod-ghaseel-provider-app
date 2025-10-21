@@ -197,7 +197,7 @@
   "@nMinutesToFinish": {
     "description": "Minutes remaining to finish",
     "placeholders": { "count": {"type": "int"} }
-  }
+  },
   "currentOrder": "current order",
   "previousOrders": "previous orders",
   "carServiceDescription": "Toyota Camry - full wash - 2.5 km",

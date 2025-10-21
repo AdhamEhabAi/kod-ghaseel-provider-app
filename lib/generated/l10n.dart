@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -1014,6 +1013,31 @@ class S {
     );
   }
 
+  /// `Order progress`
+  String get orderProgressTitle {
+    return Intl.message(
+      'Order progress',
+      name: 'orderProgressTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finish service`
+  String get finishService {
+    return Intl.message(
+      'Finish service',
+      name: 'finishService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pause`
+  String get pauseTemporarily {
+    return Intl.message('Pause', name: 'pauseTemporarily', desc: '', args: []);
+  }
+
   /// `Today's Profit`
   String get today_profit {
     return Intl.message(
@@ -1216,6 +1240,81 @@ class S {
       name: 'car_data',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Arrival to location`
+  String get step_arrival {
+    return Intl.message(
+      'Arrival to location',
+      name: 'step_arrival',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check the car`
+  String get step_checkCar {
+    return Intl.message(
+      'Check the car',
+      name: 'step_checkCar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start washing`
+  String get step_startWashing {
+    return Intl.message(
+      'Start washing',
+      name: 'step_startWashing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drying`
+  String get step_drying {
+    return Intl.message('Drying', name: 'step_drying', desc: '', args: []);
+  }
+
+  /// `Finish service`
+  String get step_finishService {
+    return Intl.message(
+      'Finish service',
+      name: 'step_finishService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{from} - {to}`
+  String timeRange(String from, String to) {
+    return Intl.message(
+      '$from - $to',
+      name: 'timeRange',
+      desc: 'Time range shown under the step',
+      args: [from, to],
+    );
+  }
+
+  /// `{count} min`
+  String nMinutes(int count) {
+    return Intl.message(
+      '$count min',
+      name: 'nMinutes',
+      desc: 'Short minutes label',
+      args: [count],
+    );
+  }
+
+  /// `{count} min to finish`
+  String nMinutesToFinish(int count) {
+    return Intl.message(
+      '$count min to finish',
+      name: 'nMinutesToFinish',
+      desc: 'Minutes remaining to finish',
+      args: [count],
     );
   }
 

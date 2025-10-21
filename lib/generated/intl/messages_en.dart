@@ -35,10 +35,16 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m5(name) => "Hello ${name} 👋";
 
-  static String m6(count) =>
+  static String m6(count) => "${count} min";
+
+  static String m7(count) => "${count} min to finish";
+
+  static String m8(count) =>
       "${Intl.plural(count, zero: 'orders', one: 'order', other: 'orders')}";
 
-  static String m7(service, time) => "${service} - ${time}";
+  static String m9(service, time) => "${service} - ${time}";
+
+  static String m10(from, to) => "${from} - ${to}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -154,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Orders from 9 to 12",
     ),
     "filter_title": MessageLookupByLibrary.simpleMessage("Filter orders"),
+    "finishService": MessageLookupByLibrary.simpleMessage("Finish service"),
     "from_orders": m4,
     "getVerificationCode": MessageLookupByLibrary.simpleMessage(
       "Get Verification Code",
@@ -177,6 +184,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "markAsRead": MessageLookupByLibrary.simpleMessage("Mark as read"),
     "mark_as_read": MessageLookupByLibrary.simpleMessage("Mark as read"),
     "monthly": MessageLookupByLibrary.simpleMessage("Monthly"),
+    "nMinutes": m6,
+    "nMinutesToFinish": m7,
     "name": MessageLookupByLibrary.simpleMessage("Name"),
     "no": MessageLookupByLibrary.simpleMessage("No"),
     "notification1Subtitle": MessageLookupByLibrary.simpleMessage(
@@ -230,8 +239,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "A mobile car wash service that comes to you, provided by a qualified and equipped team.",
     ),
     "oneHour": MessageLookupByLibrary.simpleMessage("1 hour"),
+    "orderProgressTitle": MessageLookupByLibrary.simpleMessage(
+      "Order progress",
+    ),
     "order_number": MessageLookupByLibrary.simpleMessage("Order No."),
-    "orders_count": m6,
+    "orders_count": m8,
     "orders_current": MessageLookupByLibrary.simpleMessage("Current"),
     "orders_past": MessageLookupByLibrary.simpleMessage("Past"),
     "orders_so_far_title": MessageLookupByLibrary.simpleMessage(
@@ -243,6 +255,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "package": MessageLookupByLibrary.simpleMessage("Package"),
     "package_silver": MessageLookupByLibrary.simpleMessage("Silver"),
     "packages": MessageLookupByLibrary.simpleMessage("Packages"),
+    "pauseTemporarily": MessageLookupByLibrary.simpleMessage("Pause"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
     "phoneNumberHint": MessageLookupByLibrary.simpleMessage("0000..."),
     "previousOrders": MessageLookupByLibrary.simpleMessage("previous orders"),
@@ -269,7 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "security_and_privacy": MessageLookupByLibrary.simpleMessage(
       "Security and Privacy",
     ),
-    "service_example": m7,
+    "service_example": m9,
     "service_inside_out": MessageLookupByLibrary.simpleMessage(
       "Exterior & Interior Wash",
     ),
@@ -288,11 +301,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "status_in_progress": MessageLookupByLibrary.simpleMessage("In Progress"),
     "status_label": MessageLookupByLibrary.simpleMessage("Status"),
     "status_unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
+    "step_arrival": MessageLookupByLibrary.simpleMessage("Arrival to location"),
+    "step_checkCar": MessageLookupByLibrary.simpleMessage("Check the car"),
+    "step_drying": MessageLookupByLibrary.simpleMessage("Drying"),
+    "step_finishService": MessageLookupByLibrary.simpleMessage(
+      "Finish service",
+    ),
+    "step_startWashing": MessageLookupByLibrary.simpleMessage("Start washing"),
     "support": MessageLookupByLibrary.simpleMessage("Support"),
     "terms_conditions": MessageLookupByLibrary.simpleMessage(
       "Terms & Conditions",
     ),
     "threeHours": MessageLookupByLibrary.simpleMessage("3 hours"),
+    "timeRange": m10,
     "timeYesterday": MessageLookupByLibrary.simpleMessage("Yesterday"),
     "time_label": MessageLookupByLibrary.simpleMessage("Time"),
     "today": MessageLookupByLibrary.simpleMessage("Today"),

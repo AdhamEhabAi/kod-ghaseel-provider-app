@@ -53,6 +53,8 @@ dependencies:
   salomon_bottom_bar: ^3.3.2
   badges: ^3.1.2
   shared_preferences:
+  firebase_core:
+  change_app_package_name: ^1.5.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

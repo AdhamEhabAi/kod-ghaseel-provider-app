@@ -35,10 +35,16 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m5(name) => "مرحباً ${name} 👋";
 
-  static String m6(count) =>
+  static String m6(count) => "${count} دقائق";
+
+  static String m7(count) => "${count} دقائق حتى الانتهاء";
+
+  static String m8(count) =>
       "${Intl.plural(count, zero: 'طلبات', one: 'طلب', other: 'طلبات')}";
 
-  static String m7(service, time) => "${service} - ${time}";
+  static String m9(service, time) => "${service} - ${time}";
+
+  static String m10(from, to) => "${from} - ${to}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -152,6 +158,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "الطلبات من الساعه 9 الى 12",
     ),
     "filter_title": MessageLookupByLibrary.simpleMessage("فلترة الطلبات"),
+    "finishService": MessageLookupByLibrary.simpleMessage("إنهاء الخدمة"),
     "from_orders": m4,
     "getVerificationCode": MessageLookupByLibrary.simpleMessage(
       "احصل على رمز التحقق",
@@ -175,6 +182,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "markAsRead": MessageLookupByLibrary.simpleMessage("تمييز كمقروء"),
     "mark_as_read": MessageLookupByLibrary.simpleMessage("تمييز كمقروء"),
     "monthly": MessageLookupByLibrary.simpleMessage("شهري"),
+    "nMinutes": m6,
+    "nMinutesToFinish": m7,
     "name": MessageLookupByLibrary.simpleMessage("الاسم"),
     "no": MessageLookupByLibrary.simpleMessage("لا"),
     "notification1Subtitle": MessageLookupByLibrary.simpleMessage(
@@ -226,8 +235,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "خدمة غسيل سيارات متنقلة نقدم الخدمة في مكان العميل بواسطة فريق مؤهل ومجهز",
     ),
     "oneHour": MessageLookupByLibrary.simpleMessage("ساعة"),
+    "orderProgressTitle": MessageLookupByLibrary.simpleMessage("تقدم الطلب"),
     "order_number": MessageLookupByLibrary.simpleMessage("رقم الطلب"),
-    "orders_count": m6,
+    "orders_count": m8,
     "orders_current": MessageLookupByLibrary.simpleMessage("الحالية"),
     "orders_past": MessageLookupByLibrary.simpleMessage("السابقة"),
     "orders_so_far_title": MessageLookupByLibrary.simpleMessage(
@@ -239,6 +249,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "package": MessageLookupByLibrary.simpleMessage("الباقة"),
     "package_silver": MessageLookupByLibrary.simpleMessage("الفضية"),
     "packages": MessageLookupByLibrary.simpleMessage("الباقات"),
+    "pauseTemporarily": MessageLookupByLibrary.simpleMessage("إيقاف مؤقت"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "phoneNumberHint": MessageLookupByLibrary.simpleMessage("0000..."),
     "previousOrders": MessageLookupByLibrary.simpleMessage("الطلبات السابقة"),
@@ -265,7 +276,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "security_and_privacy": MessageLookupByLibrary.simpleMessage(
       "الأمان والخصوصية",
     ),
-    "service_example": m7,
+    "service_example": m9,
     "service_inside_out": MessageLookupByLibrary.simpleMessage(
       "غسيل خارجي وداخلي",
     ),
@@ -280,9 +291,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "status_in_progress": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
     "status_label": MessageLookupByLibrary.simpleMessage("الحالة"),
     "status_unavailable": MessageLookupByLibrary.simpleMessage("غير متاح"),
+    "step_arrival": MessageLookupByLibrary.simpleMessage("الوصول للموقع"),
+    "step_checkCar": MessageLookupByLibrary.simpleMessage("التحقق من السيارة"),
+    "step_drying": MessageLookupByLibrary.simpleMessage("التجفيف"),
+    "step_finishService": MessageLookupByLibrary.simpleMessage("إنهاء الخدمة"),
+    "step_startWashing": MessageLookupByLibrary.simpleMessage("بدء الغسيل"),
     "support": MessageLookupByLibrary.simpleMessage("الدعم"),
     "terms_conditions": MessageLookupByLibrary.simpleMessage("الشروط والأحكام"),
     "threeHours": MessageLookupByLibrary.simpleMessage("ثلاث ساعات"),
+    "timeRange": m10,
     "timeYesterday": MessageLookupByLibrary.simpleMessage("أمس"),
     "time_label": MessageLookupByLibrary.simpleMessage("الوقت"),
     "today": MessageLookupByLibrary.simpleMessage("اليوم"),

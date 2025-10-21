@@ -11,6 +11,7 @@
   "alreadyHaveAccount": "لديك حساب بالفعل؟",
   "name": "الاسم",
   "enterYourName": "ادخل اسمك..",
+
   "browseAsGuest": "تصفح كزائر",
   "appName": "كود غسيل",
   "onboardingDescription": "خدمة غسيل سيارات متنقلة نقدم الخدمة في مكان العميل بواسطة فريق مؤهل ومجهز",
@@ -198,7 +199,7 @@
   "@nMinutesToFinish": {
     "description": "الوقت المتبقي حتى الانتهاء",
     "placeholders": { "count": {"type": "int"} }
-  }
+  },
   "currentOrder": "الطلب الحالي",
   "previousOrders": "الطلبات السابقة",
   "carServiceDescription": "تويتا كامري - غسيل كامل - 2.5 كم",

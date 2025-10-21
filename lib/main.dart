@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,6 +8,7 @@ import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/core/router/router.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
+import 'package:kod_ghaseel_provider_app/firebase_options.dart';
 
 import 'generated/l10n.dart';
 
@@ -14,6 +16,9 @@ import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   GoogleMapsFlutterAndroid().warmup();
   await AppSharedPreferences.init();
   runApp(const MyApp());
