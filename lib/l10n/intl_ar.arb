@@ -215,5 +215,7 @@
   "notification5Subtitle": "سيارتك ستتلقى غسيلًا دوريًا.",
   "timeYesterday": "أمس",
   "markAsRead": "تمييز كمقروء",
-  "writeMessage": "اكتب رسالة..."
+  "writeMessage": "اكتب رسالة...",
+  "no_internet": "لا يوجد اتصال بالانترنت",
+  "location_disabled":"مشاركة الموقع معطّلة. اضغط هنا لتفعيلها."
 }
