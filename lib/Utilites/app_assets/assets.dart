@@ -18,6 +18,8 @@ class Assets {
   static const String filterIconSVG = '$iconsPath/filter_icon.svg';
   static const String infoIconSVG = '$iconsPath/Info_icons.svg';
   static const String settingProfileTab = '$iconsPath/Setting_profiletab.png';
+  static const String noInternet = '$imagesPath/internet.png';
+  static const String locationTick = '$imagesPath/location-tick.svg';
 
   static const String paymentSuccess = '$imagesPath/paymentSuccess.png';
   static const String carAddedSuccess = '$imagesPath/carAddedSuccess.png';

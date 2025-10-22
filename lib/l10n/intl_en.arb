@@ -213,5 +213,7 @@
   "notification5Subtitle": "Your car will be washed regularly.",
   "timeYesterday": "Yesterday",
   "markAsRead": "Mark as read",
-  "writeMessage": "Write Message..."
+  "writeMessage": "Write Message...",
+  "no_internet": "No internet connection",
+  "location_disabled":"Location sharing disabled. Tap here to enable."
 }

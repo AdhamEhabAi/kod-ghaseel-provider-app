@@ -1,11 +1,17 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
+import 'package:kod_ghaseel_provider_app/core/network/dio_helper.dart';
 import 'package:kod_ghaseel_provider_app/core/router/router.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
 import 'package:kod_ghaseel_provider_app/firebase_options.dart';
@@ -13,14 +19,73 @@ import 'package:kod_ghaseel_provider_app/firebase_options.dart';
 import 'generated/l10n.dart';
 
 
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await ensureFirebase();
+  // FirebaseDatabase.instance.setPersistenceEnabled(true);
+  log('Background message received:');
+  log(
+    '------------  new doc notification ${message.notification} -------------',
+  );
 
+  final type = message.notification?.android?.sound ?? 'notification';
+  final androidDetails = AndroidNotificationDetails(
+    'high_importance_channel_zeds_fares_note_$type',
+    'High Importance Notifications',
+    channelDescription: 'This channel is used for important notifications.',
+    sound: RawResourceAndroidNotificationSound(
+      type,
+    ), // 'trip' or 'notification'
+    importance: Importance.high,
+    priority: Priority.high,
+  );
+
+  NotificationDetails(android: androidDetails);
+
+  // await NotificationService.instance.showNotification(message);
+}
+
+void clearNotifications() async {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+  await flutterLocalNotificationsPlugin.cancelAll();
+}
+
+Future<FirebaseApp> ensureFirebase({String? name}) async {
+  try {
+    if (name == null) {
+      return Firebase.apps.isEmpty
+          ? await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      )
+          : Firebase.app();
+    } else {
+      return Firebase.apps.any((a) => a.name == name)
+          ? Firebase.app(name)
+          : await Firebase.initializeApp(
+        name: name,
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
+  } on FirebaseException catch (e) {
+    if (e.code == 'duplicate-app') {
+      return name == null ? Firebase.app() : Firebase.app(name);
+    }
+    rethrow;
+  }
+}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
   GoogleMapsFlutterAndroid().warmup();
+  final myHttpOverrides = MyHttpOverrides();
+  clearNotifications();
+  HttpOverrides.global = myHttpOverrides;
+  DioHelper.initialize();
   await AppSharedPreferences.init();
+
+  await ensureFirebase();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
 
