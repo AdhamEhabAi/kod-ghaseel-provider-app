@@ -217,5 +217,7 @@
   "markAsRead": "تمييز كمقروء",
   "writeMessage": "اكتب رسالة...",
   "no_internet": "لا يوجد اتصال بالانترنت",
-  "location_disabled":"مشاركة الموقع معطّلة. اضغط هنا لتفعيلها."
+  "location_disabled":"مشاركة الموقع معطّلة. اضغط هنا لتفعيلها.",
+  "enterYourPhoneNumber": "يرجى إدخال رقم الهاتف",
+  "codeResentSuccessfully": "تم إعادة إرسال رمز التحقق بنجاح"
 }

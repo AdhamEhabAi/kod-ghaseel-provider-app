@@ -1467,6 +1467,46 @@ class S {
       args: [],
     );
   }
+
+  /// `No internet connection`
+  String get no_internet {
+    return Intl.message(
+      'No internet connection',
+      name: 'no_internet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location sharing disabled. Tap here to enable.`
+  String get location_disabled {
+    return Intl.message(
+      'Location sharing disabled. Tap here to enable.',
+      name: 'location_disabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your phone number`
+  String get enterYourPhoneNumber {
+    return Intl.message(
+      'Please enter your phone number',
+      name: 'enterYourPhoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verification code resent successfully`
+  String get codeResentSuccessfully {
+    return Intl.message(
+      'Verification code resent successfully',
+      name: 'codeResentSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

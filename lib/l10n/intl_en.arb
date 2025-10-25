@@ -215,5 +215,7 @@
   "markAsRead": "Mark as read",
   "writeMessage": "Write Message...",
   "no_internet": "No internet connection",
-  "location_disabled":"Location sharing disabled. Tap here to enable."
+  "location_disabled":"Location sharing disabled. Tap here to enable.",
+  "enterYourPhoneNumber": "Please enter your phone number",
+  "codeResentSuccessfully": "Verification code resent successfully"
 }
