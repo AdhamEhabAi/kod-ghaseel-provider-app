@@ -5,7 +5,8 @@ class SharedPreferencesKeys {
   static const String accessToken = 'accessToken';
   static const String language = "language";
   static const String uuid = 'uuid';
-
+  static const String deviceType = 'deviceType';
+  static const String userModel = 'userModel';
 }
 
 class AppSharedPreferences {

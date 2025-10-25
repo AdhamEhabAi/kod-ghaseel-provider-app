@@ -10,8 +10,8 @@ class AppLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        height: 50.w,
-        width: 50.w,
+        height: 30.w,
+        width: 30.w,
         child: Lottie.asset(
           Assets.loadingAnimation,
         ),

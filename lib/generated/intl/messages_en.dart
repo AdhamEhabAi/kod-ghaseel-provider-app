@@ -81,6 +81,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "change_language": MessageLookupByLibrary.simpleMessage("Change Language"),
     "client": MessageLookupByLibrary.simpleMessage("Client"),
+    "codeResentSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Verification code resent successfully",
+    ),
     "completed": MessageLookupByLibrary.simpleMessage("completed"),
     "completed_orders": m1,
     "cookies_policy": MessageLookupByLibrary.simpleMessage("Cookies Policy"),
@@ -109,6 +112,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterCode": MessageLookupByLibrary.simpleMessage("Enter the code"),
     "enterMinutesHint": MessageLookupByLibrary.simpleMessage("Enter minutes"),
     "enterYourName": MessageLookupByLibrary.simpleMessage("Enter your name..."),
+    "enterYourPhoneNumber": MessageLookupByLibrary.simpleMessage(
+      "Please enter your phone number",
+    ),
     "exclusiveDiscounts": MessageLookupByLibrary.simpleMessage(
       "Exclusive discounts for you",
     ),
@@ -174,6 +180,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "keep_it_up": MessageLookupByLibrary.simpleMessage("Keep it up!"),
     "last_earnings": MessageLookupByLibrary.simpleMessage("Last Earnings"),
     "later": MessageLookupByLibrary.simpleMessage("Later"),
+    "location_disabled": MessageLookupByLibrary.simpleMessage(
+      "Location sharing disabled. Tap here to enable.",
+    ),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginTitle": MessageLookupByLibrary.simpleMessage("Log In."),
     "logoutConfirm": MessageLookupByLibrary.simpleMessage("Yes, sure!"),
@@ -188,6 +197,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "nMinutesToFinish": m7,
     "name": MessageLookupByLibrary.simpleMessage("Name"),
     "no": MessageLookupByLibrary.simpleMessage("No"),
+    "no_internet": MessageLookupByLibrary.simpleMessage(
+      "No internet connection",
+    ),
     "notification1Subtitle": MessageLookupByLibrary.simpleMessage(
       "Enjoy shopping while we clean it.",
     ),

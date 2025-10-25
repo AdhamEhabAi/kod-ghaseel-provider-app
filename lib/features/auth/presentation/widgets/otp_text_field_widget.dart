@@ -2,41 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OTPTextField extends StatelessWidget {
+  final TextEditingController controller;
   final bool hasError;
   final bool success;
-  final bool isEditPhoneNumber;
-  final String? oldPhoneNumber;
+  final Function(String)? onCompleted;
 
   const OTPTextField({
     super.key,
+    required this.controller,
     this.hasError = false,
     this.success = false,
-    this.isEditPhoneNumber = false,
-    this.oldPhoneNumber,
+    this.onCompleted,
   });
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController otpController = TextEditingController();
-    final isOtpEnabled = true;
-    final loc = S.of(context);
-
-    return Directionality( // 🔹 Force Left-to-Right
+    return Directionality(
       textDirection: TextDirection.ltr,
       child: PinCodeTextField(
         cursorHeight: 30.h,
-        enabled: isOtpEnabled,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return loc.fieldRequired;
-          }
-          return null;
-        },
-        controller: otpController,
+        controller: controller,
         appContext: context,
         textStyle: AppTextStyle.blackW600Size34Roboto,
         length: 4,
@@ -45,10 +33,6 @@ class OTPTextField extends StatelessWidget {
           shape: PinCodeFieldShape.box,
           borderRadius: BorderRadius.circular(14.r),
           borderWidth: 1,
-          activeBorderWidth: 1,
-          disabledBorderWidth: 1,
-          errorBorderWidth: 1,
-          inactiveBorderWidth: 1,
           inactiveFillColor: AppStyle.white,
           selectedFillColor: AppStyle.white,
           selectedColor: AppStyle.green,
@@ -70,19 +54,16 @@ class OTPTextField extends StatelessWidget {
         enableActiveFill: true,
         cursorColor: AppStyle.black,
         animationDuration: const Duration(milliseconds: 300),
-        keyboardType: const TextInputType.numberWithOptions(
-          signed: true,
-          decimal: false,
-        ),
-        boxShadows: <BoxShadow>[
+        keyboardType: TextInputType.number,
+        onChanged: (_) {},
+        onCompleted: onCompleted,
+        boxShadows: [
           BoxShadow(
             offset: const Offset(0, 1),
             color: Colors.black12,
             blurRadius: 10.r,
           ),
         ],
-        onChanged: (String v) {},
-        onCompleted: (String v) async {},
       ),
     );
   }

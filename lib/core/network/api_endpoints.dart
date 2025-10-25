@@ -7,5 +7,6 @@ class APIEndpoints {
 
   static  String storage  = '${domain}storage/';
 
+  static const String login = 'mobile_auth.php';
 
 }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kod_ghaseel_provider_app/features/auth/presentation/login_screen.dart';
+import 'package:kod_ghaseel_provider_app/features/auth/presentation/otp_screen.dart';
+import 'package:kod_ghaseel_provider_app/features/auth/presentation/register_screen.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/filter/filter_home_screen.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/service_progress_screen.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/service_screen.dart';
 
-import '../../features/auth/login_screen.dart';
-import '../../features/auth/otp_screen.dart';
-import '../../features/auth/register_screen.dart';
+
 import '../../features/chat/chat_screen.dart';
 import '../../features/home_screen/home_screen.dart';
 import '../../features/home_screen/tabs/order_tab/order_tab.dart';
@@ -208,11 +209,20 @@ class AppRouter {
       ),
       GoRoute(
         path: otpScreen,
-        pageBuilder: (context, state) => TransitionHelper.page(
-          state: state,
-          child: const OtpScreen(),
-          transition: AppTransition.slideFromRight,
-        ),
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>? ?? {};
+          final phone = extra['phone'] as String? ?? '';
+          final isRegister = extra['isRegister'] as bool? ?? false;
+
+          return TransitionHelper.page(
+            state: state,
+            child: OtpScreen(
+              phone: phone,
+              isRegister: isRegister,
+            ),
+            transition: AppTransition.slideFromRight,
+          );
+        },
       ),
     ],
   );

@@ -79,6 +79,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "change_language": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
     "client": MessageLookupByLibrary.simpleMessage("عميل"),
+    "codeResentSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "تم إعادة إرسال رمز التحقق بنجاح",
+    ),
     "completed": MessageLookupByLibrary.simpleMessage("مكتمل"),
     "completed_orders": m1,
     "cookies_policy": MessageLookupByLibrary.simpleMessage(
@@ -111,6 +114,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "اكتب عدد الدقائق",
     ),
     "enterYourName": MessageLookupByLibrary.simpleMessage("ادخل اسمك.."),
+    "enterYourPhoneNumber": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال رقم الهاتف",
+    ),
     "exclusiveDiscounts": MessageLookupByLibrary.simpleMessage(
       "خصومات حصرية لك",
     ),
@@ -172,6 +178,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "keep_it_up": MessageLookupByLibrary.simpleMessage("واصل تميزك!"),
     "last_earnings": MessageLookupByLibrary.simpleMessage("آخر الأرباح"),
     "later": MessageLookupByLibrary.simpleMessage("لاحقًا"),
+    "location_disabled": MessageLookupByLibrary.simpleMessage(
+      "مشاركة الموقع معطّلة. اضغط هنا لتفعيلها.",
+    ),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginTitle": MessageLookupByLibrary.simpleMessage("سجل دخولك."),
     "logoutConfirm": MessageLookupByLibrary.simpleMessage("نعم، بالتأكيد!"),
@@ -186,6 +195,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "nMinutesToFinish": m7,
     "name": MessageLookupByLibrary.simpleMessage("الاسم"),
     "no": MessageLookupByLibrary.simpleMessage("لا"),
+    "no_internet": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد اتصال بالانترنت",
+    ),
     "notification1Subtitle": MessageLookupByLibrary.simpleMessage(
       "استمتع في التسوّق بينما نغسلها.",
     ),

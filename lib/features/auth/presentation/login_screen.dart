@@ -3,15 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_assets/assets.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
-import 'package:kod_ghaseel_provider_app/features/auth/widgets/login_form.dart';
+import 'package:kod_ghaseel_provider_app/features/auth/presentation/widgets/login_form.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
+
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController textEditingController = TextEditingController();
     final loc = S.of(context);
 
     return Scaffold(
@@ -59,7 +59,7 @@ class LoginScreen extends StatelessWidget {
                         style: AppTextStyle.blackW700Size30,
                       ),
                     ),
-                    LoginForm(textEditingController: textEditingController),
+                    LoginForm(),
                   ],
                 ),
               ),
