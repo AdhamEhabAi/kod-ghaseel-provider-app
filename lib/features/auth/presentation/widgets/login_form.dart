@@ -70,10 +70,10 @@ class _LoginFormState extends State<LoginForm> {
                   colorBorder: const Color(0xffEEEEEE),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'loc.enterYourPhoneNumber';
+                      return loc.enterYourPhoneNumber;
                     }
                     if (value.length < 9) {
-                      return 'loc.invalidPhoneNumber';
+                      return loc.invalidPhoneNumber;
                     }
                     return null;
                   },
