@@ -20,7 +20,14 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _phoneController = TextEditingController();
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,23 +38,17 @@ class _LoginFormState extends State<LoginForm> {
         if (state is SendPinSuccess) {
           GoRouter.of(context).push(
             AppRouter.otpScreen,
-            extra: {
-              'phone': _phoneController.text.trim(),
-              'isRegister': false,
-            },
+            extra: {'phone': _phoneController.text.trim(), 'isRegister': false},
           );
-
         } else if (state is SendPinError) {
           ToastM.show(state.message);
-          if (state.message == 'رقم الهاتف غير مسجل') {
-            GoRouter.of(context).pop();
-          }
         }
       },
       builder: (context, state) {
         final isLoading = state is SendPinLoading;
 
         return Form(
+          key: _formKey,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.0.w),
             child: Column(
@@ -59,6 +60,7 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 SizedBox(height: 10.h),
 
+                /// Phone field
                 CustomTextFormField(
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
@@ -66,6 +68,15 @@ class _LoginFormState extends State<LoginForm> {
                   hintTextDirection: TextDirection.ltr,
                   hintText: loc.phoneNumberHint,
                   colorBorder: const Color(0xffEEEEEE),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'loc.enterYourPhoneNumber';
+                    }
+                    if (value.length < 9) {
+                      return 'loc.invalidPhoneNumber';
+                    }
+                    return null;
+                  },
                   suffixIcon: Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.w,
@@ -90,29 +101,24 @@ class _LoginFormState extends State<LoginForm> {
 
                 Center(
                   child: isLoading
-                      ? AppLoader()
+                      ? const AppLoader()
                       : DefaultButton(
-                          onPressed: isLoading
-                              ? null
-                              : () {
-                                  final phone = _phoneController.text.trim();
-                                  if (phone.isEmpty) {
-                                    ToastM.show('loc.enterYourPhoneNumber');
-
-                                    return;
-                                  }
-                                  context.read<AuthCubit>().sendPinCode(
-                                    phone: phone,
-                                  );
-                                },
-                          backgroundColorButton: AppStyle.primaryColor,
-                          width: 250.w,
-                          borderRadius: BorderRadius.circular(50.r),
-                          titleWidget: Text(
-                            loc.getVerificationCode,
-                            style: AppTextStyle.whiteW600Size16Roboto,
-                          ),
-                        ),
+                    onPressed: () {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        final phone = _phoneController.text.trim();
+                        context.read<AuthCubit>().sendPinCode(
+                          phone: phone,
+                        );
+                      }
+                    },
+                    backgroundColorButton: AppStyle.primaryColor,
+                    width: 250.w,
+                    borderRadius: BorderRadius.circular(50.r),
+                    titleWidget: Text(
+                      loc.getVerificationCode,
+                      style: AppTextStyle.whiteW600Size16Roboto,
+                    ),
+                  ),
                 ),
               ],
             ),

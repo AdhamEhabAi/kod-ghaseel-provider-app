@@ -217,5 +217,6 @@
   "no_internet": "No internet connection",
   "location_disabled":"Location sharing disabled. Tap here to enable.",
   "enterYourPhoneNumber": "Please enter your phone number",
-  "codeResentSuccessfully": "Verification code resent successfully"
+  "codeResentSuccessfully": "Verification code resent successfully",
+  "invalidPhoneNumber": "Please enter a valid phone number"
 }
