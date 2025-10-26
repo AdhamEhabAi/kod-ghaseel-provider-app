@@ -39,6 +39,7 @@ class OptionTile extends StatelessWidget {
                 SizedBox(width: 14.w),
                 Text(
                   title,
+                  textDirection: TextDirection.ltr,
                   style: AppTextStyle.blackW600Size16Roboto,
                 ),
               ],

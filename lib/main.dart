@@ -13,6 +13,8 @@ import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/core/network/dio_helper.dart';
 import 'package:kod_ghaseel_provider_app/core/router/router.dart';
+import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
+import 'package:kod_ghaseel_provider_app/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
 import 'package:kod_ghaseel_provider_app/firebase_options.dart';
 
@@ -97,6 +99,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => HomeScreenCubit()),
+        BlocProvider(create: (_) => AuthCubit(AuthRepo())),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),

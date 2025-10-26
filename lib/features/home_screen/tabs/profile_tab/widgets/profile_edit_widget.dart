@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
 
 import '../../../../../../Utilites/app_assets/assets.dart';
 import '../../../../../../Utilites/app_fonts/font.dart';
@@ -41,7 +43,9 @@ class ProfileEditWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  s.profile_name_sample, // "سارة محمد"
+                  context.read<AuthCubit>().guestUser == null
+                      ? s.profile_name_sample // "Sara Mohamed"
+                      : context.read<AuthCubit>().guestUser?.fullName ?? '',
                   style: AppTextStyle.blackW600Size20Roboto,
                 ),
                 Row(
