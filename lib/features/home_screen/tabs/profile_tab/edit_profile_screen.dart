@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kod_ghaseel_provider_app/core/widgets/show_guest_dialog.dart';
+import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/TextFiledTitle.dart';
 
 import '../../../../../Utilites/app_assets/assets.dart';
@@ -19,15 +22,21 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  TextEditingController nameController = TextEditingController(
-    text: 'سارة محمد',
-  );
-  TextEditingController emailController = TextEditingController(
-    text: 'example@gmail.com',
-  );
-  TextEditingController phoneController = TextEditingController(
-    text: '81234567890',
-  );
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    final authCubit = context.read<AuthCubit>();
+    final guestUser = authCubit.guestUser;
+
+    nameController.text = guestUser == null ? 'سارة محمد' : guestUser.fullName;
+    emailController.text = 'example@gmail.com';
+    phoneController.text = guestUser == null ? '81234567890' : guestUser.phone;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +155,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           child: DefaultButton(
                             backgroundColorButton: AppStyle.primaryColorOpacity10,
                             onPressed: () {
-                              GoRouter.of(context).pop();
+                              if (context.read<AuthCubit>().guestUser != null) {
+                                showGuestLoginDialog(context);
+                              } else {
+
+                                GoRouter.of(context).pop();
+                              }
                             },
                             borderRadius: BorderRadius.circular(50.r),
                             titleWidget: Text(

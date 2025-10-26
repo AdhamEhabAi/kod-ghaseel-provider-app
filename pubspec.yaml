@@ -72,7 +72,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
   flutter_launcher_icons:
-
+  intl_utils:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -83,7 +83,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  generate: true
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
@@ -126,7 +125,10 @@ flutter_native_splash:
   # see https://flutter.dev/to/font-from-package
 flutter_intl:
   enabled: true
-  generate: true
+  class_name: S
+  main_locale: en
+  arb_dir: lib/l10n
+  output_dir: lib/generated
 
 
 flutter_launcher_icons:

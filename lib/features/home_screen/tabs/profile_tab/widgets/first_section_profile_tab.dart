@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/option_tile.dart';
 
 import '../../../../../../Utilites/app_assets/assets.dart';
@@ -38,7 +40,9 @@ class FirstSectionProfileTab extends StatelessWidget {
             ),
           ),
           OptionTile(
-            title: "+966 1515 1511 333",
+            title: context.read<AuthCubit>().guestUser == null
+                ? s.userPhoneNumber
+                : context.read<AuthCubit>().guestUser?.phone ?? '',
             iconPath: Assets.callProfileTab,
             onTap: () {
               GoRouter.of(context).push(AppRouter.editProfileScreen);

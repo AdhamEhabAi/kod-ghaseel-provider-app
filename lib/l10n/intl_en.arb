@@ -212,6 +212,12 @@
   "notification5Title": "Your subscription is active! 🧼",
   "notification5Subtitle": "Your car will be washed regularly.",
   "timeYesterday": "Yesterday",
+  "registerRequiredTitle": "Registration Required",
+  "registerRequiredMessage": "You need to register or log in to continue using this feature.",
+  "cancel": "Cancel",
+  "registerNow": "Register Now",
+  "userPhoneNumber": "+966 1515 1511 333",
+
   "markAsRead": "Mark as read",
   "writeMessage": "Write Message...",
   "no_internet": "No internet connection",

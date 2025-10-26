@@ -208,6 +208,12 @@
   "notification2Title": "سيارتك جاهزة جميلة! ✨",
   "notification2Subtitle": "تم غسيل سيارتك بنجاح.",
   "notification3Title": "تم تسليم سيارتك! 🌺",
+  "registerRequiredTitle": "مطلوب التسجيل",
+  "registerRequiredMessage": "يجب عليك التسجيل أو تسجيل الدخول للمتابعة واستخدام هذه الميزة.",
+  "cancel": "إلغاء",
+  "registerNow": "سجل الآن",
+  "userPhoneNumber": "+966 1515 1511 333",
+
   "notification3Subtitle": "احجز غسيلك القادم الآن.",
   "notification4Title": "طلبك قيد التنفيذ 🧽",
   "notification4Subtitle": "سائقنا في الطريق لاستلام السيارة.",
