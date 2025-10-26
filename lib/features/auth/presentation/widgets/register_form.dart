@@ -19,6 +19,7 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
@@ -51,6 +52,7 @@ class _RegisterFormState extends State<RegisterForm> {
         final isLoading = state is RegisterLoading;
 
         return Form(
+          key: _formKey,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.0.w),
             child: Column(
@@ -66,6 +68,12 @@ class _RegisterFormState extends State<RegisterForm> {
                   colorBorder: const Color(0xffEEEEEE),
                   keyboardType: TextInputType.text,
                   hintText: loc.enterYourName,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return loc.fieldRequired;
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 20.h),
 
@@ -81,6 +89,15 @@ class _RegisterFormState extends State<RegisterForm> {
                   hintTextDirection: TextDirection.ltr,
                   hintText: loc.phoneNumberHint,
                   colorBorder: const Color(0xffEEEEEE),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'loc.enterYourPhoneNumber';
+                    }
+                    if (value.length < 9) {
+                      return 'loc.invalidPhoneNumber';
+                    }
+                    return null;
+                  },
                   suffixIcon: Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.w,
@@ -105,18 +122,12 @@ class _RegisterFormState extends State<RegisterForm> {
                       ? const AppLoader()
                       : DefaultButton(
                     onPressed: () {
-                      final name = _nameController.text.trim();
-                      final phone = _phoneController.text.trim();
-
-                      if (name.isEmpty || phone.isEmpty) {
-                        ToastM.show(loc.fieldRequired);
-                        return;
+                      if (_formKey.currentState?.validate() ?? false) {
+                        context.read<AuthCubit>().register(
+                          phone: _phoneController.text.trim(),
+                          fullName: _nameController.text.trim(),
+                        );
                       }
-
-                      context.read<AuthCubit>().register(
-                        phone: phone,
-                        fullName: name,
-                      );
                     },
                     backgroundColorButton: AppStyle.primaryColor,
                     width: 250.w,
@@ -128,7 +139,6 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ),
                 SizedBox(height: 10.h),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

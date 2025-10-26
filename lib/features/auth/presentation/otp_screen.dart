@@ -41,7 +41,7 @@ class _OtpScreenState extends State<OtpScreen> {
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            GoRouter.of(context).pushReplacement(AppRouter.homeScreen);
+            GoRouter.of(context).go(AppRouter.homeScreen);
           } else if (state is AuthError) {
             ToastM.show(state.message);
           } else if (state is SendPinSuccess) {
