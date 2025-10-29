@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,6 +34,49 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   final TextEditingController otpController = TextEditingController();
 
+  static const Duration _resendCooldown = Duration(minutes: 2);
+  Timer? _timer;
+  int _secondsRemaining = _resendCooldown.inSeconds;
+
+  @override
+  void initState() {
+    super.initState();
+    _startCooldown(); // start the initial 2-minute timer on screen open
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    otpController.dispose();
+    super.dispose();
+  }
+
+  void _startCooldown() {
+    _timer?.cancel();
+    setState(() {
+      _secondsRemaining = _resendCooldown.inSeconds;
+    });
+    _timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (!mounted) return;
+      if (_secondsRemaining <= 1) {
+        t.cancel();
+        setState(() {
+          _secondsRemaining = 0;
+        });
+      } else {
+        setState(() {
+          _secondsRemaining -= 1;
+        });
+      }
+    });
+  }
+
+  String _formatMMSS(int seconds) {
+    final m = seconds ~/ 60;
+    final s = seconds % 60;
+    return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+  }
+
   @override
   Widget build(BuildContext context) {
     final loc = S.of(context);
@@ -45,12 +90,12 @@ class _OtpScreenState extends State<OtpScreen> {
           } else if (state is AuthError) {
             ToastM.show(state.message);
           } else if (state is SendPinSuccess) {
-            ToastM.show('loc.codeResentSuccessfully');
+            ToastM.show(loc.codeResentSuccessfully);
           }
         },
         builder: (context, state) {
           final isLoading = state is AuthLoading;
-          final isResending = state is SendPinLoading;
+          final isResending = state is SendPinLoading || state is ReSendPinLoading;
 
           return SingleChildScrollView(
             child: Column(
@@ -118,26 +163,50 @@ class _OtpScreenState extends State<OtpScreen> {
                               color: Colors.grey,
                             ),
                           ),
-                          GestureDetector(
-                            onTap: isResending
-                                ? null
-                                : () => context.read<AuthCubit>().sendPinCode(
-                              phone: widget.phone,
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5.w),
-                              child: isResending
-                                  ? const AppLoader()
-                                  : Text(
-                                loc.resendCode,
-                                style: AppTextStyle.blackW400Size14Roboto
-                                    .copyWith(
-                                  color: Colors.black,
-                                  decoration:
-                                  TextDecoration.underline,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Builder(
+                              builder: (_) {
+                                if (isResending) {
+                                  return const AppLoader();
+                                }
+
+                                if (_secondsRemaining > 0) {
+                                  return Text(
+                                    _formatMMSS(_secondsRemaining),
+                                    style: AppTextStyle.blackW400Size14Roboto.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  );
+                                }
+
+                                return GestureDetector(
+                                  onTap: () {
+                                    _startCooldown();
+
+                                    if (widget.isRegister) {
+                                      context
+                                          .read<AuthCubit>()
+                                          .reSendPinCodeForRegister(
+                                        phone: widget.phone,
+                                      );
+                                    } else {
+                                      context.read<AuthCubit>().reSendPinCode(
+                                        phone: widget.phone,
+                                      );
+                                    }
+                                  },
+                                  child: Text(
+                                    loc.resendCode,
+                                    style: AppTextStyle.blackW400Size14Roboto.copyWith(
+                                      color: Colors.black,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ],

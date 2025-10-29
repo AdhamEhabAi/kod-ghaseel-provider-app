@@ -165,7 +165,37 @@ class AuthCubit extends Cubit<AuthState> {
       },
     );
   }
+  Future<void> reSendPinCode({required String phone}) async {
+    emit(ReSendPinLoading());
 
+    await _ensureDeviceInfo();
+
+    final result = await authRepo.reSendPinCode(mobile: phone);
+
+    result.fold(
+          (Failure failure) => emit(ReSendPinError(message: failure.message)),
+          (RequestPinResponse response) {
+        requestPinResponse = response;
+        emit(ReSendPinSuccess());
+      },
+    );
+  }
+
+  Future<void> reSendPinCodeForRegister({required String phone}) async {
+    emit(ReSendPinLoading());
+
+    await _ensureDeviceInfo();
+
+    final result = await authRepo.reSendPinCodeForRegister(mobile: phone);
+
+    result.fold(
+          (Failure failure) => emit(ReSendPinError(message: failure.message)),
+          (RequestPinResponse response) {
+        requestPinResponse = response;
+        emit(ReSendPinSuccess());
+      },
+    );
+  }
   Future<void> getDeviceInfo() async {
     try {
       final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();

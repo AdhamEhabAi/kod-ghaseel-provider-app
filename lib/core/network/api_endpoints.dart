@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class APIEndpoints {
   static  String domain  = 'https://api.washingcode.com/';
-  static  String baseUrl  = 'https://api.washingcode.com/api/';
+  static  String baseUrl  = '${domain}api/v1/delivery/';
 
   static  String storage  = '${domain}storage/';
 
