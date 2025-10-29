@@ -121,4 +121,52 @@ class AuthRepo extends Repository {
       }
     });
   }
+  Future<Either<Failure, RequestPinResponse>> reSendPinCode({
+    required String mobile,
+  }) async {
+    return await exceptionHandler(() async {
+      final Map<String, dynamic> response = await dioHelper.postData(
+        APIEndpoints.login,
+        <String, dynamic>{
+          'action': 'resend_login_pin',
+          'phone': mobile,
+        },
+      );
+
+      final bool success = response['success'] ?? false;
+
+      if (success) {
+        final requestPinResponse = RequestPinResponse.fromJson(response);
+        return requestPinResponse;
+      } else {
+        throw ServerException(
+          exceptionMessage: response['message'] ?? 'فشل في إرسال الرمز',
+        );
+      }
+    });
+  }
+  Future<Either<Failure, RequestPinResponse>> reSendPinCodeForRegister({
+    required String mobile,
+  }) async {
+    return await exceptionHandler(() async {
+      final Map<String, dynamic> response = await dioHelper.postData(
+        APIEndpoints.login,
+        <String, dynamic>{
+          'action': 'resend_verification_pin',
+          'phone': mobile,
+        },
+      );
+
+      final bool success = response['success'] ?? false;
+
+      if (success) {
+        final requestPinResponse = RequestPinResponse.fromJson(response);
+        return requestPinResponse;
+      } else {
+        throw ServerException(
+          exceptionMessage: response['message'] ?? 'فشل في إرسال الرمز',
+        );
+      }
+    });
+  }
 }

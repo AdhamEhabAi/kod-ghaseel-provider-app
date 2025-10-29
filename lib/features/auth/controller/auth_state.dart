@@ -31,3 +31,9 @@ class RegisterError extends AuthState {
   final String message;
   RegisterError({required this.message});
 }
+class ReSendPinLoading extends AuthState {}
+class ReSendPinSuccess extends AuthState {}
+class ReSendPinError extends AuthState {
+  final String message;
+  ReSendPinError({required this.message});
+}
