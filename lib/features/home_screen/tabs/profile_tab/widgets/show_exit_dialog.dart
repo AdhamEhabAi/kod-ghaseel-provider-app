@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
@@ -38,52 +39,47 @@ void showExitDialog(BuildContext context) {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (isLoading)
-                   Padding(
-                    padding: EdgeInsets.all(16.0.w),
-                    child: CircularProgressIndicator(
-                      color: AppStyle.primaryColor,
-                    ),
-                  )
-                else
-                  Column(
-                    children: [
-                      DefaultButton(
-                        backgroundColorButton: Colors.white,
-                        borderRadius: BorderRadius.circular(20.r),
-                        onPressed: () {
-                          final authCubit = context.read<AuthCubit>();
+                Column(
+                  children: [
+                    !isLoading
+                        ? DefaultButton(
+                            backgroundColorButton: Colors.white,
+                            borderRadius: BorderRadius.circular(20.r),
+                            onPressed: () {
+                              final authCubit = context.read<AuthCubit>();
 
-                          if (authCubit.guestUser != null) {
-                            authCubit.guestUser = null;
-                            GoRouter.of(context).go(AppRouter.registerScreen);
-                          } else {
-                            authCubit.logout();
-                          }
-                        },
-                        titleWidget: Text(
-                          s.logoutConfirm,
-                          style: AppTextStyle.blackW600Size16Roboto.copyWith(
-                            color: AppStyle.red,
-                          ),
+                              if (authCubit.guestUser != null) {
+                                authCubit.guestUser = null;
+                                GoRouter.of(
+                                  context,
+                                ).go(AppRouter.registerScreen);
+                              } else {
+                                authCubit.logout();
+                              }
+                            },
+                            titleWidget: Text(
+                              s.logoutConfirm,
+                              style: AppTextStyle.blackW600Size16Roboto
+                                  .copyWith(color: AppStyle.red),
+                            ),
+                          )
+                        : Center(child: AppLoader()),
+                    SizedBox(height: 10.h),
+                    DefaultButton(
+                      backgroundColorButton: AppStyle.primaryColor,
+                      borderRadius: BorderRadius.circular(20.r),
+                      onPressed: () {
+                        GoRouter.of(context).pop();
+                      },
+                      titleWidget: Text(
+                        s.no,
+                        style: AppTextStyle.blackW600Size16Roboto.copyWith(
+                          color: AppStyle.white,
                         ),
                       ),
-                      SizedBox(height: 10.h),
-                      DefaultButton(
-                        backgroundColorButton: AppStyle.primaryColor,
-                        borderRadius: BorderRadius.circular(20.r),
-                        onPressed: () {
-                          GoRouter.of(context).pop();
-                        },
-                        titleWidget: Text(
-                          s.no,
-                          style: AppTextStyle.blackW600Size16Roboto.copyWith(
-                            color: AppStyle.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
               ],
             ),
           );
