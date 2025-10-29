@@ -93,7 +93,6 @@ class AuthCubit extends Cubit<AuthState> {
               jsonEncode(userJson),
             );
           }
-
         } catch (e) {
           emit(AuthError(message: 'Failed to save user model: $e'));
           return;
@@ -155,7 +154,6 @@ class AuthCubit extends Cubit<AuthState> {
               jsonEncode(userJson),
             );
           }
-
         } catch (e) {
           emit(AuthError(message: 'Failed to save user model: $e'));
           return;
@@ -165,6 +163,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
     );
   }
+
   Future<void> reSendPinCode({required String phone}) async {
     emit(ReSendPinLoading());
 
@@ -173,8 +172,8 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await authRepo.reSendPinCode(mobile: phone);
 
     result.fold(
-          (Failure failure) => emit(ReSendPinError(message: failure.message)),
-          (RequestPinResponse response) {
+      (Failure failure) => emit(ReSendPinError(message: failure.message)),
+      (RequestPinResponse response) {
         requestPinResponse = response;
         emit(ReSendPinSuccess());
       },
@@ -189,13 +188,28 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await authRepo.reSendPinCodeForRegister(mobile: phone);
 
     result.fold(
-          (Failure failure) => emit(ReSendPinError(message: failure.message)),
-          (RequestPinResponse response) {
+      (Failure failure) => emit(ReSendPinError(message: failure.message)),
+      (RequestPinResponse response) {
         requestPinResponse = response;
         emit(ReSendPinSuccess());
       },
     );
   }
+
+  Future<void> logout() async {
+    emit(LogoutLoading());
+
+    final result = await authRepo.logout();
+
+    result.fold(
+      (Failure failure) => emit(LogoutError(message: failure.message)),
+      (String response) {
+        AppSharedPreferences.clear();
+        emit(LogoutSuccess());
+      },
+    );
+  }
+
   Future<void> getDeviceInfo() async {
     try {
       final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -222,7 +236,6 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthError(message: 'Failed to get device info: $e'));
     }
   }
-
 
   Future<void> _ensureDeviceInfo() async {
     if (deviceId == null ||

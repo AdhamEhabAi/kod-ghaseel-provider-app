@@ -37,3 +37,9 @@ class ReSendPinError extends AuthState {
   final String message;
   ReSendPinError({required this.message});
 }
+class LogoutLoading extends AuthState {}
+class LogoutSuccess extends AuthState {}
+class LogoutError extends AuthState {
+  final String message;
+  LogoutError({required this.message});
+}
