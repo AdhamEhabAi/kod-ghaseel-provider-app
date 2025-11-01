@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
 
 import '../../../../../../Utilites/app_assets/assets.dart';
 import '../../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../../Utilites/app_style/style.dart';
 import '../../../../../../core/router/router.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
 
 class ProfileEditWidget extends StatelessWidget {
   const ProfileEditWidget({super.key});

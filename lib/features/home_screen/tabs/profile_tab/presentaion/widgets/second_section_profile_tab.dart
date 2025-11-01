@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab_controller.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/option_tile.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
 import '../../../../../../Utilites/app_assets/assets.dart';
 import '../../../../../../core/router/router.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
+import 'option_tile.dart';
+
+
 
 class SecondSectionProfileTab extends StatelessWidget {
   const SecondSectionProfileTab({super.key});

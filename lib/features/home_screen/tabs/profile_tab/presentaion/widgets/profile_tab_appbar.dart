@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/show_exit_dialog.dart';
 
 import '../../../../../../Utilites/app_style/style.dart';
-import '../../home_tab_controller.dart';
+import '../../../home_tab_controller.dart';
+import 'show_exit_dialog.dart';
 
 
 class ProfileTabAppBar extends StatelessWidget {

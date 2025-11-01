@@ -7,16 +7,15 @@ import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/filter/filter
 import 'package:kod_ghaseel_provider_app/features/service_screen/service_progress_screen.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/service_screen.dart';
 
-
 import '../../features/chat/chat_screen.dart';
 import '../../features/home_screen/home_screen.dart';
 import '../../features/home_screen/tabs/order_tab/order_tab.dart';
-import '../../features/home_screen/tabs/profile_tab/edit_profile_screen.dart';
-import '../../features/home_screen/tabs/profile_tab/help_center/help_center_screen.dart';
-import '../../features/home_screen/tabs/profile_tab/help_center/question_screen.dart';
-import '../../features/home_screen/tabs/profile_tab/setting/notification_setting_screen.dart';
-import '../../features/home_screen/tabs/profile_tab/setting/privacy_screen.dart';
-import '../../features/home_screen/tabs/profile_tab/setting/setting_screen.dart';
+import '../../features/home_screen/tabs/profile_tab/presentaion/edit_profile_screen.dart';
+import '../../features/home_screen/tabs/profile_tab/presentaion/help_center/help_center_screen.dart';
+import '../../features/home_screen/tabs/profile_tab/presentaion/help_center/question_screen.dart';
+import '../../features/home_screen/tabs/profile_tab/presentaion/setting/notification_setting_screen.dart';
+import '../../features/home_screen/tabs/profile_tab/presentaion/setting/privacy_screen.dart';
+import '../../features/home_screen/tabs/profile_tab/presentaion/setting/setting_screen.dart';
 import '../../features/notification/filter_screen.dart';
 import '../../features/notification/notification_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';

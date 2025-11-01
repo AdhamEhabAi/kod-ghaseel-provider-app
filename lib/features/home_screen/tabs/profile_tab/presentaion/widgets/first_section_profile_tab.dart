@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/option_tile.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
 import '../../../../../../Utilites/app_assets/assets.dart';
 import '../../../../../../core/router/router.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
+import 'option_tile.dart';
+
 
 class FirstSectionProfileTab extends StatelessWidget {
   const FirstSectionProfileTab({super.key});
@@ -40,9 +39,7 @@ class FirstSectionProfileTab extends StatelessWidget {
             ),
           ),
           OptionTile(
-            title: context.read<AuthCubit>().guestUser == null
-                ? s.userPhoneNumber
-                : context.read<AuthCubit>().guestUser?.phone ?? '',
+            title: "+966 1515 1511 333",
             iconPath: Assets.callProfileTab,
             onTap: () {
               GoRouter.of(context).push(AppRouter.editProfileScreen);

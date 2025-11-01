@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/option_tile.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
 import '../../../../../../Utilites/app_assets/assets.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- l10n
+import 'option_tile.dart';
+
+
 
 class ThirdSectionProfileTab extends StatelessWidget {
   const ThirdSectionProfileTab({super.key});
