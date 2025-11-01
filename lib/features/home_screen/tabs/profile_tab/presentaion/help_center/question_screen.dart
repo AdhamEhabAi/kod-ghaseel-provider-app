@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
 
 import '../../../../../../core/widgets/setting_app_bar.dart';
 import '../widgets/bullet_widget.dart';
 import '../widgets/choice_widget.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
 
 class QuestionScreen extends StatefulWidget {
   const QuestionScreen({super.key});
