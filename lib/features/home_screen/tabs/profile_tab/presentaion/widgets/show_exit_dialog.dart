@@ -6,10 +6,11 @@ import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
-import '../../../../../../Utilites/app_fonts/font.dart';
-import '../../../../../../Utilites/app_style/style.dart';
-import '../../../../../../core/router/router.dart';
-import '../../../../../../shared/shared_widget.dart';
+
+import '../../../../../../../Utilites/app_fonts/font.dart';
+import '../../../../../../../Utilites/app_style/style.dart';
+import '../../../../../../../core/router/router.dart';
+import '../../../../../../../shared/shared_widget.dart';
 
 void showExitDialog(BuildContext context) {
   final s = S.of(context);

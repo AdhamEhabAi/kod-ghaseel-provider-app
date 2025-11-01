@@ -1,4 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 class APIEndpoints {
@@ -8,5 +8,6 @@ class APIEndpoints {
   static  String storage  = '${domain}storage/';
 
   static const String login = 'routes.php';
+  static const String updateProfileEndPoint = 'update_profile';
 
 }

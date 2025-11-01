@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/setting/widgets/privacy_card.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/setting/widgets/privacy_card.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
 
 import '../../../../../../Utilites/app_style/style.dart';
 import '../../../../../../core/widgets/setting_app_bar.dart';
 import '../../../../../../shared/shared_widget.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
 
 class PrivacyScreen extends StatefulWidget {
   const PrivacyScreen({super.key});

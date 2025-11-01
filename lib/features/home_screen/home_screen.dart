@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/home_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab_controller.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/order_tab.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/profile_tab.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/profile_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/report_tab/report_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/widgets/wave_shape.dart';
 

@@ -67,6 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "avg_order": MessageLookupByLibrary.simpleMessage("متوسط الطلب"),
     "browseAsGuest": MessageLookupByLibrary.simpleMessage("تصفح كزائر"),
+    "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "cannotEnableYet": m0,
     "carServiceDescription": MessageLookupByLibrary.simpleMessage(
       "تويتا كامري - غسيل كامل - 2.5 كم",
@@ -175,6 +176,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidMinutesMsg": MessageLookupByLibrary.simpleMessage(
       "من فضلك أدخل عدد دقائق صالح",
     ),
+    "invalidPhoneNumber": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال رقم هاتف صالح",
+    ),
     "keep_it_up": MessageLookupByLibrary.simpleMessage("واصل تميزك!"),
     "last_earnings": MessageLookupByLibrary.simpleMessage("آخر الأرباح"),
     "later": MessageLookupByLibrary.simpleMessage("لاحقًا"),
@@ -276,6 +280,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "refund_cancellation_policy": MessageLookupByLibrary.simpleMessage(
       "سياسة الاسترداد والإلغاء",
     ),
+    "registerNow": MessageLookupByLibrary.simpleMessage("سجل الآن"),
+    "registerRequiredMessage": MessageLookupByLibrary.simpleMessage(
+      "يجب عليك التسجيل أو تسجيل الدخول للمتابعة واستخدام هذه الميزة.",
+    ),
+    "registerRequiredTitle": MessageLookupByLibrary.simpleMessage(
+      "مطلوب التسجيل",
+    ),
     "resendCode": MessageLookupByLibrary.simpleMessage("أعد إرسال الرمز."),
     "roleDelegate": MessageLookupByLibrary.simpleMessage("مندوب"),
     "save": MessageLookupByLibrary.simpleMessage("حفظ"),
@@ -327,6 +338,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "غير متاح لمدة",
     ),
     "unread": MessageLookupByLibrary.simpleMessage("غير مقروء"),
+    "userPhoneNumber": MessageLookupByLibrary.simpleMessage(
+      "+966 1515 1511 333",
+    ),
     "user_agreement": MessageLookupByLibrary.simpleMessage("اتفاقية الاستخدام"),
     "view": MessageLookupByLibrary.simpleMessage("عرض"),
     "wallet": MessageLookupByLibrary.simpleMessage("محفظتك"),

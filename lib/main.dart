@@ -18,6 +18,9 @@ import 'package:kod_ghaseel_provider_app/features/auth/data/auth_repo/auth_repo.
 import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
 import 'package:kod_ghaseel_provider_app/firebase_options.dart';
 
+import 'core/network/bloc_observer.dart';
+import 'features/home_screen/tabs/profile_tab/controller/profile_cubit.dart';
+import 'features/home_screen/tabs/profile_tab/data/repo/profile_repo.dart';
 import 'generated/l10n.dart';
 
 
@@ -78,7 +81,7 @@ Future<FirebaseApp> ensureFirebase({String? name}) async {
 }
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  Bloc.observer = MyBlocObserver();
   GoogleMapsFlutterAndroid().warmup();
   final myHttpOverrides = MyHttpOverrides();
   clearNotifications();
@@ -99,6 +102,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => HomeScreenCubit()),
+        BlocProvider(create: (_) => ProfileCubit(ProfileRepo())),
         BlocProvider(create: (_) => AuthCubit(AuthRepo())),
       ],
       child: MediaQuery(

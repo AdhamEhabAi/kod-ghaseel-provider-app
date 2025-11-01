@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -1453,6 +1454,51 @@ class S {
     return Intl.message('Yesterday', name: 'timeYesterday', desc: '', args: []);
   }
 
+  /// `Registration Required`
+  String get registerRequiredTitle {
+    return Intl.message(
+      'Registration Required',
+      name: 'registerRequiredTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You need to register or log in to continue using this feature.`
+  String get registerRequiredMessage {
+    return Intl.message(
+      'You need to register or log in to continue using this feature.',
+      name: 'registerRequiredMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message('Cancel', name: 'cancel', desc: '', args: []);
+  }
+
+  /// `Register Now`
+  String get registerNow {
+    return Intl.message(
+      'Register Now',
+      name: 'registerNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `+966 1515 1511 333`
+  String get userPhoneNumber {
+    return Intl.message(
+      '+966 1515 1511 333',
+      name: 'userPhoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Mark as read`
   String get markAsRead {
     return Intl.message('Mark as read', name: 'markAsRead', desc: '', args: []);
@@ -1503,6 +1549,16 @@ class S {
     return Intl.message(
       'Verification code resent successfully',
       name: 'codeResentSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid phone number`
+  String get invalidPhoneNumber {
+    return Intl.message(
+      'Please enter a valid phone number',
+      name: 'invalidPhoneNumber',
       desc: '',
       args: [],
     );

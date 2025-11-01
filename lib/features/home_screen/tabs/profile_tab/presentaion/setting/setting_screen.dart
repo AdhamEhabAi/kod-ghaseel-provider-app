@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/setting/widgets/setting_item_row.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/setting/widgets/setting_item_row.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
 import '../../../../../../core/router/router.dart';

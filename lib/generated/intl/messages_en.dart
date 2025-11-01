@@ -69,6 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "avg_order": MessageLookupByLibrary.simpleMessage("Average Order"),
     "browseAsGuest": MessageLookupByLibrary.simpleMessage("Login as Guest"),
+    "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "cannotEnableYet": m0,
     "carServiceDescription": MessageLookupByLibrary.simpleMessage(
       "Toyota Camry - full wash - 2.5 km",
@@ -177,6 +178,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidMinutesMsg": MessageLookupByLibrary.simpleMessage(
       "Please enter a valid number of minutes",
     ),
+    "invalidPhoneNumber": MessageLookupByLibrary.simpleMessage(
+      "Please enter a valid phone number",
+    ),
     "keep_it_up": MessageLookupByLibrary.simpleMessage("Keep it up!"),
     "last_earnings": MessageLookupByLibrary.simpleMessage("Last Earnings"),
     "later": MessageLookupByLibrary.simpleMessage("Later"),
@@ -282,6 +286,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "refund_cancellation_policy": MessageLookupByLibrary.simpleMessage(
       "Refund & Cancellation Policy",
     ),
+    "registerNow": MessageLookupByLibrary.simpleMessage("Register Now"),
+    "registerRequiredMessage": MessageLookupByLibrary.simpleMessage(
+      "You need to register or log in to continue using this feature.",
+    ),
+    "registerRequiredTitle": MessageLookupByLibrary.simpleMessage(
+      "Registration Required",
+    ),
     "resendCode": MessageLookupByLibrary.simpleMessage("Resend code."),
     "roleDelegate": MessageLookupByLibrary.simpleMessage("Delegate"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
@@ -341,6 +352,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Unavailable for",
     ),
     "unread": MessageLookupByLibrary.simpleMessage("Unread"),
+    "userPhoneNumber": MessageLookupByLibrary.simpleMessage(
+      "+966 1515 1511 333",
+    ),
     "user_agreement": MessageLookupByLibrary.simpleMessage("User Agreement"),
     "view": MessageLookupByLibrary.simpleMessage("View"),
     "wallet": MessageLookupByLibrary.simpleMessage("Your Wallet"),

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/first_section_profile_tab.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/profile_edit_widget.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/profile_tab_appbar.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/second_section_profile_tab.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/widgets/third_section_profile_tab.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/widgets/first_section_profile_tab.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/widgets/profile_edit_widget.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/widgets/profile_tab_appbar.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/widgets/second_section_profile_tab.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/widgets/third_section_profile_tab.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
-import '../../../../../Utilites/app_fonts/font.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- l10n import
+import '../../../../../../Utilites/app_fonts/font.dart';
+
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
