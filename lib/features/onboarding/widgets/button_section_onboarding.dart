@@ -40,9 +40,24 @@ class ButtonSectionOnBoarding extends StatelessWidget {
                 id: -1,
                 phone: '+966123456789',
                 fullName: 'Guest',
-                status: 'Active',
+                profileImage: 'https://example.com/default_guest_image.png',
+                dateOfBirth: '',
+                gender: 'unknown',
+                city: 'N/A',
+                address: 'N/A',
+                status: 'active',
                 phoneVerified: false,
+                deviceToken: '',
+                platform: 'unknown',
+                appVersion: '1.0.0',
+                vehicleType: 'none',
+                vehiclePlate: 'N/A',
+                licenseNumber: 'N/A',
+                createdAt: DateTime.now().toString(),
+                updatedAt: DateTime.now().toString(),
+                lastLogin: DateTime.now().toString(),
               );
+
               GoRouter.of(context).go(AppRouter.homeScreen);
             },
             child: Text(
