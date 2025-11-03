@@ -9,5 +9,6 @@ class APIEndpoints {
 
   static const String login = 'routes.php';
   static const String updateProfileEndPoint = 'update_profile';
+  static const String checkSessionValidation = 'validate';
 
 }

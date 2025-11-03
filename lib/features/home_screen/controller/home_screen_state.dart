@@ -14,3 +14,13 @@ class HomeScreenLanguageChanged extends HomeScreenState {
   final Locale locale;
   HomeScreenLanguageChanged(this.locale);
 }
+class ValidatedSession extends HomeScreenState {
+  final CheckSessionValidationResponse response;
+  ValidatedSession({required this.response });
+}
+class ValidationLoadingState extends HomeScreenState{}
+class NotValidateSession extends HomeScreenState {
+  final String message;
+  NotValidateSession({this.message = 'Session is not valid'});
+
+}

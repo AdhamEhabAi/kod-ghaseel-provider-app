@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/home_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab_controller.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/order_tab.dart';
@@ -10,6 +13,9 @@ import 'package:kod_ghaseel_provider_app/features/home_screen/widgets/wave_shape
 
 import '../../Utilites/app_assets/assets.dart';
 import '../../Utilites/app_style/style.dart';
+import '../../core/helpers/dialog_utils.dart';
+import '../../core/router/router.dart';
+import 'controller/home_screen_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _getBottomNavigationBarSize();
     HomeTabController.value.addListener(_onTabChanged);
+    context.read<HomeScreenCubit>().checkSessionValidation();
     WidgetsBinding.instance.addPostFrameCallback((_) => _getBottomNavigationBarSize());
   }
   void _onTabChanged() {
@@ -138,7 +145,30 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: pages[_selectedIndex],
+      body:BlocListener<HomeScreenCubit, HomeScreenState>(
+        listener: (context, state) {
+          if (state is ValidationLoadingState) {
+            DialogUtils.showLoading(
+              context: context,
+              message: "جاري تحليل البيانات برجاء الانتظار",
+            );
+          } else if (state is NotValidateSession) {
+            DialogUtils.hideLoading(context);
+            DialogUtils.showAlert(
+                context: context,
+                message: "برجاء تسجيل الدخول مره اخرى",
+                posAction:(){
+                  GoRouter.of(context).pushReplacement(AppRouter.loginScreen);
+                  AppSharedPreferences.clear();
+                },
+                posActionName: "تسجيل الدخول"
+            );
+          }else if(state is ValidatedSession){
+            DialogUtils.hideLoading(context);
+          }
+        },
+        child: pages[_selectedIndex],
+      ),
     );
   }
 }
