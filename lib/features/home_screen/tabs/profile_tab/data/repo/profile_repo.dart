@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 
 import '../../../../../../core/app_repository/repo.dart';
@@ -5,6 +7,9 @@ import '../../../../../../core/errors/exceptions.dart';
 import '../../../../../../core/errors/failures.dart';
 import '../../../../../../core/helpers/shared_prefrence.dart';
 import '../../../../../../core/network/api_endpoints.dart';
+import '../../../../../auth/data/models/login_response.dart';
+import '../models/RequestUpdatePhoneNumberResponse.dart';
+import '../models/VerifyChangePhoneResponse.dart';
 import '../models/update_profile_response.dart';
 
 class ProfileRepo extends Repository {
@@ -45,4 +50,53 @@ class ProfileRepo extends Repository {
       }
     });
   }
+  Future<Either<Failure, RequestUpdatePhoneNumberResponse>> updatePhoneNumberRequest({
+    required String phoneNumber
+  }) async {
+    return await exceptionHandler(() async {
+      var user=User.fromJson(jsonDecode(AppSharedPreferences.getString(SharedPreferencesKeys.userModel)?? "error"));
+      final Map<String, dynamic> response = await dioHelper.postData(
+          APIEndpoints.updatePhoneNumberRequestEndPoint,
+          {
+            "action": "request_phone_change",
+            "user_id": user.id,
+            "new_phone": phoneNumber
+          }
+      );
+      final bool success = response['success'] ?? false;
+
+      if (success) {
+        return RequestUpdatePhoneNumberResponse.fromJson(response);
+      } else {
+        throw ServerException(
+          exceptionMessage: response['message'] ?? 'Login failed',
+        );
+      }
+    });
+  }
+  Future<Either<Failure, VerifyChangePhoneResponse>> verifyPhoneWithOtp({
+    required String otp
+  }) async {
+    return await exceptionHandler(() async {
+      var user=User.fromJson(jsonDecode(AppSharedPreferences.getString(SharedPreferencesKeys.userModel)?? "error"));
+      final Map<String, dynamic> response = await dioHelper.postData(
+          APIEndpoints.verifyChangePhoneNumberWithOtp,
+          {
+            "action": "verify_phone_change",
+            "user_id": user.id,
+            "pin_code": otp
+          }
+      );
+      final bool success = response['success'] ?? false;
+
+      if (success) {
+        return VerifyChangePhoneResponse.fromJson(response);
+      } else {
+        throw ServerException(
+          exceptionMessage: response['message'] ?? 'Login failed',
+        );
+      }
+    });
+  }
+
 }

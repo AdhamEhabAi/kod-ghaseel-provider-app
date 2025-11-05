@@ -15,3 +15,23 @@ class UpdateProfileError extends ProfileState{
   UpdateProfileError({required this.message});
 
 }
+class RequestUpdatePhoneNumberLoading extends ProfileState{}
+class RequestUpdatePhoneNumberSuccess extends ProfileState{
+  final String message;
+  RequestUpdatePhoneNumberSuccess({required this.message});
+}
+class RequestUpdatePhoneNumberError extends ProfileState{
+  final String message;
+  RequestUpdatePhoneNumberError({required this.message});
+
+}
+class VerifyChangePhoneNumberLoading extends ProfileState{}
+class VerifyChangePhoneNumberSuccess extends ProfileState{
+  final String message;
+  VerifyChangePhoneNumberSuccess({required this.message});
+}
+class VerifyChangePhoneNumberError extends ProfileState {
+  final String message;
+
+  VerifyChangePhoneNumberError({required this.message});
+}

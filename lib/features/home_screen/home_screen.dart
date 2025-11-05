@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _getBottomNavigationBarSize();
     HomeTabController.value.addListener(_onTabChanged);
-    context.read<HomeScreenCubit>().checkSessionValidation();
+    // context.read<HomeScreenCubit>().checkSessionValidation();
     WidgetsBinding.instance.addPostFrameCallback((_) => _getBottomNavigationBarSize());
   }
   void _onTabChanged() {
@@ -156,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
             DialogUtils.hideLoading(context);
             DialogUtils.showAlert(
                 context: context,
-                message: "برجاء تسجيل الدخول مره اخرى",
+                message: state.message,
                 posAction:(){
                   GoRouter.of(context).pushReplacement(AppRouter.loginScreen);
                   AppSharedPreferences.clear();
