@@ -231,6 +231,8 @@ static TextStyle get primaryW600Size18 => _ts(
 
   static TextStyle get blackW500Size16 =>
       _ts(fontSize: 16.sp, fontWeight: FontWeight.w500, color: AppStyle.black);
+  static TextStyle get blackW600Size18Roboto =>
+      _ts(fontSize: 18.sp, fontWeight: FontWeight.w600, color: AppStyle.black);
 
   static TextStyle get blackW500Size10 =>
       _ts(fontSize: 10.sp, fontWeight: FontWeight.w500, color: AppStyle.black);

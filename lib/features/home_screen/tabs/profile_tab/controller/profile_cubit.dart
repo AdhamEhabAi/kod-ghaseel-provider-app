@@ -35,4 +35,55 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
     );
   }
+  void requestUpdatePhoneNumber({
+    required String phoneNumber ,
+  }) async {
+    emit(RequestUpdatePhoneNumberLoading());
+
+    // await Future.delayed(Duration(seconds: 5));
+    //
+    //   bool isSuccess = true;
+    //
+    //   if (isSuccess) {
+    //     emit(RequestUpdatePhoneNumberSuccess(message: "message"));
+    //   } else {
+    //      emit(RequestUpdatePhoneNumberError(message: "error"));
+    //   }
+
+    var response = await profileRepo.updatePhoneNumberRequest(
+      phoneNumber: phoneNumber,
+    );
+    response.fold(
+          (error) {
+        emit(RequestUpdatePhoneNumberError(message: error.message));
+      },
+          (success) {
+        emit(RequestUpdatePhoneNumberSuccess(message: success.message ?? ""));
+      },
+    );
+  }
+
+  void verifyPhoneWithOtp({
+    required String otp ,
+  }) async {
+    emit(VerifyChangePhoneNumberLoading());
+    // await Future.delayed(Duration(seconds: 5));
+    // if(otp=="1234"){
+    //   emit(VerifyChangePhoneNumberSuccess(message: "success"));
+    // }else{
+    //   emit(VerifyChangePhoneNumberError(message: "error"));
+    // }
+    var response = await profileRepo.verifyPhoneWithOtp(
+      otp: otp,
+    );
+    response.fold(
+          (error) {
+        emit(VerifyChangePhoneNumberError(message: error.message));
+      },
+          (success) {
+        emit(VerifyChangePhoneNumberSuccess(message: success.message ?? ""));
+      },
+    );
+
+  }
 }

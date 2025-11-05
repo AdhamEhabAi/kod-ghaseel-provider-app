@@ -48,7 +48,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF3F6F7),
-      body: BlocConsumer(
+      body: BlocConsumer<ProfileCubit,ProfileState>(
         listener: (BuildContext context, state) {
           if(state is UpdateProfileSuccess){
             ToastM.show(state.message);
@@ -138,30 +138,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             textInputAction: TextInputAction.next,
                           ),
                           SizedBox(height: 12.h),
-                          TextFiledTitle(s.profile_phone), // "رقم الهاتف"
-                          SizedBox(height: 12.h),
-                          CustomTextFormField(
-                            color: Colors.transparent,
-                            controller: phoneController,
-                            keyboardType: TextInputType.phone,
-                            textDirection: TextDirection.ltr,
-                            colorBorder: AppStyle.textFieldBorderColor,
-                            suffixIcon: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 12.w,
-                                vertical: 12.w,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.r),
-                              ),
-                              child: Text(
-                                '966+',
-                                style: AppTextStyle.blackW400Size16Roboto.copyWith(
-                                  fontFamily: "Inter",
-                                ),
-                              ),
-                            ),
-                          ),
                           SizedBox(height: 70.h),
                           Center(
                             child: Padding(

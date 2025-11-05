@@ -48,7 +48,7 @@ class AppRouter {
   static var globalNavKey = GlobalKey<NavigatorState>();
 
   static final GoRouter router = GoRouter(
-    initialLocation: splashScreen,
+    initialLocation: homeScreen,
     debugLogDiagnostics: true,
     navigatorKey: globalNavKey,
     redirect: (context, state) {
