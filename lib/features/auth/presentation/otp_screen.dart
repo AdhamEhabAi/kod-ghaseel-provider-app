@@ -16,16 +16,10 @@ import 'package:kod_ghaseel_provider_app/features/auth/presentation/widgets/otp_
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 import 'package:kod_ghaseel_provider_app/shared/shared_widget.dart';
 
-
 class OtpScreen extends StatefulWidget {
   final String phone;
-  final bool isRegister;
 
-  const OtpScreen({
-    super.key,
-    required this.phone,
-    this.isRegister = false,
-  });
+  const OtpScreen({super.key, required this.phone});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -95,7 +89,8 @@ class _OtpScreenState extends State<OtpScreen> {
         },
         builder: (context, state) {
           final isLoading = state is AuthLoading;
-          final isResending = state is SendPinLoading || state is ReSendPinLoading;
+          final isResending =
+              state is SendPinLoading || state is ReSendPinLoading;
 
           return SingleChildScrollView(
             child: Column(
@@ -114,7 +109,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               FocusScope.of(context).unfocus();
                               Future.delayed(
                                 const Duration(milliseconds: 300),
-                                    () => GoRouter.of(context).pop(),
+                                () => GoRouter.of(context).pop(),
                               );
                             },
                             child: SvgPicture.asset(Assets.chevronBackward),
@@ -140,16 +135,10 @@ class _OtpScreenState extends State<OtpScreen> {
                       OTPTextField(
                         controller: otpController,
                         onCompleted: (code) {
-                          if (widget.isRegister) {
-                            context.read<AuthCubit>().verifyPinCodeForRegister(
-                              pinCode: code,
-                            );
-                          } else {
-                            context.read<AuthCubit>().loginByPin(
-                              phone: widget.phone,
-                              pinCode: code,
-                            );
-                          }
+                          context.read<AuthCubit>().loginByPin(
+                            phone: widget.phone,
+                            pinCode: code,
+                          );
                         },
                       ),
                       SizedBox(height: 10.h),
@@ -174,36 +163,29 @@ class _OtpScreenState extends State<OtpScreen> {
                                 if (_secondsRemaining > 0) {
                                   return Text(
                                     _formatMMSS(_secondsRemaining),
-                                    style: AppTextStyle.blackW400Size14Roboto.copyWith(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                    style: AppTextStyle.blackW400Size14Roboto
+                                        .copyWith(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                   );
                                 }
 
                                 return GestureDetector(
                                   onTap: () {
                                     _startCooldown();
-
-                                    if (widget.isRegister) {
-                                      context
-                                          .read<AuthCubit>()
-                                          .reSendPinCodeForRegister(
-                                        phone: widget.phone,
-                                      );
-                                    } else {
-                                      context.read<AuthCubit>().reSendPinCode(
-                                        phone: widget.phone,
-                                      );
-                                    }
+                                    context.read<AuthCubit>().reSendPinCode(
+                                      phone: widget.phone,
+                                    );
                                   },
                                   child: Text(
                                     loc.resendCode,
-                                    style: AppTextStyle.blackW400Size14Roboto.copyWith(
-                                      color: Colors.black,
-                                      decoration: TextDecoration.underline,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                    style: AppTextStyle.blackW400Size14Roboto
+                                        .copyWith(
+                                          color: Colors.black,
+                                          decoration: TextDecoration.underline,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                   ),
                                 );
                               },
@@ -218,34 +200,26 @@ class _OtpScreenState extends State<OtpScreen> {
                         child: isLoading
                             ? const AppLoader()
                             : DefaultButton(
-                          width: 250.w,
-                          onPressed: () {
-                            final code = otpController.text.trim();
-                            if (code.isEmpty) {
-                              ToastM.show(loc.fieldRequired);
-                              return;
-                            }
+                                width: 250.w,
+                                onPressed: () {
+                                  final code = otpController.text.trim();
+                                  if (code.isEmpty) {
+                                    ToastM.show(loc.fieldRequired);
+                                    return;
+                                  }
 
-                            if (widget.isRegister) {
-                              context
-                                  .read<AuthCubit>()
-                                  .verifyPinCodeForRegister(
-                                pinCode: code,
-                              );
-                            } else {
-                              context.read<AuthCubit>().loginByPin(
-                                phone: widget.phone,
-                                pinCode: code,
-                              );
-                            }
-                          },
-                          backgroundColorButton: AppStyle.primaryColor,
-                          borderRadius: BorderRadius.circular(50.r),
-                          titleWidget: Text(
-                            loc.login,
-                            style: AppTextStyle.whiteW600Size16Roboto,
-                          ),
-                        ),
+                                  context.read<AuthCubit>().loginByPin(
+                                    phone: widget.phone,
+                                    pinCode: code,
+                                  );
+                                },
+                                backgroundColorButton: AppStyle.primaryColor,
+                                borderRadius: BorderRadius.circular(50.r),
+                                titleWidget: Text(
+                                  loc.login,
+                                  style: AppTextStyle.whiteW600Size16Roboto,
+                                ),
+                              ),
                       ),
                     ],
                   ),

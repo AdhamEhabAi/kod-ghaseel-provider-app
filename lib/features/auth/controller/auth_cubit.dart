@@ -6,7 +6,6 @@ import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/models/login_response.dart';
-import 'package:kod_ghaseel_provider_app/features/auth/data/models/register_response.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/models/request_pin_response.dart';
 
 import 'package:meta/meta.dart';
@@ -22,7 +21,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   LoginResponse? loginResponse;
   RequestPinResponse? requestPinResponse;
-  RegisterResponse? registerResponse;
   String? deviceId;
   String? deviceType;
   User? guestUser;
@@ -102,90 +100,12 @@ class AuthCubit extends Cubit<AuthState> {
       },
     );
   }
-
-  Future<void> register({
-    required String phone,
-    required String fullName,
-  }) async {
-    emit(RegisterLoading());
-
-    await _ensureDeviceInfo();
-
-    final result = await authRepo.register(
-      mobile: phone,
-      fullName: fullName,
-      deviceId: deviceId ?? '',
-      deviceType: deviceType ?? '',
-    );
-
-    result.fold(
-      (Failure failure) => emit(RegisterError(message: failure.message)),
-      (RegisterResponse response) {
-        registerResponse = response;
-        emit(RegisterSuccess());
-      },
-    );
-  }
-
-  Future<void> verifyPinCodeForRegister({required String pinCode}) async {
-    emit(AuthLoading());
-
-    await _ensureDeviceInfo();
-
-    final result = await authRepo.verifyPinCodeForRegister(
-      userId:
-          int.tryParse(registerResponse?.data?.userId.toString() ?? '') ?? 0,
-      pinCode: pinCode,
-    );
-
-    result.fold(
-      (Failure failure) => emit(AuthError(message: failure.message)),
-      (LoginResponse response) async {
-        loginResponse = response;
-        await AppSharedPreferences.setString(
-          SharedPreferencesKeys.accessToken,
-          loginResponse?.data?.sessionToken ?? '',
-        );
-        try {
-          final userJson = loginResponse?.data?.user.toJson();
-          if (userJson != null) {
-            await AppSharedPreferences.setString(
-              SharedPreferencesKeys.userModel,
-              jsonEncode(userJson),
-            );
-          }
-        } catch (e) {
-          emit(AuthError(message: 'Failed to save user model: $e'));
-          return;
-        }
-
-        emit(AuthSuccess());
-      },
-    );
-  }
-
   Future<void> reSendPinCode({required String phone}) async {
     emit(ReSendPinLoading());
 
     await _ensureDeviceInfo();
 
     final result = await authRepo.reSendPinCode(mobile: phone);
-
-    result.fold(
-      (Failure failure) => emit(ReSendPinError(message: failure.message)),
-      (RequestPinResponse response) {
-        requestPinResponse = response;
-        emit(ReSendPinSuccess());
-      },
-    );
-  }
-
-  Future<void> reSendPinCodeForRegister({required String phone}) async {
-    emit(ReSendPinLoading());
-
-    await _ensureDeviceInfo();
-
-    final result = await authRepo.reSendPinCodeForRegister(mobile: phone);
 
     result.fold(
       (Failure failure) => emit(ReSendPinError(message: failure.message)),

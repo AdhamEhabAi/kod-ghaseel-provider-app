@@ -1,5 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Utilites/app_assets/assets.dart';
 import '../tabs/home_tab/widgets/top_bar_widget.dart';
@@ -20,12 +25,61 @@ class HomeSliverAppBar extends StatelessWidget {
       toolbarHeight: 110.h,
       floating: true,
       automaticallyImplyLeading: false,
-      flexibleSpace: LayoutBuilder(
-        builder: (context, constraints) {
+      flexibleSpace: BlocBuilder<HomeScreenCubit, HomeScreenState>(
+        builder: (context, state) {
+          final cubit = context.read<HomeScreenCubit>();
+          final sliderBanners = cubit.sliderBanners;
+
           return Stack(
             fit: StackFit.expand,
             children: [
-              Image.asset(Assets.homeBG, fit: BoxFit.cover),
+              if (sliderBanners.isNotEmpty)
+                CarouselSlider.builder(
+                  itemCount: sliderBanners.length,
+                  itemBuilder: (context, index, realIndex) {
+                    final banner = sliderBanners[index];
+                    return CachedNetworkImage(
+                      imageUrl: banner.imageUrl,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Skeletonizer(
+                        enabled: true,
+                        child: Container(
+                          color: Colors.grey.shade300,
+                          width: double.infinity,
+                          height: 300.h,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => SizedBox.expand(
+                        child: Image.asset(
+                          Assets.homeBG,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                  options: CarouselOptions(
+                    height: 350.h,
+                    viewportFraction: 1.0,
+                    autoPlay: true,
+                    autoPlayInterval: const Duration(seconds: 3),
+                    autoPlayAnimationDuration:
+                    const Duration(milliseconds: 800),
+                    enableInfiniteScroll: true,
+                    scrollDirection: Axis.horizontal,
+                  ),
+                )
+              else if (state is HomeBannersLoading)
+                Skeletonizer(
+                  enabled: true,
+                  child: Container(
+                    color: Colors.grey.shade300,
+                    width: double.infinity,
+                    height: 300.h,
+                  ),
+                )
+              else
+                Image.asset(Assets.homeBG, fit: BoxFit.cover),
+
               SafeArea(
                 child: Align(
                   alignment: Alignment.topCenter,
@@ -34,7 +88,7 @@ class HomeSliverAppBar extends StatelessWidget {
                     child: Container(
                       height: kToolbarHeight,
                       alignment: Alignment.center,
-                      child:  TopBarWidget(isFilterIconExists: isFilter,),
+                      child: const TopBarWidget(),
                     ),
                   ),
                 ),

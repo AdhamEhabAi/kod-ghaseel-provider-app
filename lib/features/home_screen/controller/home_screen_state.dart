@@ -24,3 +24,11 @@ class NotValidateSession extends HomeScreenState {
   NotValidateSession({this.message = 'Session is not valid'});
 
 }
+class HomeBannersLoading extends HomeScreenState {}
+
+class HomeBannersLoaded extends HomeScreenState {}
+
+class HomeBannersError extends HomeScreenState {
+  final String message;
+  HomeBannersError({required this.message});
+}

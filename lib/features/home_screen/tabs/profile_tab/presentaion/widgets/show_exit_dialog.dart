@@ -22,7 +22,7 @@ void showExitDialog(BuildContext context) {
       return BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is LogoutSuccess) {
-            GoRouter.of(context).go(AppRouter.registerScreen);
+            GoRouter.of(context).go(AppRouter.loginScreen);
           } else if (state is LogoutError) {
             ToastM.show(state.message);
           }
@@ -53,7 +53,7 @@ void showExitDialog(BuildContext context) {
                                 authCubit.guestUser = null;
                                 GoRouter.of(
                                   context,
-                                ).go(AppRouter.registerScreen);
+                                ).go(AppRouter.loginScreen);
                               } else {
                                 authCubit.logout();
                               }

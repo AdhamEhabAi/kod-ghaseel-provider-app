@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _getBottomNavigationBarSize();
     HomeTabController.value.addListener(_onTabChanged);
-    // context.read<HomeScreenCubit>().checkSessionValidation();
+    context.read<HomeScreenCubit>().checkSessionValidation();
     WidgetsBinding.instance.addPostFrameCallback((_) => _getBottomNavigationBarSize());
   }
   void _onTabChanged() {
@@ -165,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }else if(state is ValidatedSession){
             DialogUtils.hideLoading(context);
+            context.read<HomeScreenCubit>().getHomeBanners();
           }
         },
         child: pages[_selectedIndex],
