@@ -25,7 +25,7 @@ class ButtonSectionOnBoarding extends StatelessWidget {
         children: [
           DefaultButton(
             onPressed: () {
-              GoRouter.of(context).push(AppRouter.registerScreen);
+              GoRouter.of(context).push(AppRouter.loginScreen);
             },
             backgroundColorButton: AppStyle.primaryColor,
             borderRadius: BorderRadius.circular(50.r),

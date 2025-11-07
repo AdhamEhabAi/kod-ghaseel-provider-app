@@ -46,7 +46,7 @@ Future<void> showGuestLoginDialog(BuildContext context) async {
             onPressed: () {
               GoRouter.of(context).pop();
               BlocProvider.of<AuthCubit>(context).guestUser = null;
-              GoRouter.of(context).go(AppRouter.registerScreen);
+              GoRouter.of(context).go(AppRouter.loginScreen);
             },
             child: Text(
               loc.registerNow,
