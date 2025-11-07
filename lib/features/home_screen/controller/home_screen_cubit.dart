@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/data/models/banner_response_model.dart';
 
 import '../data/home_repo/home_repo.dart';
 import '../data/models/CheckSessionValidationResponse.dart';
@@ -16,7 +17,8 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   }
 
   Locale get currentLocale => _currentLocale;
-
+  List<BannerItem> sliderBanners = [];
+  List<BannerItem> popupBanners = [];
   Future<void> loadLanguage() async {
     String? savedLang = AppSharedPreferences.getString(
       SharedPreferencesKeys.language,
@@ -45,6 +47,25 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
           (failure) => emit(NotValidateSession(message: failure.message)),
           (response) => emit(ValidatedSession(response: response)),
     );
+  }
+  Future<void> getHomeBanners() async {
+    emit(HomeBannersLoading());
+
+    final result = await homeRepo.getHomeBanners();
+
+    result.fold((failure) => emit(HomeBannersError(message: failure.message)), (
+        response,
+        ) {
+      sliderBanners = response.data
+          .where((banner) => banner.displayType.toLowerCase() == 'slider')
+          .toList();
+
+      popupBanners = response.data
+          .where((banner) => banner.displayType.toLowerCase() == 'popup')
+          .toList();
+
+      emit(HomeBannersLoaded());
+    });
   }
 // // for test
 // Future<void> checkSessionValidation() async {

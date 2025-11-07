@@ -56,6 +56,9 @@ dependencies:
   firebase_core:
   dio:
   dartz:
+  skeletonizer:
+  cached_network_image:
+  carousel_slider:
   location:
   firebase_messaging:
   internet_connection_checker:
