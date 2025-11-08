@@ -59,7 +59,7 @@ class UserData {
   String? fullName;
   dynamic profileImage;
   String? status;
-  bool? phoneVerified;
+  String? phoneVerified;
   String? createdAt;
   String? lastLogin;
 
