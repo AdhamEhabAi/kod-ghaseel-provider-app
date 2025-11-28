@@ -9,6 +9,7 @@ import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widg
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/order_information_card.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/user_data_section.dart';
 import 'package:kod_ghaseel_provider_app/features/orders/controller/orders_cubit.dart';
+import 'package:kod_ghaseel_provider_app/features/statics/controller/statics_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Utilites/app_fonts/font.dart';
@@ -59,16 +60,73 @@ class _HomeTabState extends State<HomeTab> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BalanceContainer(amount: 245, completedOrders: 12),
+                  BlocBuilder<StaticsCubit, StaticsState>(
+                    builder: (context, state) {
+                      final cubit = context.read<StaticsCubit>();
+                      final statistics = cubit.statisticsResponse?.data;
+
+                      if (statistics == null) {
+                        return Skeletonizer(
+                          enabled: true,
+                          child: BalanceContainer(
+                            amount: 0,
+                            completedOrders: 0,
+                          ),
+                        );
+                      }
+
+                      return BalanceContainer(
+                        amount: statistics.commission.today,
+                        completedOrders: statistics.completedOrders.today,
+                      );
+                    },
+                  ),
                   SizedBox(height: 12.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      NumberOfOrdersContainer(
-                        totalOrders: 125,
-                        dailyOrders: 10,
+                      BlocBuilder<StaticsCubit, StaticsState>(
+                        builder: (context, state) {
+                          final cubit = context.read<StaticsCubit>();
+                          final statistics = cubit.statisticsResponse?.data;
+
+                          if (statistics == null) {
+                            return Skeletonizer(
+                              enabled: true,
+                              child: NumberOfOrdersContainer(
+                                totalOrders: 0,
+                                dailyOrders: 0,
+                              ),
+                            );
+                          }
+
+                          return NumberOfOrdersContainer(
+                            totalOrders: statistics.completedOrders.month,
+                            dailyOrders: statistics.completedOrders.today,
+                          );
+                        },
                       ),
-                      AcceptingRateContainer(),
+                      BlocBuilder<StaticsCubit, StaticsState>(
+                        builder: (context, state) {
+                          final cubit = context.read<StaticsCubit>();
+                          final statistics = cubit.statisticsResponse?.data;
+
+                          if (statistics == null) {
+                            return Skeletonizer(
+                              enabled: true,
+                              child: AcceptingRateContainer(
+                                acceptanceRate: 0,
+                                rating: 0,
+                              ),
+                            );
+                          }
+
+                          return AcceptingRateContainer(
+                            acceptanceRate: statistics.acceptanceRate,
+                            rating: statistics.rating.today,
+                          );
+                        },
+                      ),
                     ],
                   ),
                   BlocBuilder<OrdersCubit, OrdersState>(
