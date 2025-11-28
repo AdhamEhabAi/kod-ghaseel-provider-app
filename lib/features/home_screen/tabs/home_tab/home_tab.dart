@@ -62,7 +62,7 @@ class HomeTab extends StatelessWidget {
                       child: UserDataSection(subtitle:s.mapAddress ,name: "سارة محمد",)),
                   SizedBox(height: 12.h),
                   Text(
-                    s.previousOrders,
+                    s.today_orders,
                     style: AppTextStyle.blackW600Size14Roboto,
                   ),
                   SizedBox(height: 6.h),
