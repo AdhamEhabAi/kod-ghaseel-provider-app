@@ -62,8 +62,10 @@
   "threeHours": "ثلاث ساعات",
   "other": "أخرى",
   "enterMinutesHint": "اكتب عدد الدقائق",
+  "enterHoursHint": "اكتب عدد الساعات",
   "done": "تم",
   "invalidMinutesMsg": "من فضلك أدخل عدد دقائق صالح",
+  "invalidHoursMsg": "من فضلك أدخل عدد ساعات صالح",
   "helloName": "مرحباً {name} 👋",
   "@helloName": {
     "description": "تحية بالاسم",

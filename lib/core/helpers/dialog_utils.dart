@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
 
 import '../../Utilites/app_fonts/font.dart';
 import '../../Utilites/app_style/style.dart';
@@ -24,9 +25,7 @@ class DialogUtils {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircularProgressIndicator(
-                  color: AppStyle.primaryColor,
-                ),
+                AppLoader(),
                 const SizedBox(height: 20),
                 Text(
                   message,
