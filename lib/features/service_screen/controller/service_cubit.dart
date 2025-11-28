@@ -1,0 +1,244 @@
+import 'dart:async';
+import 'dart:developer' as developer;
+import 'dart:io';
+import 'package:bloc/bloc.dart';
+import 'package:location/location.dart';
+import 'package:meta/meta.dart';
+import 'package:permission_handler/permission_handler.dart' hide PermissionStatus;
+import 'package:kod_ghaseel_provider_app/features/service_screen/data/repo/service_repo.dart';
+
+part 'service_state.dart';
+
+class ServiceCubit extends Cubit<ServiceState> {
+  final ServiceRepo _serviceRepo;
+  StreamSubscription<LocationData>? _locationSubscription;
+  bool _isStreaming = false;
+
+  ServiceCubit(this._serviceRepo) : super(ServiceInitial());
+
+  /// Initialize location service and request permissions
+  Future<void> initializeLocation() async {
+    print('📍 [ServiceCubit] initializeLocation() called');
+    developer.log('📍 [ServiceCubit] initializeLocation() called', name: 'Location');
+    emit(ServiceLocationLoading());
+
+    try {
+      // Check and request location service
+      bool serviceEnabled = await _serviceRepo.isLocationServiceEnabled();
+      print('📍 [ServiceCubit] Location service enabled: $serviceEnabled');
+      if (!serviceEnabled) {
+        serviceEnabled = await _serviceRepo.requestLocationService();
+        print('📍 [ServiceCubit] Location service requested, enabled: $serviceEnabled');
+        if (!serviceEnabled) {
+          print('❌ [ServiceCubit] Location service denied');
+          emit(ServiceLocationPermissionDenied(
+            'Location services are disabled. Please enable them in settings.',
+          ));
+          return;
+        }
+      }
+
+      // Check and request location permissions
+      PermissionStatus permissionStatus = await _serviceRepo.getLocationPermissionStatus();
+      print('📍 [ServiceCubit] Location permission status: $permissionStatus');
+      
+      if (permissionStatus == PermissionStatus.denied) {
+        permissionStatus = await _serviceRepo.requestLocationPermission();
+        print('📍 [ServiceCubit] Location permission requested, status: $permissionStatus');
+      }
+
+      // For Android, also request background location permission
+      if (Platform.isAndroid) {
+        if (permissionStatus == PermissionStatus.granted) {
+          // Request background location permission for Android 10+
+          final backgroundPermission = await Permission.locationAlways.status;
+          print('📍 [ServiceCubit] Background location permission status: $backgroundPermission');
+          if (backgroundPermission.isDenied) {
+            await Permission.locationAlways.request();
+            print('📍 [ServiceCubit] Background location permission requested');
+          }
+        }
+      }
+
+      if (permissionStatus != PermissionStatus.granted) {
+        print('❌ [ServiceCubit] Location permission not granted');
+        emit(ServiceLocationPermissionDenied(
+          'Location permission is required to track your position.',
+        ));
+        return;
+      }
+
+      // Configure location settings for background tracking
+      bool configured = await _serviceRepo.configureLocationSettings();
+      print('📍 [ServiceCubit] Location settings configured: $configured');
+      if (!configured) {
+        emit(ServiceLocationError(
+          'Failed to configure location settings.',
+        ));
+        return;
+      }
+
+      // Get initial location
+      final locationData = await _serviceRepo.getCurrentLocation();
+      if (locationData != null) {
+        print('📍 [ServiceCubit] Initial location received - Lat: ${locationData.latitude}, Lng: ${locationData.longitude}, Accuracy: ${locationData.accuracy}m');
+        developer.log(
+          '📍 Initial location - Lat: ${locationData.latitude}, Lng: ${locationData.longitude}',
+          name: 'Location',
+        );
+        emit(ServiceLocationEnabled(
+          latitude: locationData.latitude ?? 0.0,
+          longitude: locationData.longitude ?? 0.0,
+          accuracy: locationData.accuracy,
+          altitude: locationData.altitude,
+          speed: locationData.speed,
+          timestamp: DateTime.now(),
+        ));
+      } else {
+        print('❌ [ServiceCubit] Unable to get current location');
+        emit(ServiceLocationError('Unable to get current location.'));
+      }
+    } catch (e) {
+      print('❌ [ServiceCubit] Error initializing location: $e');
+      developer.log('❌ Error initializing location: $e', name: 'Location', error: e);
+      emit(ServiceLocationError('Error initializing location: ${e.toString()}'));
+    }
+  }
+
+  /// Start location streaming (works in background)
+  Future<void> startLocationStream() async {
+    if (_isStreaming) {
+      print('📍 [ServiceCubit] Location stream already active');
+      return; // Already streaming
+    }
+
+    print('📍 [ServiceCubit] startLocationStream() called');
+    developer.log('📍 [ServiceCubit] startLocationStream() called', name: 'Location');
+
+    try {
+      // Ensure permissions are granted
+      PermissionStatus permissionStatus = await _serviceRepo.getLocationPermissionStatus();
+      if (permissionStatus != PermissionStatus.granted) {
+        print('📍 [ServiceCubit] Permission not granted, initializing...');
+        await initializeLocation();
+        permissionStatus = await _serviceRepo.getLocationPermissionStatus();
+        if (permissionStatus != PermissionStatus.granted) {
+          print('❌ [ServiceCubit] Permission still not granted after initialization');
+          emit(ServiceLocationPermissionDenied(
+            'Location permission is required to track your position.',
+          ));
+          return;
+        }
+      }
+
+      // Configure location settings
+      await _serviceRepo.configureLocationSettings();
+      print('📍 [ServiceCubit] Location settings configured for streaming');
+
+      // Start listening to location stream
+      print('📍 [ServiceCubit] Starting location stream listener...');
+      _locationSubscription = _serviceRepo.getLocationStream().listen(
+        (LocationData locationData) {
+          if (locationData.latitude != null && locationData.longitude != null) {
+            final timestamp = DateTime.now();
+            print('📍 [BACKGROUND] Location update received at ${timestamp.toIso8601String()}');
+            print('   📍 Lat: ${locationData.latitude}, Lng: ${locationData.longitude}');
+            print('   📍 Accuracy: ${locationData.accuracy}m, Speed: ${locationData.speed}m/s');
+            print('   📍 Altitude: ${locationData.altitude}m');
+            developer.log(
+              '📍 [BACKGROUND] Location - Lat: ${locationData.latitude}, Lng: ${locationData.longitude}, Accuracy: ${locationData.accuracy}m',
+              name: 'Location',
+            );
+            emit(ServiceLocationStreamActive(
+              latitude: locationData.latitude!,
+              longitude: locationData.longitude!,
+              accuracy: locationData.accuracy,
+              altitude: locationData.altitude,
+              speed: locationData.speed,
+              timestamp: timestamp,
+            ));
+          } else {
+            print('⚠️ [ServiceCubit] Location data received but lat/lng is null');
+          }
+        },
+        onError: (error) {
+          print('❌ [ServiceCubit] Location stream error: $error');
+          developer.log('❌ Location stream error: $error', name: 'Location', error: error);
+          emit(ServiceLocationError('Location stream error: ${error.toString()}'));
+        },
+        cancelOnError: false,
+      );
+
+      _isStreaming = true;
+      print('✅ [ServiceCubit] Location stream started successfully');
+      developer.log('✅ Location stream started', name: 'Location');
+    } catch (e) {
+      print('❌ [ServiceCubit] Error starting location stream: $e');
+      developer.log('❌ Error starting location stream: $e', name: 'Location', error: e);
+      emit(ServiceLocationError('Error starting location stream: ${e.toString()}'));
+    }
+  }
+
+  /// Stop location streaming
+  Future<void> stopLocationStream() async {
+    print('🛑 [ServiceCubit] stopLocationStream() called');
+    developer.log('🛑 [ServiceCubit] stopLocationStream() called', name: 'Location');
+    await _locationSubscription?.cancel();
+    _locationSubscription = null;
+    _isStreaming = false;
+    print('✅ [ServiceCubit] Location stream stopped');
+    emit(ServiceInitial());
+  }
+
+  /// Get current location once
+  Future<void> getCurrentLocation() async {
+    print('📍 [ServiceCubit] getCurrentLocation() called');
+    emit(ServiceLocationLoading());
+
+    try {
+      // Check permissions
+      PermissionStatus permissionStatus = await _serviceRepo.getLocationPermissionStatus();
+      if (permissionStatus != PermissionStatus.granted) {
+        await initializeLocation();
+        permissionStatus = await _serviceRepo.getLocationPermissionStatus();
+        if (permissionStatus != PermissionStatus.granted) {
+          print('❌ [ServiceCubit] Permission not granted for getCurrentLocation');
+          emit(ServiceLocationPermissionDenied(
+            'Location permission is required.',
+          ));
+          return;
+        }
+      }
+
+      final locationData = await _serviceRepo.getCurrentLocation();
+      if (locationData != null && 
+          locationData.latitude != null && 
+          locationData.longitude != null) {
+        print('📍 [ServiceCubit] Current location - Lat: ${locationData.latitude}, Lng: ${locationData.longitude}');
+        emit(ServiceLocationEnabled(
+          latitude: locationData.latitude!,
+          longitude: locationData.longitude!,
+          accuracy: locationData.accuracy,
+          altitude: locationData.altitude,
+          speed: locationData.speed,
+          timestamp: DateTime.now(),
+        ));
+      } else {
+        print('❌ [ServiceCubit] Unable to get current location');
+        emit(ServiceLocationError('Unable to get current location.'));
+      }
+    } catch (e) {
+      print('❌ [ServiceCubit] Error getting location: $e');
+      emit(ServiceLocationError('Error getting location: ${e.toString()}'));
+    }
+  }
+
+
+  @override
+  Future<void> close() {
+    print('🛑 [ServiceCubit] close() called - cleaning up location stream');
+    _locationSubscription?.cancel();
+    _isStreaming = false;
+    return super.close();
+  }
+}
