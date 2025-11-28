@@ -40,15 +40,6 @@ class SecondSectionProfileTab extends StatelessWidget {
             onTap: () => GoRouter.of(context).push(AppRouter.notificationSettingScreen),
           ),
 
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
-          ),
-          OptionTile(
-            title: s.packages,
-            iconPath: Assets.starProfileTab,
-            onTap: () => HomeTabController.value.value = 1,
-          ),
         ],
       ),
     );
