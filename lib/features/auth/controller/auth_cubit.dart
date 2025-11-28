@@ -23,7 +23,6 @@ class AuthCubit extends Cubit<AuthState> {
   RequestPinResponse? requestPinResponse;
   String? deviceId;
   String? deviceType;
-  User? guestUser;
 
   Future<void> _initializeDeviceInfo() async {
     deviceId = AppSharedPreferences.getString(SharedPreferencesKeys.uuid);

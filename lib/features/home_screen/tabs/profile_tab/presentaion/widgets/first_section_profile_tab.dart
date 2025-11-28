@@ -32,21 +32,7 @@ class FirstSectionProfileTab extends StatelessWidget {
       ),
       child: Column(
         children: [
-          OptionTile(
-            title: s.add_personal_email, // "اضف ايميل شخصي"
-            iconPath: Assets.emailProfileTab,
-            onTap: () {
-              GoRouter.of(context).push(AppRouter.editProfileScreen);
-            },
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: Divider(
-              height: 24.h,
-              thickness: 1,
-              color: const Color(0xFFF2F4F5),
-            ),
-          ),
+
           OptionTile(
             title: phone??"000000",
             iconPath: Assets.callProfileTab,

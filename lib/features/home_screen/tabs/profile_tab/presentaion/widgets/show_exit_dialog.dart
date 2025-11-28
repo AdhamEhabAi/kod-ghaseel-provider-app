@@ -48,15 +48,7 @@ void showExitDialog(BuildContext context) {
                             borderRadius: BorderRadius.circular(20.r),
                             onPressed: () {
                               final authCubit = context.read<AuthCubit>();
-
-                              if (authCubit.guestUser != null) {
-                                authCubit.guestUser = null;
-                                GoRouter.of(
-                                  context,
-                                ).go(AppRouter.loginScreen);
-                              } else {
-                                authCubit.logout();
-                              }
+                              authCubit.logout();
                             },
                             titleWidget: Text(
                               s.logoutConfirm,

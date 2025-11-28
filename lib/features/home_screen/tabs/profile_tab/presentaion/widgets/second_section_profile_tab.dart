@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab_controller.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
 import '../../../../../../Utilites/app_assets/assets.dart';
@@ -40,15 +39,6 @@ class SecondSectionProfileTab extends StatelessWidget {
             onTap: () => GoRouter.of(context).push(AppRouter.notificationSettingScreen),
           ),
 
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
-          ),
-          OptionTile(
-            title: s.packages,
-            iconPath: Assets.starProfileTab,
-            onTap: () => HomeTabController.value.value = 1,
-          ),
         ],
       ),
     );

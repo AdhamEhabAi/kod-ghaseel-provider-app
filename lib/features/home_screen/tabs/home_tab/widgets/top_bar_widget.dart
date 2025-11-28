@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kod_ghaseel_provider_app/core/widgets/show_guest_dialog.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/availability_pill_switch.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/show_unavailable_duration_dialog.dart';
@@ -27,6 +26,7 @@ class TopBarWidget extends StatefulWidget {
 
 class _TopBarWidgetState extends State<TopBarWidget> {
   bool _isAvailable = true;
+  final TextEditingController controller = TextEditingController();
 
   DateTime? _unavailableUntil; // when availability should auto-end
   Timer? _autoEnableTimer; // auto re-enable timer
@@ -84,14 +84,7 @@ class _TopBarWidgetState extends State<TopBarWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  context.read<AuthCubit>().guestUser == null
-                      ? s.helloName('محمود')
-                      : s.helloName(
-                          context.read<AuthCubit>().guestUser?.fullName ?? '',
-                        ),
-                  style: AppTextStyle.whiteW500Size16,
-                ),
+                Text(s.helloName('محمود'), style: AppTextStyle.whiteW500Size16),
                 Row(
                   children: [
                     SvgPicture.asset(Assets.trophyIconSVG, color: Colors.white),
@@ -112,43 +105,34 @@ class _TopBarWidgetState extends State<TopBarWidget> {
               AvailabilityPillSwitch(
                 value: _isAvailable,
                 onBeforeToggle: (nextValue) async {
-                  if (context.read<AuthCubit>().guestUser != null) {
-                    showGuestLoginDialog(context);
-                    return false;
-                  } else {
-                    if (nextValue == false) {
-                      final minutes = await showUnavailableDurationDialog(
-                        context,
-                      );
-                      if (minutes == null) return false; // user canceled
+                  if (nextValue == false) {
+                    final minutes = await showUnavailableDurationDialog(
+                      context,controller
+                    );
+                    if (minutes == null) return false; // user canceled
 
-                      final dur = Duration(minutes: minutes);
-                      final until = DateTime.now().add(dur);
-                      setState(() => _unavailableUntil = until);
-                      _scheduleAutoEnable(dur);
-                      return true; // proceed OFF
-                    }
-
-                    // Turning ON while still inside the unavailable window -> block
-                    if (_stillUnavailable) {
-                      final left = _unavailableUntil!.difference(
-                        DateTime.now(),
-                      );
-                      final m = left.inMinutes;
-                      final sLeft = left.inSeconds % 60;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            S.of(context).cannotEnableYet(m, sLeft),
-                          ),
-                          duration: const Duration(seconds: 2),
-                        ),
-                      );
-                      return false; // veto ON
-                    }
-
-                    return true; // allow ON
+                    final dur = Duration(minutes: minutes);
+                    final until = DateTime.now().add(dur);
+                    setState(() => _unavailableUntil = until);
+                    _scheduleAutoEnable(dur);
+                    return true; // proceed OFF
                   }
+
+                  // Turning ON while still inside the unavailable window -> block
+                  if (_stillUnavailable) {
+                    final left = _unavailableUntil!.difference(DateTime.now());
+                    final m = left.inMinutes;
+                    final sLeft = left.inSeconds % 60;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(S.of(context).cannotEnableYet(m, sLeft)),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                    return false; // veto ON
+                  }
+
+                  return true; // allow ON
                 },
                 onChanged: (isOn) {
                   setState(() => _isAvailable = isOn);
