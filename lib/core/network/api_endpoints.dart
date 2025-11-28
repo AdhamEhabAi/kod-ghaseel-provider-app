@@ -13,5 +13,7 @@ class APIEndpoints {
   static const String verifyChangePhoneNumberWithOtp = 'delivery/index.php';
   static const String checkSessionValidation = 'delivery/index.php';
   static const String homeBanners = 'banners/index.php';
-
+  static const String googleMapApiKey =
+      'AIzaSyBu10a4F7HSwT1vooV3pZe3L8-Mo6LzhXI';
+  static const String googleApiIos = 'AIzaSyAyiN05AZu4flThCX-1m_0asdP_JF3tp3k';
 }

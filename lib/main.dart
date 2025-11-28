@@ -17,6 +17,8 @@ import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dar
 import 'package:kod_ghaseel_provider_app/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/data/home_repo/home_repo.dart';
+import 'package:kod_ghaseel_provider_app/features/service_screen/controller/service_cubit.dart';
+import 'package:kod_ghaseel_provider_app/features/service_screen/data/repo/service_repo.dart';
 import 'package:kod_ghaseel_provider_app/firebase_options.dart';
 
 import 'core/network/bloc_observer.dart';
@@ -105,6 +107,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => HomeScreenCubit(HomeRepo())),
         BlocProvider(create: (_) => ProfileCubit(ProfileRepo())),
         BlocProvider(create: (_) => AuthCubit(AuthRepo())),
+        BlocProvider(create: (_) => ServiceCubit(ServiceRepo())),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
