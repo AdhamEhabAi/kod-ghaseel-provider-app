@@ -1,23 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kod_ghaseel_provider_app/core/helpers/helper_functions.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/accepting_rate_container.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/balance_container.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/number_of_orders_container.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/order_information_card.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/user_data_section.dart';
+import 'package:kod_ghaseel_provider_app/features/orders/controller/orders_cubit.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Utilites/app_fonts/font.dart';
 import '../../../../core/router/router.dart';
 import '../../../../generated/l10n.dart';
 import '../../widgets/home_sliver_app_bar.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
 
   @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<OrdersCubit>().getOrders(
+        tabType: OrderTabType.current,
+        limit: 5,
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var s=S.of(context);
+    var s = S.of(context);
     return Scaffold(
       backgroundColor: const Color(0xffF2F4F5),
       body: CustomScrollView(
@@ -51,29 +71,144 @@ class HomeTab extends StatelessWidget {
                       AcceptingRateContainer(),
                     ],
                   ),
-                  SizedBox(height: 12.h),
-                  Text(
-                    s.currentOrder,
-                    style: AppTextStyle.blackW600Size14Roboto,
-                  ),
-                  SizedBox(height: 12.h),
-                  InkWell(
-                      onTap: () => GoRouter.of(context).push(AppRouter.serviceScreen),
-                      child: UserDataSection(subtitle:s.mapAddress ,name: "سارة محمد",)),
-                  SizedBox(height: 12.h),
-                  Text(
-                    s.today_orders,
-                    style: AppTextStyle.blackW600Size14Roboto,
-                  ),
-                  SizedBox(height: 6.h),
-                  OrderInformation(
-                    clientName: "ساره على",
-                    serviceDescription: s.carServiceDescription,
-                  ),
-                  SizedBox(height: 12.h),
-                  OrderInformation(
-                    clientName: "منى خالد",
-                    serviceDescription: s.carServiceDescription
+                  BlocBuilder<OrdersCubit, OrdersState>(
+                    builder: (context, state) {
+                      final cubit = context.read<OrdersCubit>();
+                      final orders = cubit.getOrdersByTabType(
+                        OrderTabType.current,
+                      );
+
+                      final hasOrders =
+                          orders != null && orders.data.isNotEmpty;
+                      final isLoading =
+                          state is OrdersLoading && state.tabType == 'current';
+
+                      final hasOrderWithinHour = hasOrders
+                          ? orders.data.any(
+                              (order) => HelperFunctions.isWithinOneHour(order),
+                            )
+                          : false;
+
+                      final hasOtherOrders = hasOrders
+                          ? orders.data.any(
+                              (order) =>
+                                  !HelperFunctions.isWithinOneHour(order),
+                            )
+                          : false;
+
+                      if (!hasOrders && !isLoading) {
+                        return const SizedBox.shrink();
+                      }
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (hasOrderWithinHour || isLoading) ...[
+                            SizedBox(height: 12.h),
+                            Text(
+                              s.currentOrder,
+                              style: AppTextStyle.blackW600Size14Roboto,
+                            ),
+                            SizedBox(height: 12.h),
+                            if (isLoading)
+                              // Skeleton for UserDataSection
+                              Skeletonizer(
+                                enabled: true,
+                                child: UserDataSection(
+                                  subtitle: s.mapAddress,
+                                  name: 'Loading...',
+                                ),
+                              )
+                            else if (hasOrderWithinHour)
+                              // Show order within 1 hour in UserDataSection
+                              InkWell(
+                                onTap: () => GoRouter.of(
+                                  context,
+                                ).push(AppRouter.serviceScreen),
+                                child: UserDataSection(
+                                  subtitle: orders.data
+                                      .where(
+                                        (order) =>
+                                            HelperFunctions.isWithinOneHour(
+                                              order,
+                                            ),
+                                      )
+                                      .first
+                                      .locationAddress,
+                                  name: orders.data
+                                      .where(
+                                        (order) =>
+                                            HelperFunctions.isWithinOneHour(
+                                              order,
+                                            ),
+                                      )
+                                      .first
+                                      .customerName,
+                                ),
+                              ),
+                          ],
+                          if (hasOtherOrders || isLoading) ...[
+                            SizedBox(height: 12.h),
+                            Text(
+                              s.today_orders,
+                              style: AppTextStyle.blackW600Size14Roboto,
+                            ),
+                            SizedBox(height: 6.h),
+                            if (isLoading)
+                              // Skeleton for OrderInformation list
+                              Skeletonizer(
+                                enabled: true,
+                                child: Column(
+                                  children: List.generate(
+                                    2,
+                                    (index) => Padding(
+                                      padding: EdgeInsets.only(bottom: 12.h),
+                                      child: OrderInformation(
+                                        clientName: 'Loading...',
+                                        serviceDescription:
+                                            s.carServiceDescription,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            else if (hasOtherOrders)
+                              Column(
+                                children: orders.data
+                                    .where(
+                                      (order) =>
+                                          !HelperFunctions.isWithinOneHour(
+                                            order,
+                                          ),
+                                    )
+                                    .map((order) {
+                                      final serviceDesc =
+                                          HelperFunctions.getServiceDescription(
+                                            order,
+                                          );
+                                      return Padding(
+                                        padding: EdgeInsets.only(bottom: 12.h),
+                                        child: OrderInformation(
+                                          clientName: order.customerName,
+                                          serviceDescription:
+                                              serviceDesc.isNotEmpty
+                                              ? serviceDesc
+                                              : s.carServiceDescription,
+                                          onViewPressed: () {
+                                            // Navigate to order details or service screen
+                                            GoRouter.of(
+                                              context,
+                                            ).push(AppRouter.serviceScreen);
+                                          },
+                                        ),
+                                      );
+                                    })
+                                    .toList(),
+                              ),
+                          ],
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),
