@@ -216,6 +216,8 @@
   "notification4Title": "Your order is being processed 🧽",
   "notification4Subtitle": "Our driver is on the way to pick up the car.",
   "notification5Title": "Your subscription is active! 🧼",
+  "pressBackAgainToExit": "Press back again to exit the app.",
+
   "notification5Subtitle": "Your car will be washed regularly.",
   "timeYesterday": "Yesterday",
   "registerRequiredTitle": "Registration Required",
