@@ -184,6 +184,8 @@ class _HomeScreenState extends State<HomeScreen> {
             }else if(state is ValidatedSession){
               DialogUtils.hideLoading(context);
               context.read<HomeScreenCubit>().getHomeBanners();
+              context.read<HomeScreenCubit>().getProviderStatus();
+
             }
           },
           child: pages[_selectedIndex],

@@ -32,3 +32,15 @@ class HomeBannersError extends HomeScreenState {
   final String message;
   HomeBannersError({required this.message});
 }
+
+class ProviderStatusLoading extends HomeScreenState {}
+
+class ProviderStatusLoaded extends HomeScreenState {
+  final ProviderStatusResponse response;
+  ProviderStatusLoaded({required this.response});
+}
+
+class ProviderStatusError extends HomeScreenState {
+  final String message;
+  ProviderStatusError({required this.message});
+}

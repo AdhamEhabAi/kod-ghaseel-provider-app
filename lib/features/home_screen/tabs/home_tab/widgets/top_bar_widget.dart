@@ -6,7 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
+import 'package:kod_ghaseel_provider_app/core/helpers/dialog_utils.dart';
+import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/availability_pill_switch.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/show_unavailable_duration_dialog.dart';
 
@@ -25,36 +27,28 @@ class TopBarWidget extends StatefulWidget {
 }
 
 class _TopBarWidgetState extends State<TopBarWidget> {
-  bool _isAvailable = true;
   final TextEditingController controller = TextEditingController();
-
-  DateTime? _unavailableUntil; // when availability should auto-end
   Timer? _autoEnableTimer; // auto re-enable timer
 
   @override
   void dispose() {
     _autoEnableTimer?.cancel();
+    controller.dispose();
     super.dispose();
   }
 
-  void _scheduleAutoEnable(Duration dur) {
+  void _scheduleAutoEnable(DateTime offlineUntil) {
     _autoEnableTimer?.cancel();
+    final now = DateTime.now();
+    if (offlineUntil.isBefore(now)) return;
+
+    final dur = offlineUntil.difference(now);
     _autoEnableTimer = Timer(dur, () {
       if (!mounted) return;
-      setState(() {
-        _isAvailable = true;
-        _unavailableUntil = null;
-      });
-      // localized feedback
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(S.of(context).autoEnabledSnackbar)),
-      );
+      // Refresh status from API
+      context.read<HomeScreenCubit>().getProviderStatus();
+      ToastM.show(S.of(context).autoEnabledSnackbar);
     });
-  }
-
-  bool get _stillUnavailable {
-    if (_unavailableUntil == null) return false;
-    return DateTime.now().isBefore(_unavailableUntil!);
   }
 
   @override
@@ -102,44 +96,77 @@ class _TopBarWidgetState extends State<TopBarWidget> {
                 child: SvgPicture.asset(Assets.filterIconSVG),
               )
             else
-              AvailabilityPillSwitch(
-                value: _isAvailable,
-                onBeforeToggle: (nextValue) async {
-                  if (nextValue == false) {
-                    final minutes = await showUnavailableDurationDialog(
-                      context,controller
+              BlocConsumer<HomeScreenCubit, HomeScreenState>(
+                listener: (context, state) {
+                  if (state is ProviderStatusLoading) {
+                    DialogUtils.showLoading(
+                      context: context,
+                      message:
+                          s.status_availableNow,
                     );
-                    if (minutes == null) return false; // user canceled
-
-                    final dur = Duration(minutes: minutes);
-                    final until = DateTime.now().add(dur);
-                    setState(() => _unavailableUntil = until);
-                    _scheduleAutoEnable(dur);
-                    return true; // proceed OFF
+                  } else if (state is ProviderStatusError) {
+                    DialogUtils.hideLoading(context);
+                  } else if (state is ProviderStatusLoaded) {
+                    DialogUtils.hideLoading(context);
+                    final status = state.response.data;
+                    if (status != null && status.isOffline) {
+                      final offlineUntil = status.offlineUntilDateTime;
+                      if (offlineUntil != null) {
+                        _scheduleAutoEnable(offlineUntil);
+                      }
+                    } else if (status != null && status.isOnline) {
+                      _autoEnableTimer?.cancel();
+                    }
+                    if (state.response.message != null &&
+                        state.response.message!.isNotEmpty) {
+                      if (state.response.message != null) {
+                        ToastM.show(state.response.message!);
+                      }
+                    }
                   }
-
-                  // Turning ON while still inside the unavailable window -> block
-                  if (_stillUnavailable) {
-                    final left = _unavailableUntil!.difference(DateTime.now());
-                    final m = left.inMinutes;
-                    final sLeft = left.inSeconds % 60;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(S.of(context).cannotEnableYet(m, sLeft)),
-                        duration: const Duration(seconds: 2),
-                      ),
-                    );
-                    return false; // veto ON
-                  }
-
-                  return true; // allow ON
                 },
-                onChanged: (isOn) {
-                  setState(() => _isAvailable = isOn);
-                  if (isOn) {
-                    _unavailableUntil = null;
-                    _autoEnableTimer?.cancel();
-                  }
+                builder: (context, state) {
+                  final cubit = context.read<HomeScreenCubit>();
+                  final isAvailable = cubit.isProviderOnline;
+                  final isLoading = state is ProviderStatusLoading;
+
+                  return Opacity(
+                    opacity: isLoading ? 0.6 : 1.0,
+                    child: AbsorbPointer(
+                      absorbing: isLoading,
+                      child: AvailabilityPillSwitch(
+                        value: isAvailable,
+                        onBeforeToggle: (nextValue) async {
+                          if (nextValue == false) {
+                            controller
+                                .clear(); // Clear controller before showing dialog
+                            final hours = await showUnavailableDurationDialog(
+                              context,
+                              controller,
+                            );
+                            if (hours == null) return false; // user canceled
+
+                            if (hours <= 0) {
+                              ToastM.show(s.invalidHoursMsg);
+                              return false;
+                            }
+
+                            // Call API to set offline
+                            await cubit.setProviderOffline(hours: hours);
+                            return true; // proceed OFF
+                          }
+
+                          // Call API to set online - user can go online anytime
+                          await cubit.setProviderOnline();
+                          return true; // allow ON
+                        },
+                        onChanged: (isOn) {
+                          // This is handled by the API calls in onBeforeToggle
+                          // The state will update via BlocConsumer
+                        },
+                      ),
+                    ),
+                  );
                 },
               ),
 

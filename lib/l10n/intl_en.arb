@@ -59,8 +59,10 @@
   "threeHours": "3 hours",
   "other": "Other",
   "enterMinutesHint": "Enter minutes",
+  "enterHoursHint": "Enter hours",
   "done": "Done",
   "invalidMinutesMsg": "Please enter a valid number of minutes",
+  "invalidHoursMsg": "Please enter a valid number of hours",
   "helloName": "Hello {name} 👋",
   "@helloName": {
     "description": "Greeting with name",

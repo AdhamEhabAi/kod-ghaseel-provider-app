@@ -5,6 +5,7 @@ import 'package:kod_ghaseel_provider_app/features/home_screen/data/models/banner
 
 import '../data/home_repo/home_repo.dart';
 import '../data/models/CheckSessionValidationResponse.dart';
+import '../data/models/provider_status_response.dart';
 
 part 'home_screen_state.dart';
 
@@ -19,6 +20,11 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   Locale get currentLocale => _currentLocale;
   List<BannerItem> sliderBanners = [];
   List<BannerItem> popupBanners = [];
+  
+  // Provider status
+  ProviderStatusData? _providerStatus;
+  ProviderStatusData? get providerStatus => _providerStatus;
+  bool get isProviderOnline => _providerStatus?.isOnline ?? false;
   Future<void> loadLanguage() async {
     String? savedLang = AppSharedPreferences.getString(
       SharedPreferencesKeys.language,
@@ -66,6 +72,42 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
 
       emit(HomeBannersLoaded());
     });
+  }
+
+  Future<void> getProviderStatus() async {
+    emit(ProviderStatusLoading());
+    final result = await homeRepo.getProviderStatus();
+    result.fold(
+      (failure) => emit(ProviderStatusError(message: failure.message)),
+      (response) {
+        _providerStatus = response.data;
+        emit(ProviderStatusLoaded(response: response));
+      },
+    );
+  }
+
+  Future<void> setProviderOnline() async {
+    emit(ProviderStatusLoading());
+    final result = await homeRepo.setProviderOnline();
+    result.fold(
+      (failure) => emit(ProviderStatusError(message: failure.message)),
+      (response) {
+        _providerStatus = response.data;
+        emit(ProviderStatusLoaded(response: response));
+      },
+    );
+  }
+
+  Future<void> setProviderOffline({required int hours}) async {
+    emit(ProviderStatusLoading());
+    final result = await homeRepo.setProviderOffline(hours: hours);
+    result.fold(
+      (failure) => emit(ProviderStatusError(message: failure.message)),
+      (response) {
+        _providerStatus = response.data;
+        emit(ProviderStatusLoaded(response: response));
+      },
+    );
   }
 // // for test
 // Future<void> checkSessionValidation() async {

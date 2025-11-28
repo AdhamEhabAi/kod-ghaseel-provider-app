@@ -11,9 +11,9 @@ Future<int?> showUnavailableDurationDialog(BuildContext context,TextEditingContr
   final l = S.of(context);
 
   final options = <_DurationOption>[
-    _DurationOption(l.oneHour, 60),
-    _DurationOption(l.twoHours, 120),
-    _DurationOption(l.threeHours, 180),
+    _DurationOption(l.oneHour, 1),
+    _DurationOption(l.twoHours, 2),
+    _DurationOption(l.threeHours, 3),
     _DurationOption(l.other, -1),
   ];
 
@@ -27,7 +27,7 @@ Future<int?> showUnavailableDurationDialog(BuildContext context,TextEditingContr
         textDirection: TextDirection.rtl,
         child: StatefulBuilder(
           builder: (ctx, setState) {
-            final isOther = options[selectedIndex].minutes == -1;
+            final isOther = options[selectedIndex].hours == -1;
 
             return AlertDialog(
               insetPadding: EdgeInsets.symmetric(
@@ -96,7 +96,7 @@ Future<int?> showUnavailableDurationDialog(BuildContext context,TextEditingContr
                         child: CustomTextFormField(
                           controller: controller,
                           keyboardType: TextInputType.number,
-                          hintText: l.enterMinutesHint,
+                          hintText: l.enterHoursHint,
                         ),
                       ),
                   ],
@@ -108,17 +108,17 @@ Future<int?> showUnavailableDurationDialog(BuildContext context,TextEditingContr
                   buttonTitle: l.done,
                   borderRadius: BorderRadius.circular(47.r),
                   onPressed: () {
-                    int minutes = options[selectedIndex].minutes;
+                    int hours = options[selectedIndex].hours;
 
-                    if (minutes == -1) {
+                    if (hours == -1) {
                       final parsed = int.tryParse(controller.text.trim());
                       if (parsed == null || parsed <= 0) {
-                        ToastM.show(l.invalidMinutesMsg);
+                        ToastM.show(l.invalidHoursMsg);
                         return;
                       }
-                      minutes = parsed;
+                      hours = parsed;
                     }
-                    GoRouter.of(context).pop(minutes);
+                    GoRouter.of(context).pop(hours);
                   },
                 ),
               ],
@@ -134,6 +134,6 @@ Future<int?> showUnavailableDurationDialog(BuildContext context,TextEditingContr
 
 class _DurationOption {
   final String label;
-  final int minutes; // -1 => Other
-  const _DurationOption(this.label, this.minutes);
+  final int hours; // -1 => Other
+  const _DurationOption(this.label, this.hours);
 }
