@@ -26,6 +26,7 @@ class TopBarWidget extends StatefulWidget {
 
 class _TopBarWidgetState extends State<TopBarWidget> {
   bool _isAvailable = true;
+  final TextEditingController controller = TextEditingController();
 
   DateTime? _unavailableUntil; // when availability should auto-end
   Timer? _autoEnableTimer; // auto re-enable timer
@@ -106,7 +107,7 @@ class _TopBarWidgetState extends State<TopBarWidget> {
                 onBeforeToggle: (nextValue) async {
                   if (nextValue == false) {
                     final minutes = await showUnavailableDurationDialog(
-                      context,
+                      context,controller
                     );
                     if (minutes == null) return false; // user canceled
 
