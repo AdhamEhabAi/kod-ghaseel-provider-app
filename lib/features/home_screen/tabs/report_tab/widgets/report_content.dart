@@ -17,8 +17,7 @@ class ReportContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context); // <-- localization instance
-
+    final s = S.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,10 +38,12 @@ class ReportContent extends StatelessWidget {
             SizedBox(width: 10.w),
             Expanded(
               flex: 3,
-              child: ProfitCard(progressValue: 0.82,
+              child: ProfitCard(
+                progressValue: data.progressValue,
                 profit: data.profit,
                 ordersCount: data.ordersCount,
                 ordersGoal: data.ordersGoal,
+                title: data.profitTitle,
               ),
             ),
           ],
@@ -53,8 +54,9 @@ class ReportContent extends StatelessWidget {
             Expanded(
               flex: 3,
               child: TodayOrdersCard(
-                done: data.doneToday,
+                done: data.doneToday.clamp(0, data.targetToday),
                 target: data.targetToday,
+                title: data.ordersTitle,
               ),
             ),
             SizedBox(width: 17.w),

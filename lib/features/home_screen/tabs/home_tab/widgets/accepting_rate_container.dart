@@ -9,7 +9,14 @@ import '../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../Utilites/app_style/style.dart';
 
 class AcceptingRateContainer extends StatelessWidget {
-  const AcceptingRateContainer({super.key});
+  const AcceptingRateContainer({
+    super.key,
+    required this.acceptanceRate,
+    required this.rating,
+  });
+
+  final double acceptanceRate;
+  final double rating;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +56,7 @@ class AcceptingRateContainer extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "96%", // keep the number as-is; localize only the label
+                      text: "${acceptanceRate.toStringAsFixed(0)}%",
                       style: AppTextStyle.blackW600Size24Roboto,
                     ),
                     TextSpan(
@@ -65,7 +72,7 @@ class AcceptingRateContainer extends StatelessWidget {
                   Icon(Icons.star, color: AppStyle.primaryColor, size: 15.sp),
                   SizedBox(width: 5.w),
                   Text(
-                    "4.5", // score value
+                    rating.toStringAsFixed(1),
                     style: AppTextStyle.blackW400Size16Roboto,
                   ),
                 ],

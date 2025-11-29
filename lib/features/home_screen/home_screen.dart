@@ -12,6 +12,7 @@ import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/ord
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/profile_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/report_tab/report_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/widgets/wave_shape.dart';
+import 'package:kod_ghaseel_provider_app/features/statics/controller/statics_cubit.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
 import '../../Utilites/app_assets/assets.dart';
@@ -185,6 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
               DialogUtils.hideLoading(context);
               context.read<HomeScreenCubit>().getHomeBanners();
               context.read<HomeScreenCubit>().getProviderStatus();
+              context.read<StaticsCubit>().getStatistics();
 
             }
           },

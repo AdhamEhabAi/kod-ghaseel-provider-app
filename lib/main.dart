@@ -21,6 +21,8 @@ import 'package:kod_ghaseel_provider_app/features/orders/controller/orders_cubit
 import 'package:kod_ghaseel_provider_app/features/orders/data/repo/orders_repo.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/controller/service_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/data/repo/service_repo.dart';
+import 'package:kod_ghaseel_provider_app/features/statics/controller/statics_cubit.dart';
+import 'package:kod_ghaseel_provider_app/features/statics/data/repo/statics_repo.dart';
 import 'package:kod_ghaseel_provider_app/firebase_options.dart';
 
 import 'core/network/bloc_observer.dart';
@@ -111,6 +113,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => AuthCubit(AuthRepo())),
         BlocProvider(create: (_) => ServiceCubit(ServiceRepo())),
         BlocProvider(create: (_) => OrdersCubit(OrdersRepo())),
+        BlocProvider(create: (_) => StaticsCubit(StaticsRepo())),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
