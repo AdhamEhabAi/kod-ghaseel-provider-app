@@ -1,4 +1,9 @@
+import 'package:dartz/dartz.dart';
 import 'package:kod_ghaseel_provider_app/core/app_repository/repo.dart';
+import 'package:kod_ghaseel_provider_app/core/errors/exceptions.dart';
+import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
+import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
+import 'package:kod_ghaseel_provider_app/core/network/api_endpoints.dart';
 import 'package:location/location.dart';
 
 class ServiceRepo extends Repository {
@@ -76,5 +81,45 @@ class ServiceRepo extends Repository {
   /// Get location stream
   Stream<LocationData> getLocationStream() {
     return _location.onLocationChanged;
+  }
+
+  /// Update delivery location on server
+  Future<Either<Failure, Map<String, dynamic>>> updateDeliveryLocation({
+    required double latitude,
+    required double longitude,
+  }) async {
+    return await exceptionHandler(() async {
+      final sessionToken = AppSharedPreferences.getString(
+        SharedPreferencesKeys.accessToken,
+      );
+
+      if (sessionToken == null || sessionToken.isEmpty) {
+        throw ServerException(
+          exceptionMessage: 'Session token not found',
+        );
+      }
+
+      final Map<String, dynamic> requestData = <String, dynamic>{
+        'action': 'update_location',
+        'session_token': sessionToken,
+        'latitude': latitude,
+        'longitude': longitude,
+      };
+
+      final Map<String, dynamic> response = await dioHelper.postData(
+        APIEndpoints.login,
+        requestData,
+      );
+
+      final bool success = response['success'] ?? false;
+
+      if (success) {
+        return response['data'] as Map<String, dynamic>;
+      } else {
+        throw ServerException(
+          exceptionMessage: response['message'] ?? 'Failed to update location',
+        );
+      }
+    });
   }
 }
