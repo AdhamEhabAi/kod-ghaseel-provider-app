@@ -179,30 +179,27 @@ class _HomeTabState extends State<HomeTab> {
                               )
                             else if (hasOrderWithinHour)
                               // Show order within 1 hour in UserDataSection
-                              InkWell(
-                                onTap: () => GoRouter.of(
-                                  context,
-                                ).push(AppRouter.serviceScreen),
-                                child: UserDataSection(
-                                  subtitle: orders.data
+                              Builder(
+                                builder: (context) {
+                                  final orderWithinHour = orders.data
                                       .where(
                                         (order) =>
                                             HelperFunctions.isWithinOneHour(
                                               order,
                                             ),
                                       )
-                                      .first
-                                      .locationAddress,
-                                  name: orders.data
-                                      .where(
-                                        (order) =>
-                                            HelperFunctions.isWithinOneHour(
-                                              order,
-                                            ),
-                                      )
-                                      .first
-                                      .customerName,
-                                ),
+                                      .first;
+                                  return InkWell(
+                                    onTap: () => GoRouter.of(context).push(
+                                      AppRouter.serviceScreen,
+                                      extra: {'order': orderWithinHour},
+                                    ),
+                                    child: UserDataSection(
+                                      subtitle: orderWithinHour.locationAddress,
+                                      name: orderWithinHour.customerName,
+                                    ),
+                                  );
+                                },
                               ),
                           ],
                           if (hasOtherOrders || isLoading) ...[
@@ -254,9 +251,10 @@ class _HomeTabState extends State<HomeTab> {
                                               : s.carServiceDescription,
                                           onViewPressed: () {
                                             // Navigate to order details or service screen
-                                            GoRouter.of(
-                                              context,
-                                            ).push(AppRouter.serviceScreen);
+                                            GoRouter.of(context).push(
+                                              AppRouter.serviceScreen,
+                                              extra: {'order': order},
+                                            );
                                           },
                                         ),
                                       );

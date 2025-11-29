@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/presentation/login_screen.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/presentation/otp_screen.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/filter/filter_home_screen.dart';
+import 'package:kod_ghaseel_provider_app/features/orders/data/models/orders_response.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/service_progress_screen.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/service_screen.dart';
 
@@ -64,11 +65,16 @@ class AppRouter {
       ),
       GoRoute(
         path: serviceScreen,
-        pageBuilder: (context, state) => TransitionHelper.page(
-          state: state,
-          child: const ServiceScreen(),
-          transition: AppTransition.fade,
-        ),
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>? ?? {};
+          final order = extra['order'] as Order?;
+
+          return TransitionHelper.page(
+            state: state,
+            child: ServiceScreen(order: order),
+            transition: AppTransition.fade,
+          );
+        },
       ),
       GoRoute(
         path: serviceProgressScreen,
