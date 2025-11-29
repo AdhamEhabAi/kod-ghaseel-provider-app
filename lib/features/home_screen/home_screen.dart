@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
+import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/home_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab_controller.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/order_tab.dart';
@@ -202,8 +203,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   posActionName: "تسجيل الدخول"
               );
-            }else if(state is ValidatedSession){
+            }else if(state is ValidatedSession) {
               DialogUtils.hideLoading(context);
+              var fcmToken =  context.read<AuthCubit>().getFcmToken();
               context.read<HomeScreenCubit>().getHomeBanners();
               context.read<HomeScreenCubit>().getProviderStatus();
               context.read<StaticsCubit>().getStatistics();

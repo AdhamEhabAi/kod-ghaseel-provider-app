@@ -10,6 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
+import 'package:kod_ghaseel_provider_app/core/firebase_notification/notification_service.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/core/network/dio_helper.dart';
 import 'package:kod_ghaseel_provider_app/core/router/router.dart';
@@ -34,27 +35,13 @@ import 'generated/l10n.dart';
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await ensureFirebase();
-  // FirebaseDatabase.instance.setPersistenceEnabled(true);
   log('Background message received:');
   log(
     '------------  new doc notification ${message.notification} -------------',
   );
 
-  final type = message.notification?.android?.sound ?? 'notification';
-  final androidDetails = AndroidNotificationDetails(
-    'high_importance_channel_zeds_fares_note_$type',
-    'High Importance Notifications',
-    channelDescription: 'This channel is used for important notifications.',
-    sound: RawResourceAndroidNotificationSound(
-      type,
-    ), // 'trip' or 'notification'
-    importance: Importance.high,
-    priority: Priority.high,
-  );
-
-  NotificationDetails(android: androidDetails);
-
-  // await NotificationService.instance.showNotification(message);
+  // Show notification using NotificationService
+  await NotificationService.instance.showNotification(message: message);
 }
 
 void clearNotifications() async {
@@ -98,6 +85,9 @@ void main() async {
 
   await ensureFirebase();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  await NotificationService.instance.initialize();
+
   runApp(const MyApp());
 }
 
