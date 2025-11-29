@@ -301,7 +301,9 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               child: AppLoader(),
                             ),
                           ),
-                        ServiceScreenAppBar(text: s.mapAddress), // ✅ localized
+                        ServiceScreenAppBar(
+                          text: widget.order?.locationAddress ?? s.mapAddress,
+                        ),
                         // Navigation button
                         if (widget.order != null)
                           Positioned(
@@ -357,6 +359,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                     child: UserDataSection(
                       name: widget.order?.customerName ?? '',
                       subtitle: widget.order?.locationAddress ?? s.mapAddress,
+                      phoneNumber: widget.order?.customerPhone,
                     ),
                   ),
                 ),

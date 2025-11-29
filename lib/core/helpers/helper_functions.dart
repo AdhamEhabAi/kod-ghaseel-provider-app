@@ -138,16 +138,23 @@ class HelperFunctions {
     return degrees * (math.pi / 180.0);
   }
 
-  /// Check if current time matches the order's scheduled date and time
-  /// Returns true if current time is at or after the order's scheduled time
+  /// Check if current time is valid for starting the service
+  /// Returns true if current time is:
+  /// - 15 minutes before the order's scheduled time, OR
+  /// - At or after the order's scheduled time
   static bool isOrderTimeValid(Order order) {
     final orderDateTime = parseOrderDateTime(order);
     if (orderDateTime == null) return false;
 
     final now = DateTime.now();
-    // Check if current date and time matches or is after the order's scheduled time
-    // Allow starting the service at the scheduled time or after
-    return now.isAfter(orderDateTime) || now.isAtSameMomentAs(orderDateTime);
+    
+    // Calculate 15 minutes before the scheduled time
+    final fifteenMinutesBefore = orderDateTime.subtract(const Duration(minutes: 15));
+    
+    // Allow starting the service:
+    // 1. 15 minutes before the scheduled time, OR
+    // 2. At or after the scheduled time
+    return now.isAfter(fifteenMinutesBefore) || now.isAtSameMomentAs(fifteenMinutesBefore);
   }
 
   /// Format order date and time for display
