@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_assets/assets.dart';
+import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../Utilites/app_style/style.dart';
 import '../../../../../core/router/router.dart';
 
 class UserDataSection extends StatelessWidget {
-  const UserDataSection({super.key, required this.name, required this.subtitle});
+  const UserDataSection({
+    super.key,
+    required this.name,
+    required this.subtitle,
+    this.phoneNumber,
+  });
   final String name;
   final String subtitle;
+  final String? phoneNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +54,31 @@ class UserDataSection extends StatelessWidget {
           },
         ),
         IconButton(
-          icon:  SvgPicture.asset(Assets.phoneIcon),
-          onPressed: () {},
+          icon: SvgPicture.asset(Assets.phoneIcon),
+          onPressed: () async {
+            if (phoneNumber != null && phoneNumber!.isNotEmpty) {
+              // Clean phone number (remove spaces, dashes, etc.)
+              final cleanPhoneNumber = phoneNumber!.replaceAll(RegExp(r'[\s\-\(\)]'), '');
+              final uri = Uri.parse('tel:$cleanPhoneNumber');
+              try {
+                // Directly launch the phone dialer without checking canLaunchUrl
+                // as it may return false even when dialer is available
+                await launchUrl(
+                  uri,
+                  mode: LaunchMode.externalApplication,
+                );
+              } catch (e) {
+                if (context.mounted) {
+                  ToastM.show('Error calling: ${e.toString()}');
+                }
+              }
+            } else {
+              // Show message if no phone number available
+              if (context.mounted) {
+                ToastM.show('Phone number not available');
+              }
+            }
+          },
         ),
       ],
     );

@@ -26,18 +26,8 @@ class ServiceScreenAppBar extends StatelessWidget {
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(width: .2,color: Colors.grey),
-                    borderRadius: BorderRadius.circular(7.r)
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () => GoRouter.of(context).pop(),
-                ),
-              ),
               Expanded(
                 child: Center(
                   child: Text(
