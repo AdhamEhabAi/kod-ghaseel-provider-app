@@ -2,10 +2,13 @@ import 'dart:async';
 import 'dart:developer' as developer;
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:location/location.dart';
 import 'package:meta/meta.dart';
 import 'package:permission_handler/permission_handler.dart'
     hide PermissionStatus;
+import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
+import 'package:kod_ghaseel_provider_app/features/service_screen/data/models/order_stages_model.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/data/repo/service_repo.dart';
 
 part 'service_state.dart';
@@ -333,6 +336,131 @@ class ServiceCubit extends Cubit<ServiceState> {
       print('❌ [ServiceCubit] Error getting location: $e');
       emit(ServiceLocationError('Error getting location: ${e.toString()}'));
     }
+  }
+
+  /// Get order stages
+  Future<void> getOrderStages(int deliveryOrderId) async {
+    print('📋 [ServiceCubit] getOrderStages() called for order: $deliveryOrderId');
+    emit(OrderStagesLoading());
+
+    final result = await _serviceRepo.getOrderStages(
+      deliveryOrderId: deliveryOrderId,
+    );
+
+    result.fold(
+      (failure) {
+        print('❌ [ServiceCubit] Failed to get order stages: ${failure.message}');
+        emit(OrderStagesError(failure.message));
+      },
+      (data) {
+        try {
+          print('✅ [ServiceCubit] Order stages loaded successfully');
+          final stagesData = OrderStagesData.fromJson(data);
+          emit(OrderStagesLoaded(stagesData));
+        } catch (e) {
+          print('❌ [ServiceCubit] Error parsing order stages: $e');
+          emit(OrderStagesError('Failed to parse order stages data'));
+        }
+      },
+    );
+  }
+
+  /// Accept order
+  Future<void> acceptOrder(int deliveryOrderId) async {
+    _callOrderStageAction(
+      action: 'accept_order',
+      deliveryOrderId: deliveryOrderId,
+      repoCall: () => _serviceRepo.acceptOrder(deliveryOrderId: deliveryOrderId),
+    );
+  }
+
+  /// Mark as arrived
+  Future<void> markArrived(int deliveryOrderId, {String? notes}) async {
+    _callOrderStageAction(
+      action: 'arrived',
+      deliveryOrderId: deliveryOrderId,
+      repoCall: () => _serviceRepo.markArrived(
+        deliveryOrderId: deliveryOrderId,
+        notes: notes,
+      ),
+    );
+  }
+
+  /// Verify car
+  Future<void> verifyCar(int deliveryOrderId) async {
+    _callOrderStageAction(
+      action: 'car_verified',
+      deliveryOrderId: deliveryOrderId,
+      repoCall: () => _serviceRepo.verifyCar(deliveryOrderId: deliveryOrderId),
+    );
+  }
+
+  /// Start washing
+  Future<void> startWashing(int deliveryOrderId) async {
+    _callOrderStageAction(
+      action: 'washing_started',
+      deliveryOrderId: deliveryOrderId,
+      repoCall: () => _serviceRepo.startWashing(deliveryOrderId: deliveryOrderId),
+    );
+  }
+
+  /// Complete washing
+  Future<void> completeWashing(int deliveryOrderId) async {
+    _callOrderStageAction(
+      action: 'washing_completed',
+      deliveryOrderId: deliveryOrderId,
+      repoCall: () => _serviceRepo.completeWashing(deliveryOrderId: deliveryOrderId),
+    );
+  }
+
+  /// Start drying
+  Future<void> startDrying(int deliveryOrderId) async {
+    _callOrderStageAction(
+      action: 'drying_started',
+      deliveryOrderId: deliveryOrderId,
+      repoCall: () => _serviceRepo.startDrying(deliveryOrderId: deliveryOrderId),
+    );
+  }
+
+  /// Complete drying
+  Future<void> completeDrying(int deliveryOrderId) async {
+    _callOrderStageAction(
+      action: 'drying_completed',
+      deliveryOrderId: deliveryOrderId,
+      repoCall: () => _serviceRepo.completeDrying(deliveryOrderId: deliveryOrderId),
+    );
+  }
+
+  /// Complete order
+  Future<void> completeOrder(int deliveryOrderId) async {
+    _callOrderStageAction(
+      action: 'complete_order',
+      deliveryOrderId: deliveryOrderId,
+      repoCall: () => _serviceRepo.completeOrder(deliveryOrderId: deliveryOrderId),
+    );
+  }
+
+  /// Helper method to call order stage actions
+  Future<void> _callOrderStageAction({
+    required String action,
+    required int deliveryOrderId,
+    required Future<Either<Failure, Map<String, dynamic>>> Function() repoCall,
+  }) async {
+    print('🔄 [ServiceCubit] $action called for order: $deliveryOrderId');
+    emit(OrderStageActionLoading());
+
+    final result = await repoCall();
+
+    result.fold(
+      (failure) {
+        print('❌ [ServiceCubit] Failed to $action: ${failure.message}');
+        emit(OrderStageActionError(action, failure.message));
+      },
+      (data) {
+        print('✅ [ServiceCubit] $action completed successfully');
+        emit(OrderStageActionSuccess(action, data: data));
+      },
+    );
   }
 
   @override

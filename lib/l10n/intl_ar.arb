@@ -237,5 +237,27 @@
   "location_disabled":"مشاركة الموقع معطّلة. اضغط هنا لتفعيلها.",
   "enterYourPhoneNumber": "يرجى إدخال رقم الهاتف",
   "codeResentSuccessfully": "تم إعادة إرسال رمز التحقق بنجاح",
-  "invalidPhoneNumber": "يرجى إدخال رقم هاتف صالح"
+  "invalidPhoneNumber": "يرجى إدخال رقم هاتف صالح",
+
+  "check": "تحقق",
+  "start": "ابدأ",
+  "next": "التالي",
+  "arrivalNotes": "وصلت للموقع",
+  "orderCompletedSuccess": "تم إنهاء الطلب بنجاح",
+  "genericError": "حدث خطأ. يرجى المحاولة مرة أخرى",
+  "errorLoadOrderStages": "فشل في تحميل حالة الطلب. يرجى المحاولة مرة أخرى",
+  "errorAcceptOrder": "فشل في قبول الطلب. يرجى المحاولة مرة أخرى",
+  "errorArrived": "فشل في تسجيل الوصول. يرجى المحاولة مرة أخرى",
+  "errorCarVerified": "فشل في التحقق من السيارة. يرجى المحاولة مرة أخرى",
+  "errorWashingStarted": "فشل في بدء عملية الغسيل. يرجى المحاولة مرة أخرى",
+  "errorWashingCompleted": "فشل في إتمام عملية الغسيل. يرجى المحاولة مرة أخرى",
+  "errorDryingStarted": "فشل في بدء عملية التجفيف. يرجى المحاولة مرة أخرى",
+  "errorDryingCompleted": "فشل في إتمام عملية التجفيف. يرجى المحاولة مرة أخرى",
+  "errorCompleteOrder": "فشل في إنهاء الطلب. يرجى المحاولة مرة أخرى",
+
+  "yourProgress": "تقدمك",
+  "serviceProgress": "تقدم الخدمة",
+  "minutesSeconds": "دقيقة : ثانية",
+  "orderAlreadyCompleted": "هذا الطلب مكتمل بالفعل",
+  "completed": "مكتمل"
 }

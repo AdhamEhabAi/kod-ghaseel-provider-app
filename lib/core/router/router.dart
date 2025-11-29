@@ -78,11 +78,16 @@ class AppRouter {
       ),
       GoRoute(
         path: serviceProgressScreen,
-        pageBuilder: (context, state) => TransitionHelper.page(
-          state: state,
-          child: const ServiceProgressScreen(),
-          transition: AppTransition.fade,
-        ),
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>? ?? {};
+          final orderId = extra['orderId'] as int?;
+
+          return TransitionHelper.page(
+            state: state,
+            child: ServiceProgressScreen(orderId: orderId),
+            transition: AppTransition.fade,
+          );
+        },
       ),
       GoRoute(
         path: filterHomeScreen,

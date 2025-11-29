@@ -1,16 +1,26 @@
+import 'dart:async';
 import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
+import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
 class UpperCardProgress extends StatelessWidget {
+  final Duration elapsedTime;
+  final double progress;
+  final bool isTimerRunning;
+
   const UpperCardProgress({
     super.key,
+    required this.elapsedTime,
+    required this.progress,
+    required this.isTimerRunning,
   });
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       decoration: BoxDecoration(
@@ -24,19 +34,19 @@ class UpperCardProgress extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'تقدمك',
+                s.yourProgress,
                 style: AppTextStyle.blackW600Size16Roboto.copyWith(
                   fontSize: 18.sp,
                 ),
               ),
               Text(
-                '95%',
+                '${progress.toStringAsFixed(0)}%',
                 style: AppTextStyle.blackW700Size26.copyWith(
                   fontSize: 45.sp,
                 ),
               ),
               Text(
-                'تويوتا كامري 2022',
+                s.serviceProgress,
                 style: AppTextStyle.greyW400Size14.copyWith(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w500,
@@ -49,7 +59,7 @@ class UpperCardProgress extends StatelessWidget {
             height: 150.w,
             child: DashedCircularProgressBar.aspectRatio(
               aspectRatio: 1,
-              progress: 75,
+              progress: progress.clamp(0.0, 100.0),
               startAngle: 225,
               sweepAngle: 270,
               foregroundColor: Colors.white,
@@ -75,13 +85,12 @@ class UpperCardProgress extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          '16:45',
+                          _formatDuration(elapsedTime),
                           style: AppTextStyle.blackW500Size20.copyWith(fontSize: 24.sp),
                         ),
                         Text(
-                          'دقيقة : ثانية',
+                          s.minutesSeconds,
                           style: AppTextStyle.greyW400Size14.copyWith(fontSize: 12.sp,fontWeight: FontWeight.w500),
-
                         ),
                       ],
                     ),
@@ -93,5 +102,12 @@ class UpperCardProgress extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return '$minutes:$seconds';
   }
 }

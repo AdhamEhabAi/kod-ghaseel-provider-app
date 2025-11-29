@@ -38,7 +38,21 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
 
     if (user != null) {
-      GoRouter.of(context).go(AppRouter.homeScreen);
+      // Check if user was in service progress screen
+      final serviceProgressOrderId = AppSharedPreferences.getInt(
+        SharedPreferencesKeys.serviceProgressOrderId,
+      );
+
+      if (serviceProgressOrderId != null) {
+        // Navigate to service progress screen with stored orderId
+        GoRouter.of(context).go(
+          AppRouter.serviceProgressScreen,
+          extra: {'orderId': serviceProgressOrderId},
+        );
+      } else {
+        // Navigate to home screen
+        GoRouter.of(context).go(AppRouter.homeScreen);
+      }
     } else {
       GoRouter.of(context).go(AppRouter.onboardingScreen);
     }

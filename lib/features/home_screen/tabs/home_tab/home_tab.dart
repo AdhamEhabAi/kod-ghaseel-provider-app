@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/helper_functions.dart';
+import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/accepting_rate_container.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/balance_container.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/number_of_orders_container.dart';
@@ -189,14 +190,47 @@ class _HomeTabState extends State<HomeTab> {
                                             ),
                                       )
                                       .first;
+                                  final isCompleted = HelperFunctions.isOrderCompleted(orderWithinHour);
                                   return InkWell(
-                                    onTap: () => GoRouter.of(context).push(
-                                      AppRouter.serviceScreen,
-                                      extra: {'order': orderWithinHour},
-                                    ),
-                                    child: UserDataSection(
-                                      subtitle: orderWithinHour.locationAddress,
-                                      name: orderWithinHour.customerName,
+                                    onTap: () {
+                                      if (isCompleted) {
+                                        ToastM.show(s.orderAlreadyCompleted);
+                                      } else {
+                                        GoRouter.of(context).push(
+                                          AppRouter.serviceScreen,
+                                          extra: {'order': orderWithinHour},
+                                        );
+                                      }
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        UserDataSection(
+                                          subtitle: orderWithinHour.locationAddress,
+                                          name: orderWithinHour.customerName,
+                                        ),
+                                        if (isCompleted)
+                                          Positioned(
+                                            top: 0,
+                                            right: 0,
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 8.w,
+                                                vertical: 4.h,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius: BorderRadius.circular(12.r),
+                                              ),
+                                              child: Text(
+                                                s.completed,
+                                                style: AppTextStyle.blackW500Size10.copyWith(
+                                                  color: Colors.white,
+                                                  fontSize: 10.sp,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                      ],
                                     ),
                                   );
                                 },
@@ -241,6 +275,7 @@ class _HomeTabState extends State<HomeTab> {
                                           HelperFunctions.getServiceDescription(
                                             order,
                                           );
+                                      final isCompleted = HelperFunctions.isOrderCompleted(order);
                                       return Padding(
                                         padding: EdgeInsets.only(bottom: 12.h),
                                         child: OrderInformation(
@@ -249,12 +284,17 @@ class _HomeTabState extends State<HomeTab> {
                                               serviceDesc.isNotEmpty
                                               ? serviceDesc
                                               : s.carServiceDescription,
+                                          isCompleted: isCompleted,
                                           onViewPressed: () {
-                                            // Navigate to order details or service screen
-                                            GoRouter.of(context).push(
-                                              AppRouter.serviceScreen,
-                                              extra: {'order': order},
-                                            );
+                                            if (isCompleted) {
+                                              ToastM.show(s.orderAlreadyCompleted);
+                                            } else {
+                                              // Navigate to order details or service screen
+                                              GoRouter.of(context).push(
+                                                AppRouter.serviceScreen,
+                                                extra: {'order': order},
+                                              );
+                                            }
                                           },
                                         ),
                                       );

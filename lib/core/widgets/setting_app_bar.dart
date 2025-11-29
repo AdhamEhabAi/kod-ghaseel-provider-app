@@ -6,8 +6,9 @@ import '../../Utilites/app_fonts/font.dart';
 import '../../Utilites/app_style/style.dart';
 
 class SettingAppBar extends StatelessWidget {
-  const SettingAppBar({super.key, required this.title});
+  const SettingAppBar({super.key, required this.title, this.hideBack = false});
   final String title;
+  final bool hideBack;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class SettingAppBar extends StatelessWidget {
                 Spacer(),
                 Text(title, style: AppTextStyle.blackW600Size16Roboto),
                 Spacer(),
-                InkWell(
+                hideBack ?SizedBox.shrink() : InkWell(
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
                     GoRouter.of(context).pop();

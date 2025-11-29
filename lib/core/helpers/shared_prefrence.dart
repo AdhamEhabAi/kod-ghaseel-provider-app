@@ -7,6 +7,7 @@ class SharedPreferencesKeys {
   static const String uuid = 'uuid';
   static const String deviceType = 'deviceType';
   static const String userModel = 'userModel';
+  static const String serviceProgressOrderId = 'serviceProgressOrderId';
 }
 
 class AppSharedPreferences {

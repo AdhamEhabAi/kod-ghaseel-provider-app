@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
@@ -25,6 +26,8 @@ void showExitDialog(BuildContext context) {
           if (state is LogoutSuccess) {
             // Stop location stream on logout
             context.read<ServiceCubit>().stopLocationStream();
+            // Clear service progress state on logout
+            AppSharedPreferences.remove(SharedPreferencesKeys.serviceProgressOrderId);
             GoRouter.of(context).go(AppRouter.loginScreen);
           } else if (state is LogoutError) {
             ToastM.show(state.message);
