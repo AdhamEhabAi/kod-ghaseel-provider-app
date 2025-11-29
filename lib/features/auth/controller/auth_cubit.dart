@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
+import 'package:kod_ghaseel_provider_app/core/firebase_notification/notification_service.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/models/login_response.dart';
@@ -155,7 +156,9 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthError(message: 'Failed to get device info: $e'));
     }
   }
-
+  Future<String?> getFcmToken() async {
+    return await NotificationService.instance.getTokenFireBase();
+  }
   Future<void> _ensureDeviceInfo() async {
     if (deviceId == null ||
         deviceId!.isEmpty ||
