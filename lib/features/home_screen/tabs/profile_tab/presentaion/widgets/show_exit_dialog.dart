@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
+import 'package:kod_ghaseel_provider_app/features/service_screen/controller/service_cubit.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
 import '../../../../../../../Utilites/app_fonts/font.dart';
@@ -22,6 +23,8 @@ void showExitDialog(BuildContext context) {
       return BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is LogoutSuccess) {
+            // Stop location stream on logout
+            context.read<ServiceCubit>().stopLocationStream();
             GoRouter.of(context).go(AppRouter.loginScreen);
           } else if (state is LogoutError) {
             ToastM.show(state.message);

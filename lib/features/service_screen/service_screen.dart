@@ -133,17 +133,17 @@ class _ServiceScreenState extends State<ServiceScreen> {
   @override
   void initState() {
     super.initState();
-    print('🗺️ [ServiceScreen] initState() - Initializing location service');
-    // Initialize location and start streaming when screen loads
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      print(
-        '🗺️ [ServiceScreen] PostFrameCallback - Starting location initialization',
-      );
-      context.read<ServiceCubit>().initializeLocation().then((_) {
-        print('🗺️ [ServiceScreen] Location initialized, starting stream');
-        context.read<ServiceCubit>().startLocationStream();
-      });
-    });
+    print('🗺️ [ServiceScreen] initState() - Location stream should already be running from HomeScreen');
+    
+    // Get current location from ServiceCubit if available
+    final currentState = context.read<ServiceCubit>().state;
+    if (currentState is ServiceLocationStreamActive) {
+      _currentLocation = LatLng(currentState.latitude, currentState.longitude);
+      print('🗺️ [ServiceScreen] Got initial location from stream: Lat: ${currentState.latitude}, Lng: ${currentState.longitude}');
+    } else if (currentState is ServiceLocationEnabled) {
+      _currentLocation = LatLng(currentState.latitude, currentState.longitude);
+      print('🗺️ [ServiceScreen] Got initial location: Lat: ${currentState.latitude}, Lng: ${currentState.longitude}');
+    }
 
     // Start periodic time validation check (every 10 seconds)
     _timeValidationTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
@@ -155,12 +155,9 @@ class _ServiceScreenState extends State<ServiceScreen> {
 
   @override
   void dispose() {
-    // Stop location stream when screen is disposed
-    print('🗺️ [ServiceScreen] dispose() - Stopping location stream');
+    // Don't stop location stream - it should continue running from HomeScreen
+    print('🗺️ [ServiceScreen] dispose() - Location stream continues running');
     _timeValidationTimer?.cancel();
-    if (mounted) {
-      context.read<ServiceCubit>().stopLocationStream();
-    }
     _mapController?.dispose();
     super.dispose();
   }

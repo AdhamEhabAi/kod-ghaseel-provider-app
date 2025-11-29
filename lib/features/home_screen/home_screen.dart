@@ -12,6 +12,7 @@ import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/order_tab/ord
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/profile_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/report_tab/report_tab.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/widgets/wave_shape.dart';
+import 'package:kod_ghaseel_provider_app/features/service_screen/controller/service_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/statics/controller/statics_cubit.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
@@ -39,7 +40,24 @@ class _HomeScreenState extends State<HomeScreen> {
     _getBottomNavigationBarSize();
     HomeTabController.value.addListener(_onTabChanged);
     context.read<HomeScreenCubit>().checkSessionValidation();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _getBottomNavigationBarSize());
+    
+    // Initialize location service and start streaming when HomeScreen loads
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getBottomNavigationBarSize();
+      print('🗺️ [HomeScreen] Initializing location service');
+      context.read<ServiceCubit>().initializeLocation().then((_) {
+        print('🗺️ [HomeScreen] Location initialized, starting stream');
+        context.read<ServiceCubit>().startLocationStream();
+      });
+    });
+  }
+  
+  @override
+  void dispose() {
+    // Don't stop location stream here - let it run in background
+    // It will be stopped when app closes or user logs out
+    HomeTabController.value.removeListener(_onTabChanged);
+    super.dispose();
   }
   void _onTabChanged() {
     if (_selectedIndex != HomeTabController.value.value) {
@@ -173,6 +191,8 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             } else if (state is NotValidateSession) {
               DialogUtils.hideLoading(context);
+              // Stop location stream when session is invalid
+              context.read<ServiceCubit>().stopLocationStream();
               DialogUtils.showAlert(
                   context: context,
                   message: state.message,
@@ -187,7 +207,17 @@ class _HomeScreenState extends State<HomeScreen> {
               context.read<HomeScreenCubit>().getHomeBanners();
               context.read<HomeScreenCubit>().getProviderStatus();
               context.read<StaticsCubit>().getStatistics();
-
+              
+              // Ensure location stream is running after session validation
+              // (It might have been started in initState, but ensure it's running)
+              final serviceState = context.read<ServiceCubit>().state;
+              if (serviceState is! ServiceLocationStreamActive && 
+                  serviceState is! ServiceLocationLoading) {
+                // If location is not already initialized, initialize it
+                context.read<ServiceCubit>().initializeLocation().then((_) {
+                  context.read<ServiceCubit>().startLocationStream();
+                });
+              }
             }
           },
           child: pages[_selectedIndex],
