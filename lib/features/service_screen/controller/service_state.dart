@@ -52,3 +52,30 @@ final class ServiceLocationStreamActive extends ServiceState {
     required this.timestamp,
   });
 }
+
+final class OrderStagesLoading extends ServiceState {}
+
+final class OrderStagesLoaded extends ServiceState {
+  final OrderStagesData stagesData;
+  
+  OrderStagesLoaded(this.stagesData);
+}
+
+final class OrderStagesError extends ServiceState {
+  final String message;
+  OrderStagesError(this.message);
+}
+
+final class OrderStageActionLoading extends ServiceState {}
+
+final class OrderStageActionSuccess extends ServiceState {
+  final String action;
+  final Map<String, dynamic>? data;
+  OrderStageActionSuccess(this.action, {this.data});
+}
+
+final class OrderStageActionError extends ServiceState {
+  final String action;
+  final String message;
+  OrderStageActionError(this.action, this.message);
+}

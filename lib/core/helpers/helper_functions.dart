@@ -227,6 +227,12 @@ class HelperFunctions {
 
   /// Map hex color value to color name
   /// Returns color name localized based on app locale
+  /// Check if an order is completed
+  static bool isOrderCompleted(Order order) {
+    // Order is completed if completedAt is not null
+    return order.completedAt != null && order.completedAt!.isNotEmpty;
+  }
+
   static String getColorNameFromHex(String? hexColor) {
     if (hexColor == null || hexColor.isEmpty) return '';
     

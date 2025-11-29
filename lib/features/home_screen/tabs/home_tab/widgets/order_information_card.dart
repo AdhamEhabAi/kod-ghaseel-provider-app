@@ -13,11 +13,13 @@ class OrderInformation extends StatelessWidget {
     required this.serviceDescription,
     required this.clientName,
     this.onViewPressed,
+    this.isCompleted = false,
   });
 
   final String clientName;
   final String serviceDescription;
   final VoidCallback? onViewPressed; // optional callback for the "View" pill
+  final bool isCompleted; // Whether the order is completed
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +31,19 @@ class OrderInformation extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 12.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.r),
-          border: Border.all(color: const Color(0xffEAECF0), width: 0.98),
-          color: const Color(0xffF9FAFB),
+          border: Border.all(
+            color: isCompleted 
+                ? Colors.green.withOpacity(0.5) 
+                : const Color(0xffEAECF0), 
+            width: 0.98,
+          ),
+          color: isCompleted 
+              ? Colors.green.withOpacity(0.1) 
+              : const Color(0xffF9FAFB),
         ),
         child: Column(
           children: [
-            // Header row: client name + lightning icon
+            // Header row: client name + lightning icon + completed badge
             Directionality(
               textDirection: TextDirection.rtl,
               child: Row(
@@ -42,13 +51,38 @@ class OrderInformation extends StatelessWidget {
                   Expanded(
                     child: Text(
                       clientName,
-                      style: AppTextStyle.blackW500Size14,
+                      style: AppTextStyle.blackW500Size14.copyWith(
+                        color: isCompleted ? Colors.green.shade700 : null,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  if (isCompleted) ...[
+                    SizedBox(width: 6.w),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Text(
+                        l.completed,
+                        style: AppTextStyle.blackW500Size10.copyWith(
+                          color: Colors.white,
+                          fontSize: 9.sp,
+                        ),
+                      ),
+                    ),
+                  ],
                   SizedBox(width: 6.w),
-                  SvgPicture.asset(Assets.lightningIconSVG, height: 22.h),
+                  SvgPicture.asset(
+                    Assets.lightningIconSVG, 
+                    height: 22.h,
+                    colorFilter: isCompleted 
+                        ? ColorFilter.mode(Colors.green, BlendMode.srcIn)
+                        : null,
+                  ),
                 ],
               ),
             ),

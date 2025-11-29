@@ -236,5 +236,27 @@
   "location_disabled":"Location sharing disabled. Tap here to enable.",
   "enterYourPhoneNumber": "Please enter your phone number",
   "codeResentSuccessfully": "Verification code resent successfully",
-  "invalidPhoneNumber": "Please enter a valid phone number"
+  "invalidPhoneNumber": "Please enter a valid phone number",
+
+  "check": "Check",
+  "start": "Start",
+  "next": "Next",
+  "arrivalNotes": "Arrived at location",
+  "orderCompletedSuccess": "Order completed successfully",
+  "genericError": "An error occurred. Please try again",
+  "errorLoadOrderStages": "Failed to load order status. Please try again",
+  "errorAcceptOrder": "Failed to accept order. Please try again",
+  "errorArrived": "Failed to register arrival. Please try again",
+  "errorCarVerified": "Failed to verify car. Please try again",
+  "errorWashingStarted": "Failed to start washing process. Please try again",
+  "errorWashingCompleted": "Failed to complete washing process. Please try again",
+  "errorDryingStarted": "Failed to start drying process. Please try again",
+  "errorDryingCompleted": "Failed to complete drying process. Please try again",
+  "errorCompleteOrder": "Failed to complete order. Please try again",
+
+  "yourProgress": "Your Progress",
+  "serviceProgress": "Service Progress",
+  "minutesSeconds": "Minutes : Seconds",
+  "orderAlreadyCompleted": "This order is already completed",
+  "completed": "Completed"
 }

@@ -37,6 +37,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
   bool _isMapReady = false;
   bool _isButtonEnabled = false;
   Timer? _timeValidationTimer;
+  Set<Marker> _markers = {};
 
   Future<void> _openNavigation() async {
     if (widget.order == null) return;
@@ -118,9 +119,41 @@ class _ServiceScreenState extends State<ServiceScreen> {
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     _isMapReady = true;
+    // Add marker for customer location
+    _updateMarkers();
     // Move camera to current location if available
     if (_currentLocation != null) {
       _updateMapCamera(_currentLocation!);
+    }
+  }
+
+  void _updateMarkers() {
+    if (widget.order == null) return;
+
+    try {
+      final orderLat = double.tryParse(widget.order!.latitude) ?? 0.0;
+      final orderLng = double.tryParse(widget.order!.longitude) ?? 0.0;
+
+      if (orderLat != 0.0 && orderLng != 0.0) {
+        final customerLocation = LatLng(orderLat, orderLng);
+        setState(() {
+          _markers = {
+            Marker(
+              markerId: const MarkerId('customer_location'),
+              position: customerLocation,
+              infoWindow: InfoWindow(
+                title: widget.order?.customerName ?? 'Customer Location',
+                snippet: widget.order?.locationAddress ?? '',
+              ),
+              icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueCyan,
+              ),
+            ),
+          };
+        });
+      }
+    } catch (e) {
+      print('❌ [ServiceScreen] Error creating marker: $e');
     }
   }
 
@@ -283,6 +316,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                           myLocationEnabled: true,
                           myLocationButtonEnabled: false,
                           zoomControlsEnabled: false,
+                          markers: _markers,
                           gestureRecognizers:
                               <Factory<OneSequenceGestureRecognizer>>{
                                 Factory<OneSequenceGestureRecognizer>(
@@ -398,9 +432,12 @@ class _ServiceScreenState extends State<ServiceScreen> {
             floatingActionButton: DefaultButton(
               onPressed: _isButtonEnabled
                   ? () {
-                      GoRouter.of(
-                        context,
-                      ).push(AppRouter.serviceProgressScreen);
+                      if (widget.order != null) {
+                        GoRouter.of(context).push(
+                          AppRouter.serviceProgressScreen,
+                          extra: {'orderId': widget.order!.id},
+                        );
+                      }
                     }
                   : null,
               titleWidget: Text(
