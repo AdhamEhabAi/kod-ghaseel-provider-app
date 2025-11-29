@@ -12,15 +12,19 @@ class ProfitCard extends StatelessWidget {
     required this.ordersGoal,
     required this.profit,
     required this.progressValue,
+    required this.title,
   });
 
   final int profit, ordersCount, ordersGoal;
-  final double progressValue; // e.g. 0.82
+  final double progressValue; // e.g. 0.82 (should be between 0.0 and 1.0)
+  final String title; // Dynamic title for daily/monthly
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    final percent = (progressValue * 100).round();
+    // Clamp progressValue between 0.0 and 1.0 to ensure valid progress bar value
+    final clampedProgress = progressValue.clamp(0.0, 1.0);
+    final percent = (clampedProgress * 100).round();
 
     return Container(
       width: MediaQuery.of(context).size.width * (222 / 390),
@@ -35,7 +39,7 @@ class ProfitCard extends StatelessWidget {
         children: [
           // Title
           Text(
-            s.today_profit, // localized
+            title,
             style: AppTextStyle.whiteW400Size14,
           ),
 
@@ -88,7 +92,7 @@ class ProfitCard extends StatelessWidget {
               child: LinearProgressIndicator(
                 borderRadius: BorderRadius.circular(8.r),
                 minHeight: 4.h,
-                value: progressValue,
+                value: clampedProgress,
                 backgroundColor: const Color(0x6B005265),
                 color: AppStyle.white,
               ),

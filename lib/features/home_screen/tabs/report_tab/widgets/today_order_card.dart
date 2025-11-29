@@ -6,14 +6,25 @@ import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- added for localization
 
 class TodayOrdersCard extends StatelessWidget {
-  const TodayOrdersCard({super.key, required this.done, required this.target});
+  const TodayOrdersCard({
+    super.key,
+    required this.done,
+    required this.target,
+    required this.title,
+  });
 
   final int done, target;
+  final String title; // Dynamic title for daily/monthly
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context); // <-- localization instance
     var size = MediaQuery.of(context).size;
+
+    // Calculate progress value from done/target, clamped between 0.0 and 1.0
+    final progressValue = target > 0
+        ? (done / target).clamp(0.0, 1.0)
+        : 0.0;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 17.5.w, vertical: 10.h),
@@ -28,7 +39,7 @@ class TodayOrdersCard extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Text(s.today_orders, style: AppTextStyle.blackW500Size13),
+                  Text(title, style: AppTextStyle.blackW500Size13),
                   SizedBox(height: 10.h),
                   Text(
                     "$done/$target",
@@ -50,7 +61,7 @@ class TodayOrdersCard extends StatelessWidget {
               child: LinearProgressIndicator(
                 minHeight: 12.h,
                 borderRadius: BorderRadius.circular(25.r),
-                value: 0.8,
+                value: progressValue,
                 backgroundColor: AppStyle.primaryColorOpacity10,
                 color: AppStyle.primaryColor,
               ),
