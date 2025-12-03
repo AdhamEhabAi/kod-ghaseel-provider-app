@@ -1,18 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
 import 'package:kod_ghaseel_provider_app/core/firebase_notification/notification_service.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/models/login_response.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/models/request_pin_response.dart';
-
 import 'package:meta/meta.dart';
 
 part 'auth_state.dart';
-
+@injectable
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepo authRepo;
 

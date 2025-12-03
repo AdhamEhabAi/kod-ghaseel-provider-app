@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/app_repository/repo.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/exceptions.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
@@ -12,6 +13,7 @@ StatisticsResponse _parseStatisticsResponse(Map<String, dynamic> json) {
   return StatisticsResponse.fromJson(json);
 }
 
+@injectable
 class StaticsRepo extends Repository {
   Future<Either<Failure, StatisticsResponse>> getStatistics() async {
     return await exceptionHandler(() async {

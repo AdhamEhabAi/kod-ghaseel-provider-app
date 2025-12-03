@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 import '../data/repo/profile_repo.dart';
 
 part 'profile_state.dart';
 
+@injectable
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(this.profileRepo) : super(ProfileInitial());
   final ProfileRepo profileRepo;

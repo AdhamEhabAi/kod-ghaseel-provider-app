@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
 import 'package:kod_ghaseel_provider_app/features/orders/data/models/orders_response.dart';
 import 'package:kod_ghaseel_provider_app/features/orders/data/repo/orders_repo.dart';
@@ -12,6 +13,7 @@ enum OrderTabType {
   past,
 }
 
+@injectable
 class OrdersCubit extends Cubit<OrdersState> {
   final OrdersRepo _ordersRepo;
 

@@ -15,20 +15,15 @@ import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/core/network/dio_helper.dart';
 import 'package:kod_ghaseel_provider_app/core/router/router.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
-import 'package:kod_ghaseel_provider_app/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
-import 'package:kod_ghaseel_provider_app/features/home_screen/data/home_repo/home_repo.dart';
 import 'package:kod_ghaseel_provider_app/features/orders/controller/orders_cubit.dart';
-import 'package:kod_ghaseel_provider_app/features/orders/data/repo/orders_repo.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/controller/service_cubit.dart';
-import 'package:kod_ghaseel_provider_app/features/service_screen/data/repo/service_repo.dart';
 import 'package:kod_ghaseel_provider_app/features/statics/controller/statics_cubit.dart';
-import 'package:kod_ghaseel_provider_app/features/statics/data/repo/statics_repo.dart';
 import 'package:kod_ghaseel_provider_app/firebase_options.dart';
 
+import 'core/helpers/DI/Di.dart';
 import 'core/network/bloc_observer.dart';
 import 'features/home_screen/tabs/profile_tab/controller/profile_cubit.dart';
-import 'features/home_screen/tabs/profile_tab/data/repo/profile_repo.dart';
 import 'generated/l10n.dart';
 
 
@@ -76,6 +71,7 @@ Future<FirebaseApp> ensureFirebase({String? name}) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
+  configureDependencies();
   GoogleMapsFlutterAndroid().warmup();
   final myHttpOverrides = MyHttpOverrides();
   clearNotifications();
@@ -98,12 +94,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => HomeScreenCubit(HomeRepo())),
-        BlocProvider(create: (_) => ProfileCubit(ProfileRepo())),
-        BlocProvider(create: (_) => AuthCubit(AuthRepo())),
-        BlocProvider(create: (_) => ServiceCubit(ServiceRepo())),
-        BlocProvider(create: (_) => OrdersCubit(OrdersRepo())),
-        BlocProvider(create: (_) => StaticsCubit(StaticsRepo())),
+        BlocProvider(create: (_) => getIt<HomeScreenCubit>()),
+        BlocProvider(create: (_) => getIt<ProfileCubit>()),
+        BlocProvider(create: (_) => getIt<AuthCubit>()),
+        BlocProvider(create: (_) => getIt<ServiceCubit>()),
+        BlocProvider(create: (_) => getIt<OrdersCubit>()),
+        BlocProvider(create: (_) => getIt<StaticsCubit>()),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../../../../core/app_repository/repo.dart';
 import '../../../../../../core/errors/exceptions.dart';
@@ -12,6 +13,7 @@ import '../models/RequestUpdatePhoneNumberResponse.dart';
 import '../models/VerifyChangePhoneResponse.dart';
 import '../models/update_profile_response.dart';
 
+@injectable
 class ProfileRepo extends Repository {
   Future<Either<Failure, UpdateProfileResponse>> updateProfileData({
     required String fullName,
