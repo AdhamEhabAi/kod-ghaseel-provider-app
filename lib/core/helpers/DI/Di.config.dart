@@ -21,6 +21,10 @@ import '../../../features/home_screen/tabs/profile_tab/controller/profile_cubit.
     as _i702;
 import '../../../features/home_screen/tabs/profile_tab/data/repo/profile_repo.dart'
     as _i491;
+import '../../../features/notification/controller/notification_cubit.dart'
+    as _i656;
+import '../../../features/notification/data/notification_repo/notification_repo.dart'
+    as _i525;
 import '../../../features/orders/controller/orders_cubit.dart' as _i272;
 import '../../../features/orders/data/repo/orders_repo.dart' as _i337;
 import '../../../features/service_screen/controller/service_cubit.dart' as _i97;
@@ -38,6 +42,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i621.AuthRepo>(() => _i621.AuthRepo());
     gh.factory<_i16.HomeRepo>(() => _i16.HomeRepo());
     gh.factory<_i491.ProfileRepo>(() => _i491.ProfileRepo());
+    gh.factory<_i525.NotificationRepo>(() => _i525.NotificationRepo());
     gh.factory<_i337.OrdersRepo>(() => _i337.OrdersRepo());
     gh.factory<_i140.ServiceRepo>(() => _i140.ServiceRepo());
     gh.factory<_i661.StaticsRepo>(() => _i661.StaticsRepo());
@@ -54,6 +59,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i272.OrdersCubit(gh<_i337.OrdersRepo>()),
     );
     gh.factory<_i383.AuthCubit>(() => _i383.AuthCubit(gh<_i621.AuthRepo>()));
+    gh.factory<_i656.NotificationCubit>(
+      () => _i656.NotificationCubit(gh<_i525.NotificationRepo>()),
+    );
     gh.factory<_i679.StaticsCubit>(
       () => _i679.StaticsCubit(gh<_i661.StaticsRepo>()),
     );

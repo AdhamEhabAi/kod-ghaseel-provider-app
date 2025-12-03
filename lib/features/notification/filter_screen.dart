@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/custom_back_button.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/custom_check_boc.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- added for localization
+
 import '../../Utilites/app_fonts/font.dart';
+import '../../generated/l10n.dart';
+import 'controller/notification_cubit.dart';
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({super.key});
@@ -18,7 +22,7 @@ class _FilterScreenState extends State<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context); // <-- localization instance
+    final s = S.of(context); // ✅ Localization instance
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -30,47 +34,49 @@ class _FilterScreenState extends State<FilterScreen> {
             children: [
               const CustomBackButton(),
               SizedBox(height: 42.h),
+
               Row(
                 children: [
-                  Text(s.filter, style: AppTextStyle.blackW600Size28Roboto),
+                  Text(
+                    s.filter,
+                    style: AppTextStyle.blackW600Size28Roboto,
+                  ),
                 ],
               ),
+
               SizedBox(height: 25.h),
 
-              // Filter by date
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16.r),
-                  border: Border.all(color: const Color(0xFFEDEDED)),
-                ),
-                child: Row(
-                  children: [
-                    CustomCheckBox(
-                      value: byDate,
-                      onChanged: (v) => setState(() => byDate = v),
-                    ),
-                    SizedBox(width: 16.w),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        s.date,
-                        textDirection: TextDirection.rtl,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 8.h),
-
-              // Unread only
+              // Container(
+              //   padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(16.r),
+              //     border: Border.all(color: const Color(0xFFEDEDED)),
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       CustomCheckBox(
+              //         value: byDate,
+              //         onChanged: (v) => setState(() => byDate = v),
+              //       ),
+              //       SizedBox(width: 16.w),
+              //       GestureDetector(
+              //         onTap: () {},
+              //         child: Text(
+              //           textDirection: TextDirection.rtl,
+              //           s.filterByDate, // ✅ Localized
+              //           style: TextStyle(
+              //             fontSize: 16.sp,
+              //             fontWeight: FontWeight.w600,
+              //             color: Colors.black,
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              //
+              // SizedBox(height: 8.h),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                 decoration: BoxDecoration(
@@ -88,8 +94,8 @@ class _FilterScreenState extends State<FilterScreen> {
                     GestureDetector(
                       onTap: () {},
                       child: Text(
-                        s.unread,
                         textDirection: TextDirection.rtl,
+                        s.unread, // ✅ Localized
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
@@ -103,11 +109,12 @@ class _FilterScreenState extends State<FilterScreen> {
 
               const Spacer(),
 
-              // Apply button
+              // ✅ Apply Button
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    GoRouter.of(context).pop();
+                    context.read<NotificationCubit>().filterByRead();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff01D0FE),
@@ -119,7 +126,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       vertical: 15.h,
                     ),
                     child: Text(
-                      s.apply_filter,
+                      s.apply_filter, // ✅ Localized
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,

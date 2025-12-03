@@ -16,6 +16,7 @@ import 'package:kod_ghaseel_provider_app/core/network/dio_helper.dart';
 import 'package:kod_ghaseel_provider_app/core/router/router.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
+import 'package:kod_ghaseel_provider_app/features/notification/controller/notification_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/orders/controller/orders_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/controller/service_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/statics/controller/statics_cubit.dart';
@@ -100,6 +101,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => getIt<ServiceCubit>()),
         BlocProvider(create: (_) => getIt<OrdersCubit>()),
         BlocProvider(create: (_) => getIt<StaticsCubit>()),
+        BlocProvider(create: (_) => getIt<NotificationCubit>()),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),

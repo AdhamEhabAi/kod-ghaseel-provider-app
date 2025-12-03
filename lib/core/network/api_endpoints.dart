@@ -9,6 +9,7 @@ class APIEndpoints {
 
   static const String login = 'delivery/index.php';
   static const String updateProfileEndPoint = 'delivery/index.php';
+  static const String notificationEndpoint = 'delivery/index.php';
   static const String updatePhoneNumberRequestEndPoint = 'delivery/index.php';
   static const String verifyChangePhoneNumberWithOtp = 'delivery/index.php';
   static const String checkSessionValidation = 'delivery/index.php';

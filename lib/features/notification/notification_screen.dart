@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/custom_back_button.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/custom_filter_button.dart';
-import 'package:kod_ghaseel_provider_app/features/notification/widgets/notification_permission_sheet/show_notification_permission.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/notificatoin_card.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../Utilites/app_fonts/font.dart';
 import '../../core/router/router.dart';
+import '../../core/widgets/toast_m.dart';
+import '../../generated/l10n.dart';
 import '../../shared/shared_widget.dart';
-import 'data/notification_model.dart';
+import 'controller/notification_cubit.dart';
+import 'controller/notification_state.dart';
+import 'data/models/get_all_notification_response.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -25,47 +28,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () async {
-      if (!mounted) return;
-      if (!(await Permission.notification.isGranted)) {
-        showNotificationPermission(context);
-      }
-    });
+    context.read<NotificationCubit>().getNotification();
   }
 
   final TextEditingController searchController = TextEditingController();
-
-  List<NotificationModel> buildNotifications(BuildContext context) {
-    final l10n = S.of(context);
-
-    return [
-      NotificationModel(
-        title: l10n.notification1Title,
-        subtitle: l10n.notification1Subtitle,
-        createdAt: DateTime.now().subtract(const Duration(hours: 1)),
-      ),
-      NotificationModel(
-        title: l10n.notification2Title,
-        subtitle: l10n.notification2Subtitle,
-        createdAt: DateTime.now().subtract(const Duration(hours: 3)),
-      ),
-      NotificationModel(
-        title: l10n.notification3Title,
-        subtitle: l10n.notification3Subtitle,
-        createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 1)),
-      ),
-      NotificationModel(
-        title: l10n.notification4Title,
-        subtitle: l10n.notification4Subtitle,
-        createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 4)),
-      ),
-      NotificationModel(
-        title: l10n.notification5Title,
-        subtitle: l10n.notification5Subtitle,
-        createdAt: DateTime.now().subtract(const Duration(days: 10)),
-      ),
-    ];
-  }
 
 
   @override
@@ -83,11 +49,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 child: Row(
                   children: [
                     InkWell(
-                      onTap: () => GoRouter.of(context).push(AppRouter.filterScreen),
+                      onTap: () {
+                        GoRouter.of(context).push(AppRouter.filterScreen);
+                      },
                       child: const CustomFilterButton(),
                     ),
                     const Spacer(),
-                    const CustomBackButton(),
+                    InkWell(
+                      // to make the list empty so the skeletonizer works
+                        onTap: () => context.read<NotificationCubit>().notificationList=[],
+                        child: CustomBackButton()),
                   ],
                 ),
               ),
@@ -112,29 +83,47 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ),
               SizedBox(height: 33.5.h),
 
-              // ✅ Notifications list
-              Expanded(
-                child: GroupedListView<NotificationModel, int>(
-                  elements: buildNotifications(context),
-                  groupBy: (n) => n.daysBetween,
-                  order: GroupedListOrder.ASC,
-                  groupSeparatorBuilder: (diff) => Padding(
-                    padding: EdgeInsetsDirectional.only(
-                      end: 8.w,
-                      top: 8.h,
-                      bottom: 8.h,
-                    ),
-                    child: Text(
-                      NotificationModel.localizedRelativeLabel(context, diff), // ✅ Localized helper
-                      style: TextStyle(
-                        color: const Color(0xff808080),
-                        fontSize: 13.sp,
+              BlocConsumer<NotificationCubit,NotificationStates>(
+                listener: (context, state) {
+                  if(state is DeleteNotificationSuccessState){
+                    ToastM.show(state.message);
+                  }
+                },
+                builder: (context, state) {
+                  bool isLoading=state is GetNotificationLoadingState;
+                  if(state is GetNotificationErrorState){
+                    return SizedBox.shrink();
+                  }
+                  return Expanded(
+                    child: Skeletonizer(
+                      enabled: isLoading,
+                      child: GroupedListView<NotificationItem, int>(
+                        elements: context.read<NotificationCubit>().notificationList,
+                        groupBy: (n) => n.daysBetween,
+                        order: GroupedListOrder.ASC,
+                        groupSeparatorBuilder: (diff) {
+                          return Padding(
+                            padding: EdgeInsetsDirectional.only(
+                              end: 8.w,
+                              top: 8.h,
+                              bottom: 8.h,
+                            ),
+                            child: Text(
+                              s.daysAgo(diff),
+                              style: TextStyle(
+                                color: const Color(0xff808080),
+                                fontSize: 13.sp,
+                              ),
+                            ),
+                          );
+                        },
+                        itemBuilder: (context, n) =>
+                            NotificationCard(notification: n,isSelectedRead: n.isRead ==1?true:false,),
+                        separator: SizedBox(height: 15.h),
                       ),
                     ),
-                  ),
-                  itemBuilder: (context, n) => NotificationCard(notification: n),
-                  separator: SizedBox(height: 15.h),
-                ),
+                  );
+                },
               ),
             ],
           ),
@@ -143,3 +132,4 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 }
+
