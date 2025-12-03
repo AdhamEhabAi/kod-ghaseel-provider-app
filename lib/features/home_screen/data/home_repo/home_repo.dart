@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/data/models/banner_response_model.dart';
 
 import '../../../../core/app_repository/repo.dart';
@@ -9,6 +10,7 @@ import '../../../../core/network/api_endpoints.dart';
 import '../models/CheckSessionValidationResponse.dart';
 import '../models/provider_status_response.dart';
 
+@injectable
 class HomeRepo extends Repository {
   Future<Either<Failure, CheckSessionValidationResponse>>
   checkSessionValidation() {

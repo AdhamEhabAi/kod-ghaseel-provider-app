@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
 import 'package:kod_ghaseel_provider_app/features/statics/data/models/statistics_response.dart';
 import 'package:kod_ghaseel_provider_app/features/statics/data/repo/statics_repo.dart';
@@ -6,6 +7,7 @@ import 'package:meta/meta.dart';
 
 part 'statics_state.dart';
 
+@injectable
 class StaticsCubit extends Cubit<StaticsState> {
   final StaticsRepo _staticsRepo;
 

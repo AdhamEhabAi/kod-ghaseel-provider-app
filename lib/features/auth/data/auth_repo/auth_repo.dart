@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/app_repository/repo.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/exceptions.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
@@ -7,6 +8,7 @@ import 'package:kod_ghaseel_provider_app/core/network/api_endpoints.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/models/login_response.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/models/request_pin_response.dart';
 
+@injectable
 class AuthRepo extends Repository {
   Future<Either<Failure, LoginResponse>> loginByMobile({
     required String mobile,

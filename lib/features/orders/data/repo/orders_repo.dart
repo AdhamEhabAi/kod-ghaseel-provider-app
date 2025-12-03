@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/app_repository/repo.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/exceptions.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
@@ -12,6 +13,7 @@ OrdersResponse _parseOrdersResponse(Map<String, dynamic> json) {
   return OrdersResponse.fromJson(json);
 }
 
+@injectable
 class OrdersRepo extends Repository {
   Future<Either<Failure, OrdersResponse>> getOrders({
     required String filter,

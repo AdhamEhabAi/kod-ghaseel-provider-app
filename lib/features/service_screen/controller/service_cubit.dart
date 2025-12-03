@@ -1,18 +1,21 @@
 import 'dart:async';
 import 'dart:developer' as developer;
 import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
+import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
+import 'package:kod_ghaseel_provider_app/features/service_screen/data/models/order_stages_model.dart';
+import 'package:kod_ghaseel_provider_app/features/service_screen/data/repo/service_repo.dart';
 import 'package:location/location.dart';
 import 'package:meta/meta.dart';
 import 'package:permission_handler/permission_handler.dart'
     hide PermissionStatus;
-import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
-import 'package:kod_ghaseel_provider_app/features/service_screen/data/models/order_stages_model.dart';
-import 'package:kod_ghaseel_provider_app/features/service_screen/data/repo/service_repo.dart';
 
 part 'service_state.dart';
 
+@injectable
 class ServiceCubit extends Cubit<ServiceState> {
   final ServiceRepo _serviceRepo;
   StreamSubscription<LocationData>? _locationSubscription;

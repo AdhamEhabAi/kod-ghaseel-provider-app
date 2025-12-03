@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/data/models/banner_response_model.dart';
 
@@ -9,6 +10,7 @@ import '../data/models/provider_status_response.dart';
 
 part 'home_screen_state.dart';
 
+@injectable
 class HomeScreenCubit extends Cubit<HomeScreenState> {
   Locale _currentLocale = const Locale('ar');
   final HomeRepo homeRepo;
