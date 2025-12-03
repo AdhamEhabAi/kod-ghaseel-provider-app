@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/data/models/banner_response_model.dart';
 
+import '../../../core/widgets/toast_m.dart';
 import '../data/home_repo/home_repo.dart';
 import '../data/models/CheckSessionValidationResponse.dart';
 import '../data/models/provider_status_response.dart';
@@ -51,25 +53,37 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     _currentLocale = newLocale;
     emit(HomeScreenLanguageChanged(newLocale));
   }
+
   Future<void> checkSessionValidation() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+
+    if (connectivityResult.contains(ConnectivityResult.none)) {
+      ToastM.show("لا يوجد اتصال بالإنترنت");
+      emit(NotValidateSession(message: "لا يوجد اتصال بالإنترنت"));
+      return;
+    }
     emit(ValidationLoadingState());
     final result = await homeRepo.checkSessionValidation();
+
     result.fold(
           (failure) => emit(NotValidateSession(message: failure.message)),
-          (response)  async{
-            final userJson = response.data?.toJson();
-            if (userJson != null) {
-              await AppSharedPreferences.setString(
-                SharedPreferencesKeys.userModel,
-                jsonEncode(userJson),
-              );
-            }
-            userData = response.data;
-            loadUser();
-            emit(ValidatedSession(response: response));
-          }
+          (response) async {
+        final userJson = response.data?.toJson();
+        if (userJson != null) {
+          await AppSharedPreferences.setString(
+            SharedPreferencesKeys.userModel,
+            jsonEncode(userJson),
+          );
+        }
+
+        userData = response.data;
+        loadUser();
+
+        emit(ValidatedSession(response: response));
+      },
     );
   }
+
   void loadUser() {
     final userString =
         AppSharedPreferences.getString(SharedPreferencesKeys.userModel) ?? "";

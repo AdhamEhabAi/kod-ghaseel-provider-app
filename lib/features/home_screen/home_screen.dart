@@ -202,6 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   message: "جاري تحليل البيانات برجاء الانتظار",
                 );
               } else if (state is NotValidateSession) {
+                bool isNoInternet= state.message=="لا يوجد اتصال بالإنترنت";
                 DialogUtils.hideLoading(context);
                 // Stop location stream when session is invalid
                 context.read<ServiceCubit>().stopLocationStream();
@@ -209,10 +210,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     context: context,
                     message: state.message,
                     posAction:(){
+                      if(isNoInternet){
+                        context.read<HomeScreenCubit>().checkSessionValidation();
+                        return;
+                      }
                       GoRouter.of(context).pushReplacement(AppRouter.loginScreen);
                       AppSharedPreferences.clear();
                     },
-                    posActionName: "تسجيل الدخول"
+                    posActionName:isNoInternet? "اعادة الاتصال":"تسجيل الدخول"
                 );
               }else if(state is ValidatedSession) {
                 DialogUtils.hideLoading(context);
