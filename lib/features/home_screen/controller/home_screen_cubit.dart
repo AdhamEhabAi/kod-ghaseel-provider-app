@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -14,6 +16,7 @@ part 'home_screen_state.dart';
 class HomeScreenCubit extends Cubit<HomeScreenState> {
   Locale _currentLocale = const Locale('ar');
   final HomeRepo homeRepo;
+  UserData? userData;
 
   HomeScreenCubit(this.homeRepo) : super(HomeScreenInitial()) {
     loadLanguage();
@@ -53,8 +56,34 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     final result = await homeRepo.checkSessionValidation();
     result.fold(
           (failure) => emit(NotValidateSession(message: failure.message)),
-          (response) => emit(ValidatedSession(response: response)),
+          (response)  async{
+            final userJson = response.data?.toJson();
+            if (userJson != null) {
+              await AppSharedPreferences.setString(
+                SharedPreferencesKeys.userModel,
+                jsonEncode(userJson),
+              );
+            }
+            userData = response.data;
+            loadUser();
+            emit(ValidatedSession(response: response));
+          }
     );
+  }
+  void loadUser() {
+    final userString =
+        AppSharedPreferences.getString(SharedPreferencesKeys.userModel) ?? "";
+    userData = UserData.fromJson(jsonDecode(userString));
+    emit(UserDataLoaded(userDara: userData));
+  }
+
+  void updateUserData(UserData newData) {
+    AppSharedPreferences.setString(
+      SharedPreferencesKeys.userModel,
+      jsonEncode(newData),
+    );
+    userData = newData;
+    emit(UserDataLoaded(userDara: newData));
   }
   Future<void> getHomeBanners() async {
     emit(HomeBannersLoading());

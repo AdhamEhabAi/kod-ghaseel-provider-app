@@ -6,9 +6,10 @@ abstract class ProfileState{}
 
 class ProfileInitial extends ProfileState{}
 class UpdateProfileLoading extends ProfileState{}
-class UpdateProfileSuccess extends ProfileState{
+class UpdateProfileSuccess extends ProfileState {
   final String message;
-  UpdateProfileSuccess({required this.message});
+  final UserData user;
+  UpdateProfileSuccess({required this.message, required this.user});
 }
 class UpdateProfileError extends ProfileState{
   final String message;
@@ -35,3 +36,4 @@ class VerifyChangePhoneNumberError extends ProfileState {
 
   VerifyChangePhoneNumberError({required this.message});
 }
+class PickAndSetImageSuccessState extends ProfileState {}

@@ -11,7 +11,7 @@ import '../../../../../../core/network/api_endpoints.dart';
 import '../../../../../auth/data/models/login_response.dart';
 import '../models/RequestUpdatePhoneNumberResponse.dart';
 import '../models/VerifyChangePhoneResponse.dart';
-import '../models/update_profile_response.dart';
+import '../models/update_profile_response.dart' hide User;
 
 @injectable
 class ProfileRepo extends Repository {
@@ -22,6 +22,9 @@ class ProfileRepo extends Repository {
     required String city,
     required String address,
     required String profileImage,
+    required String vehicleType,
+    required String vehiclePlate,
+    required String licenseNumber,
   }) async {
     return await exceptionHandler(() async {
       final Map<String, dynamic> response = await dioHelper.postData(
@@ -38,20 +41,25 @@ class ProfileRepo extends Repository {
             "city": city,
             "address": address,
             "profile_image": profileImage,
+            "vehicle_type": vehicleType,
+            "vehicle_plate": vehiclePlate,
+            "license_number": licenseNumber,
           },
         },
       );
+
       final bool success = response['success'] ?? false;
 
       if (success) {
         return UpdateProfileResponse.fromJson(response);
       } else {
         throw ServerException(
-          exceptionMessage: response['message'] ?? 'Login failed',
+          exceptionMessage: response['message'] ?? 'Update profile failed',
         );
       }
     });
   }
+
   Future<Either<Failure, RequestUpdatePhoneNumberResponse>> updatePhoneNumberRequest({
     required String phoneNumber
   }) async {

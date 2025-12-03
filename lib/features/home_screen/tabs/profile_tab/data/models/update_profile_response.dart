@@ -1,29 +1,22 @@
-/// success : true
-/// message : "تم تحديث الملف الشخصي بنجاح"
+import 'package:kod_ghaseel_provider_app/features/home_screen/data/models/CheckSessionValidationResponse.dart';
 
 class UpdateProfileResponse {
-
-  bool? success;
-  String? message;
+  final bool success;
+  final String message;
+  final UserData data;
 
   UpdateProfileResponse({
-    this.success,
-    this.message,});
+    required this.success,
+    required this.message,
+    required this.data,
+  });
 
-
-  factory UpdateProfileResponse.fromJson(dynamic json) {
+  factory UpdateProfileResponse.fromJson(Map<String, dynamic> json) {
     return UpdateProfileResponse(
-        success: json['success']?? false,
-        message: json['message'] ?? ""
+      success: json['success'],
+      message: json['message'],
+      data: UserData.fromJson(json['data']['user']),
     );
   }
-
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['success'] = success;
-    map['message'] = message;
-    return map;
-  }
-
 }
+

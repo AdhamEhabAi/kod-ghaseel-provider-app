@@ -9,7 +9,7 @@ class Assets {
   static const String walletIcon = '$iconsPath/Wallet_icon.svg';
   static const String avatarIconSVG = '$iconsPath/avatar_icon.svg';
   static const String lightningIconSVG = '$iconsPath/lightning_icon.svg';
-  static const String cameraIconSVG = '$iconsPath/Camera_icon.svg';
+  static const String cameraIconSVG = 'assets/icons/Camera_icon.svg';
   static const String personIconSVG = '$iconsPath/person_icon.svg';
   static const String paymentCar = '$iconsPath/paymentCar.png';
   static const String deleteIconSVG = '$iconsPath/trash_icon.svg';

@@ -259,5 +259,8 @@
   "serviceProgress": "تقدم الخدمة",
   "minutesSeconds": "دقيقة : ثانية",
   "orderAlreadyCompleted": "هذا الطلب مكتمل بالفعل",
-  "completed": "مكتمل"
+  "completed": "مكتمل",
+
+  "camera": "الكاميرا",
+  "gallery": "معرض الصور"
 }

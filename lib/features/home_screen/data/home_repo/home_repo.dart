@@ -27,7 +27,7 @@ class HomeRepo extends Repository {
         return CheckSessionValidationResponse.fromJson(response);
       } else {
         throw ServerException(
-          exceptionMessage: response["message"] ?? "Session is not valid",
+          exceptionMessage: "حدث خطأ اثناء التحقق من صلاحية الجلسة",
         );
       }
     });
