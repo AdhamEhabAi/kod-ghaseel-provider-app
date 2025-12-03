@@ -166,6 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       currentIndex: _selectedIndex,
                       onTap: (index) {
                         setState(() {
+                          context.read<HomeScreenCubit>().loadUser();
                           HomeTabController.value.value = index;
                         });
                       },

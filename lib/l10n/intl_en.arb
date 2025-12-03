@@ -258,5 +258,8 @@
   "serviceProgress": "Service Progress",
   "minutesSeconds": "Minutes : Seconds",
   "orderAlreadyCompleted": "This order is already completed",
-  "completed": "Completed"
+  "completed": "Completed",
+
+  "camera": "Camera",
+  "gallery": "Gallery"
 }
