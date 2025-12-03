@@ -65,7 +65,6 @@ class _HomeTabState extends State<HomeTab> {
                     builder: (context, state) {
                       final cubit = context.read<StaticsCubit>();
                       final statistics = cubit.statisticsResponse?.data;
-
                       if (statistics == null) {
                         return Skeletonizer(
                           enabled: true,
