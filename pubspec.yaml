@@ -68,6 +68,7 @@ dependencies:
   url_launcher:
   injectable: ^2.7.0
   image_picker: ^1.2.1
+  custom_refresh_indicator: ^4.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

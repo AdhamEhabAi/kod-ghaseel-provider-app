@@ -1,3 +1,4 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
+import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/home_tab.dart';
@@ -21,6 +23,7 @@ import '../../Utilites/app_assets/assets.dart';
 import '../../Utilites/app_style/style.dart';
 import '../../core/helpers/dialog_utils.dart';
 import '../../core/router/router.dart';
+import '../orders/controller/orders_cubit.dart';
 import 'controller/home_screen_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -41,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _getBottomNavigationBarSize();
     HomeTabController.value.addListener(_onTabChanged);
     context.read<HomeScreenCubit>().checkSessionValidation();
-    
+
     // Initialize location service and start streaming when HomeScreen loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getBottomNavigationBarSize();
@@ -52,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     });
   }
-  
+
   @override
   void dispose() {
     // Don't stop location stream here - let it run in background
@@ -184,49 +187,67 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        body:BlocListener<HomeScreenCubit, HomeScreenState>(
-          listener: (context, state)async {
-            if (state is ValidationLoadingState) {
-              DialogUtils.showLoading(
-                context: context,
-                message: "جاري تحليل البيانات برجاء الانتظار",
-              );
-            } else if (state is NotValidateSession) {
-              DialogUtils.hideLoading(context);
-              // Stop location stream when session is invalid
-              context.read<ServiceCubit>().stopLocationStream();
-              DialogUtils.showAlert(
-                  context: context,
-                  message: state.message,
-                  posAction:(){
-                    GoRouter.of(context).pushReplacement(AppRouter.loginScreen);
-                    AppSharedPreferences.clear();
-                  },
-                  posActionName: "تسجيل الدخول"
-              );
-            }else if(state is ValidatedSession) {
-              DialogUtils.hideLoading(context);
-              var fcmToken = await context.read<AuthCubit>().getFcmToken();
-              context.read<AuthCubit>().updateFcmToken(fcmToken??"");
-              context.read<HomeScreenCubit>().getHomeBanners();
-              context.read<HomeScreenCubit>().getProviderStatus();
-              context.read<StaticsCubit>().getStatistics();
-              
-              // Ensure location stream is running after session validation
-              // (It might have been started in initState, but ensure it's running)
-              final serviceState = context.read<ServiceCubit>().state;
-              if (serviceState is! ServiceLocationStreamActive && 
-                  serviceState is! ServiceLocationLoading) {
-                // If location is not already initialized, initialize it
-                context.read<ServiceCubit>().initializeLocation().then((_) {
-                  context.read<ServiceCubit>().startLocationStream();
-                });
-              }
-            }
+        body:CustomMaterialIndicator(
+          indicatorBuilder: (context, controller) {
+            return AppLoader();
           },
-          child: pages[_selectedIndex],
+          onRefresh: () {
+            return onRefresh();
+          },
+          child: BlocListener<HomeScreenCubit, HomeScreenState>(
+            listener: (context, state)async {
+              if (state is ValidationLoadingState) {
+                DialogUtils.showLoading(
+                  context: context,
+                  message: "جاري تحليل البيانات برجاء الانتظار",
+                );
+              } else if (state is NotValidateSession) {
+                DialogUtils.hideLoading(context);
+                // Stop location stream when session is invalid
+                context.read<ServiceCubit>().stopLocationStream();
+                DialogUtils.showAlert(
+                    context: context,
+                    message: state.message,
+                    posAction:(){
+                      GoRouter.of(context).pushReplacement(AppRouter.loginScreen);
+                      AppSharedPreferences.clear();
+                    },
+                    posActionName: "تسجيل الدخول"
+                );
+              }else if(state is ValidatedSession) {
+                DialogUtils.hideLoading(context);
+                var fcmToken = await context.read<AuthCubit>().getFcmToken();
+                context.read<AuthCubit>().updateFcmToken(fcmToken??"");
+                context.read<HomeScreenCubit>().getHomeBanners();
+                context.read<HomeScreenCubit>().getProviderStatus();
+                context.read<StaticsCubit>().getStatistics();
+
+                // Ensure location stream is running after session validation
+                // (It might have been started in initState, but ensure it's running)
+                final serviceState = context.read<ServiceCubit>().state;
+                if (serviceState is! ServiceLocationStreamActive &&
+                    serviceState is! ServiceLocationLoading) {
+                  // If location is not already initialized, initialize it
+                  context.read<ServiceCubit>().initializeLocation().then((_) {
+                    context.read<ServiceCubit>().startLocationStream();
+                  });
+                }
+              }
+            },
+            child: pages[_selectedIndex],
+          ),
         ),
       ),
+    );
+  }
+
+  Future<void> onRefresh()async {
+    await context.read<HomeScreenCubit>().getHomeBanners();
+    await context.read<HomeScreenCubit>().getProviderStatus();
+    await context.read<StaticsCubit>().getStatistics();
+    context.read<OrdersCubit>().getOrders(
+      tabType: OrderTabType.current,
+      limit: 5,
     );
   }
 }

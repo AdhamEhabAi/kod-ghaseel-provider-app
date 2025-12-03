@@ -1,8 +1,10 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/custom_back_button.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/custom_filter_button.dart';
 import 'package:kod_ghaseel_provider_app/features/notification/widgets/notificatoin_card.dart';
@@ -95,31 +97,37 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     return SizedBox.shrink();
                   }
                   return Expanded(
-                    child: Skeletonizer(
-                      enabled: isLoading,
-                      child: GroupedListView<NotificationItem, int>(
-                        elements: context.read<NotificationCubit>().notificationList,
-                        groupBy: (n) => n.daysBetween,
-                        order: GroupedListOrder.ASC,
-                        groupSeparatorBuilder: (diff) {
-                          return Padding(
-                            padding: EdgeInsetsDirectional.only(
-                              end: 8.w,
-                              top: 8.h,
-                              bottom: 8.h,
-                            ),
-                            child: Text(
-                              s.daysAgo(diff),
-                              style: TextStyle(
-                                color: const Color(0xff808080),
-                                fontSize: 13.sp,
+                    child: CustomMaterialIndicator(
+                      onRefresh: () =>  context.read<NotificationCubit>().getNotification(),
+                      indicatorBuilder: (context, controller) => AppLoader(),
+                      backgroundColor: Colors.white,
+                      child: Skeletonizer(
+                        enabled: isLoading,
+                        child: GroupedListView<NotificationItem, int>(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          elements: context.read<NotificationCubit>().notificationList,
+                          groupBy: (n) => n.daysBetween,
+                          order: GroupedListOrder.ASC,
+                          groupSeparatorBuilder: (diff) {
+                            return Padding(
+                              padding: EdgeInsetsDirectional.only(
+                                end: 8.w,
+                                top: 8.h,
+                                bottom: 8.h,
                               ),
-                            ),
-                          );
-                        },
-                        itemBuilder: (context, n) =>
-                            NotificationCard(notification: n,isSelectedRead: n.isRead ==1?true:false,),
-                        separator: SizedBox(height: 15.h),
+                              child: Text(
+                                s.daysAgo(diff),
+                                style: TextStyle(
+                                  color: const Color(0xff808080),
+                                  fontSize: 13.sp,
+                                ),
+                              ),
+                            );
+                          },
+                          itemBuilder: (context, n) =>
+                              NotificationCard(notification: n,isSelectedRead: n.isRead ==1?true:false,),
+                          separator: SizedBox(height: 15.h),
+                        ),
                       ),
                     ),
                   );
