@@ -39,8 +39,12 @@ class ProviderStatusLoaded extends HomeScreenState {
   final ProviderStatusResponse response;
   ProviderStatusLoaded({required this.response});
 }
-
 class ProviderStatusError extends HomeScreenState {
   final String message;
   ProviderStatusError({required this.message});
+}
+class UserDataLoaded extends HomeScreenState{
+  final UserData? userDara;
+  UserDataLoaded({required this.userDara});
+
 }
