@@ -8,6 +8,8 @@ import 'package:kod_ghaseel_provider_app/core/network/api_endpoints.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/models/login_response.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/models/request_pin_response.dart';
 
+import '../../../home_screen/data/models/update_fcm_token.dart';
+
 @injectable
 class AuthRepo extends Repository {
   Future<Either<Failure, LoginResponse>> loginByMobile({
@@ -81,6 +83,30 @@ class AuthRepo extends Repository {
       } else {
         throw ServerException(
           exceptionMessage: response['message'] ?? 'فشل في إرسال الرمز',
+        );
+      }
+    });
+  }
+
+  Future<Either<Failure, UpdateFcmTokenResponse>> updateFcmToken({
+    required String token,
+  }) {
+    return exceptionHandler(() async {
+      final response = await dioHelper.postData(APIEndpoints.login, {
+        "action": "update_fcm",
+        "session_token": AppSharedPreferences.getString(
+          SharedPreferencesKeys.accessToken,),
+        "fcm_token": token,
+      });
+
+      final success = response["success"] == true;
+      if (success) {
+        print("fcm token is :${response["data"]}");
+        return UpdateFcmTokenResponse.fromJson(response);
+      } else {
+        print("fcm token message is :${response["message"]}");
+        throw ServerException(
+          exceptionMessage: response["message"] ?? "Failed to save fcm token",
         );
       }
     });

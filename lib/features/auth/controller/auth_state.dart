@@ -43,3 +43,4 @@ class LogoutError extends AuthState {
   final String message;
   LogoutError({required this.message});
 }
+class FcmTokenUpdated extends AuthState {}
