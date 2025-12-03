@@ -11,7 +11,7 @@ import UserNotifications
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    GMSServices.provideAPIKey("AIzaSyAyiN05AZu4flThCX-1m_0asdP_JF3tp3k")
+    GMSServices.provideAPIKey("AIzaSyAvpaNrhvRUzgqiLBfwtCETDNVGYJiDATw")
 
     FirebaseApp.configure()
 
