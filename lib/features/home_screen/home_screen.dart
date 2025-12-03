@@ -185,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         body:BlocListener<HomeScreenCubit, HomeScreenState>(
-          listener: (context, state) {
+          listener: (context, state)async {
             if (state is ValidationLoadingState) {
               DialogUtils.showLoading(
                 context: context,
@@ -206,7 +206,8 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }else if(state is ValidatedSession) {
               DialogUtils.hideLoading(context);
-              var fcmToken =  context.read<AuthCubit>().getFcmToken();
+              var fcmToken = await context.read<AuthCubit>().getFcmToken();
+              context.read<AuthCubit>().updateFcmToken(fcmToken??"");
               context.read<HomeScreenCubit>().getHomeBanners();
               context.read<HomeScreenCubit>().getProviderStatus();
               context.read<StaticsCubit>().getStatistics();

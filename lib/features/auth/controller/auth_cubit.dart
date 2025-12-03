@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -119,9 +120,9 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> logout() async {
     emit(LogoutLoading());
-
+    await updateFcmToken("");
     final result = await authRepo.logout();
-
+    await AppSharedPreferences.clear();
     result.fold(
       (Failure failure) => emit(LogoutError(message: failure.message)),
       (String response) {
@@ -157,6 +158,17 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthError(message: 'Failed to get device info: $e'));
     }
   }
+
+  Future<void> updateFcmToken(String token) async {
+    try {
+      authRepo.updateFcmToken(token: token);
+      log("fcm token updated ${token}");
+      emit(FcmTokenUpdated());
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
   Future<String?> getFcmToken() async {
     return await NotificationService.instance.getTokenFireBase();
   }
