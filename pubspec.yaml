@@ -40,7 +40,6 @@ dependencies:
   flutter_screenutil:
   pin_code_fields:
   flutter_svg:
-  flutter_native_splash:
   flutter_bloc:
   lottie: ^3.3.2
   google_maps_flutter: ^2.13.1
@@ -123,17 +122,8 @@ flutter:
         - asset: assets/fonts/cairo/Cairo-Regular.ttf
         - asset: assets/fonts/cairo/Cairo-SemiBold.ttf
 
-flutter_native_splash:
-  color: "#000000"
-  image: "assets/images/Splash.png"
-  fullscreen: true
-  android: true
-  ios: true
-  android_gravity: fill
-  ios_content_mode: scaleAspectFill
-
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
+# For details regarding fonts from package dependencies,
+# see https://flutter.dev/to/font-from-package
 flutter_intl:
   enabled: true
   class_name: S
@@ -145,7 +135,7 @@ flutter_intl:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/Splash.png"
+  image_path: "assets/images/launcher_Icon.png"
   adaptive_icon_background: "#FFFFFF"  # Or an image path
   remove_alpha_ios: true
 #  adaptive_icon_foreground: "assets/icons/app_icon_foreground.png"

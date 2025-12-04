@@ -15,7 +15,7 @@
 
 
     <application
-        android:label="kod ghaseel provider app"
+        android:label="Washing Code Provider"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
 
