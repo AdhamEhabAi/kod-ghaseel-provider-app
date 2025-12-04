@@ -273,5 +273,10 @@
     "description": "Enter verification code sent to phone number",
     "placeholders": { "phone": { "type": "String" } }
   },
-  "verify": "Verify"
+  "verify": "Verify",
+  "locationPermissionRequired": "Location Permission Required",
+  "locationPermissionDescription": "This app needs access to your location at all times to track your position and provide services. Please enable 'Allow all the time' location permission.",
+  "openLocationSettings": "Open Location Settings",
+  "checkAgain": "Check Again",
+  "analyzingDataPleaseWait": "Analyzing data, please wait"
 }

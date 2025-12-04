@@ -274,5 +274,10 @@
     "description": "أدخل رمز التحقق المرسل إلى رقم الهاتف",
     "placeholders": { "phone": { "type": "String" } }
   },
-  "verify": "التحقق"
+  "verify": "التحقق",
+  "locationPermissionRequired": "إذن الموقع مطلوب",
+  "locationPermissionDescription": "يحتاج التطبيق إلى الوصول إلى موقعك في جميع الأوقات لتتبع موقعك وتقديم الخدمات. يرجى تفعيل إذن الموقع 'السماح في جميع الأوقات'.",
+  "openLocationSettings": "فتح إعدادات الموقع",
+  "checkAgain": "التحقق مرة أخرى",
+  "analyzingDataPleaseWait": "جاري تحليل البيانات برجاء الانتظار"
 }

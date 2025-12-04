@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
               if (state is ValidationLoadingState) {
                 DialogUtils.showLoading(
                   context: context,
-                  message: "جاري تحليل البيانات برجاء الانتظار",
+                  message: S.of(context).analyzingDataPleaseWait,
                 );
               } else if (state is NotValidateSession) {
                 bool isNoInternet= state.message=="لا يوجد اتصال بالإنترنت";
