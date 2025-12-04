@@ -8,6 +8,7 @@ import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
 import 'package:kod_ghaseel_provider_app/core/firebase_notification/notification_service.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
+import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/models/login_response.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/data/models/request_pin_response.dart';
@@ -56,6 +57,11 @@ class AuthCubit extends Cubit<AuthState> {
       (Failure failure) => emit(SendPinError(message: failure.message)),
       (RequestPinResponse response) {
         requestPinResponse = response;
+        // Show PIN code in toast
+        final pinCode = response.data?.pinCode;
+        if (pinCode != null && pinCode.isNotEmpty) {
+          ToastM.show('PIN Code: $pinCode');
+        }
         emit(SendPinSuccess());
       },
     );
@@ -113,6 +119,11 @@ class AuthCubit extends Cubit<AuthState> {
       (Failure failure) => emit(ReSendPinError(message: failure.message)),
       (RequestPinResponse response) {
         requestPinResponse = response;
+        // Show PIN code in toast
+        final pinCode = response.data?.pinCode;
+        if (pinCode != null && pinCode.isNotEmpty) {
+          ToastM.show('PIN Code: $pinCode');
+        }
         emit(ReSendPinSuccess());
       },
     );
