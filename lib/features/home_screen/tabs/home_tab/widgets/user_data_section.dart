@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../Utilites/app_style/style.dart';
 import '../../../../../core/router/router.dart';
+import '../../../../../generated/l10n.dart';
 
 class UserDataSection extends StatelessWidget {
   const UserDataSection({
@@ -24,6 +25,7 @@ class UserDataSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Row(
       children: [
         CircleAvatar(
@@ -69,13 +71,13 @@ class UserDataSection extends StatelessWidget {
                 );
               } catch (e) {
                 if (context.mounted) {
-                  ToastM.show('Error calling: ${e.toString()}');
+                  ToastM.show('${s.errorCalling}: ${e.toString()}');
                 }
               }
             } else {
               // Show message if no phone number available
               if (context.mounted) {
-                ToastM.show('Phone number not available');
+                ToastM.show(s.phoneNumberNotAvailable);
               }
             }
           },

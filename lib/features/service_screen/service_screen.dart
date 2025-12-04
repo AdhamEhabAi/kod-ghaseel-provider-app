@@ -73,6 +73,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
 
   void _checkServiceAvailability() {
     if (widget.order == null || _currentLocation == null) {
+      print('⚠️ [ServiceScreen] Button disabled: order=${widget.order != null}, location=${_currentLocation != null}');
       setState(() {
         _isButtonEnabled = false;
       });
@@ -81,6 +82,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
 
     // Check time validation
     final isTimeValid = HelperFunctions.isOrderTimeValid(widget.order!);
+    print('⏰ [ServiceScreen] Time validation: $isTimeValid');
     if (!isTimeValid) {
       setState(() {
         _isButtonEnabled = false;
@@ -94,6 +96,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
       final orderLng = double.tryParse(widget.order!.longitude) ?? 0.0;
 
       if (orderLat == 0.0 || orderLng == 0.0) {
+        print('⚠️ [ServiceScreen] Button disabled: Invalid order coordinates (lat=$orderLat, lng=$orderLng)');
         setState(() {
           _isButtonEnabled = false;
         });
@@ -107,8 +110,15 @@ class _ServiceScreenState extends State<ServiceScreen> {
         orderLng,
       );
 
+      print('📏 [ServiceScreen] Distance check: ${distance.toStringAsFixed(2)}m (threshold: 100m)');
+      print('   Current location: (${_currentLocation!.latitude}, ${_currentLocation!.longitude})');
+      print('   Order location: ($orderLat, $orderLng)');
+      
+      final shouldEnable = distance <= 100.0; // 100 meters threshold
+      print('✅ [ServiceScreen] Button enabled: $shouldEnable');
+      
       setState(() {
-        _isButtonEnabled = distance <= 50.0; // 50 meters
+        _isButtonEnabled = shouldEnable;
       });
     } catch (e) {
       print('❌ [ServiceScreen] Error calculating distance: $e');
@@ -180,6 +190,13 @@ class _ServiceScreenState extends State<ServiceScreen> {
       print('🗺️ [ServiceScreen] Got initial location: Lat: ${currentState.latitude}, Lng: ${currentState.longitude}');
     }
 
+    // Check service availability immediately if we have location
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _checkServiceAvailability();
+      }
+    });
+    
     // Start periodic time validation check (every 10 seconds)
     _timeValidationTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
       if (mounted) {
@@ -210,16 +227,21 @@ class _ServiceScreenState extends State<ServiceScreen> {
           print('   📍 Timestamp: ${state.timestamp.toIso8601String()}');
           print('   📍 Accuracy: ${state.accuracy}m, Speed: ${state.speed}m/s');
           final newLocation = LatLng(state.latitude, state.longitude);
-          if (_currentLocation == null ||
+          final locationChanged = _currentLocation == null ||
               _currentLocation!.latitude != state.latitude ||
-              _currentLocation!.longitude != state.longitude) {
+              _currentLocation!.longitude != state.longitude;
+          
+          if (locationChanged) {
             print('🗺️ [ServiceScreen] Updating map camera to new location');
             setState(() {
               _currentLocation = newLocation;
             });
             _updateMapCamera(newLocation);
-            _checkServiceAvailability();
           }
+          
+          // Always check service availability when location updates
+          // (even if coordinates haven't changed, time validation might have changed)
+          _checkServiceAvailability();
         } else if (state is ServiceLocationEnabled) {
           // Update location when enabled (initial location)
           print(

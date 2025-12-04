@@ -141,7 +141,9 @@ class HelperFunctions {
   /// Check if current time is valid for starting the service
   /// Returns true if current time is:
   /// - 15 minutes before the order's scheduled time, OR
-  /// - At or after the order's scheduled time
+  /// - At or after the order's scheduled time (time has passed)
+  /// 
+  /// This means the button is enabled if: now >= (orderDateTime - 15 minutes)
   static bool isOrderTimeValid(Order order) {
     final orderDateTime = parseOrderDateTime(order);
     if (orderDateTime == null) return false;
@@ -151,9 +153,10 @@ class HelperFunctions {
     // Calculate 15 minutes before the scheduled time
     final fifteenMinutesBefore = orderDateTime.subtract(const Duration(minutes: 15));
     
-    // Allow starting the service:
-    // 1. 15 minutes before the scheduled time, OR
-    // 2. At or after the scheduled time
+    // Allow starting the service if current time is at or after 15 minutes before scheduled time
+    // This covers both cases:
+    // 1. Starting 15 minutes before the order time
+    // 2. Starting after the order time has passed
     return now.isAfter(fifteenMinutesBefore) || now.isAtSameMomentAs(fifteenMinutesBefore);
   }
 

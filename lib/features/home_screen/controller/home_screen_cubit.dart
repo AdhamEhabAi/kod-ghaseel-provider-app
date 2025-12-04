@@ -8,6 +8,7 @@ import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/data/models/banner_response_model.dart';
 
 import '../../../core/widgets/toast_m.dart';
+import '../../../generated/l10n.dart';
 import '../data/home_repo/home_repo.dart';
 import '../data/models/CheckSessionValidationResponse.dart';
 import '../data/models/provider_status_response.dart';
@@ -58,8 +59,9 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     final connectivityResult = await Connectivity().checkConnectivity();
 
     if (connectivityResult.contains(ConnectivityResult.none)) {
-      ToastM.show("لا يوجد اتصال بالإنترنت");
-      emit(NotValidateSession(message: "لا يوجد اتصال بالإنترنت"));
+      final message = S.current.no_internet;
+      ToastM.show(message);
+      emit(NotValidateSession(message: message));
       return;
     }
     emit(ValidationLoadingState());

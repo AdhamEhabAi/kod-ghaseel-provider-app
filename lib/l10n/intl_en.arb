@@ -261,5 +261,22 @@
   "completed": "Completed",
 
   "camera": "Camera",
-  "gallery": "Gallery"
+  "gallery": "Gallery",
+  "navigate": "Navigate",
+  "customerLocation": "Customer Location",
+  "errorOpeningNavigation": "Error opening navigation",
+  "errorCalling": "Error calling",
+  "phoneNumberNotAvailable": "Phone number not available",
+  "phoneNumberChangedSuccessfully": "Phone number changed successfully",
+  "enterVerificationCodeSentTo": "Enter the verification code sent to +{phone}",
+  "@enterVerificationCodeSentTo": {
+    "description": "Enter verification code sent to phone number",
+    "placeholders": { "phone": { "type": "String" } }
+  },
+  "verify": "Verify",
+  "locationPermissionRequired": "Location Permission Required",
+  "locationPermissionDescription": "This app needs access to your location at all times to track your position and provide services. Please enable 'Allow all the time' location permission.",
+  "openLocationSettings": "Open Location Settings",
+  "checkAgain": "Check Again",
+  "analyzingDataPleaseWait": "Analyzing data, please wait"
 }

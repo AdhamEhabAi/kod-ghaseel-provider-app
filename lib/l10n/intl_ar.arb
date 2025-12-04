@@ -262,5 +262,22 @@
   "completed": "مكتمل",
 
   "camera": "الكاميرا",
-  "gallery": "معرض الصور"
+  "gallery": "معرض الصور",
+  "navigate": "التنقل",
+  "customerLocation": "موقع العميل",
+  "errorOpeningNavigation": "خطأ في فتح التنقل",
+  "errorCalling": "خطأ في الاتصال",
+  "phoneNumberNotAvailable": "رقم الهاتف غير متاح",
+  "phoneNumberChangedSuccessfully": "تم تغيير رقم الهاتف بنجاح",
+  "enterVerificationCodeSentTo": "ادخل رمز التحقيق المرسل على +{phone}",
+  "@enterVerificationCodeSentTo": {
+    "description": "أدخل رمز التحقق المرسل إلى رقم الهاتف",
+    "placeholders": { "phone": { "type": "String" } }
+  },
+  "verify": "التحقق",
+  "locationPermissionRequired": "إذن الموقع مطلوب",
+  "locationPermissionDescription": "يحتاج التطبيق إلى الوصول إلى موقعك في جميع الأوقات لتتبع موقعك وتقديم الخدمات. يرجى تفعيل إذن الموقع 'السماح في جميع الأوقات'.",
+  "openLocationSettings": "فتح إعدادات الموقع",
+  "checkAgain": "التحقق مرة أخرى",
+  "analyzingDataPleaseWait": "جاري تحليل البيانات برجاء الانتظار"
 }

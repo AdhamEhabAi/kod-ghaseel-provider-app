@@ -7,6 +7,7 @@ import '../../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../../Utilites/app_style/style.dart';
 import '../../../../../../core/widgets/app_loader.dart';
 import '../../../../../../core/widgets/toast_m.dart';
+import '../../../../../../generated/l10n.dart';
 import '../../../../../auth/presentation/widgets/otp_text_field_widget.dart';
 import '../../controller/profile_cubit.dart';
 
@@ -30,13 +31,14 @@ class _OtpSectionState extends State<OtpSection> {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {
         if (state is VerifyChangePhoneNumberError) {
           ToastM.show(state.message);
         }
         if (state is VerifyChangePhoneNumberSuccess) {
-          ToastM.show("تم تغيير رقم الهاتف بنجاح");
+          ToastM.show(s.phoneNumberChangedSuccessfully);
         }
       },
       builder: (context, state) {
@@ -49,7 +51,7 @@ class _OtpSectionState extends State<OtpSection> {
               children: [
                 Expanded(
                   child: Text(
-                    'ادخل رمز التحقيق المرسل على +${widget.phone}',
+                    s.enterVerificationCodeSentTo(widget.phone),
                     style: AppTextStyle.blackW600Size18Roboto,
                   ),
                 ),
@@ -79,7 +81,7 @@ class _OtpSectionState extends State<OtpSection> {
                 },
                 child: loading
                     ? const SizedBox(height: 18, width: 18, child: AppLoader())
-                    : Text("التحقق", style: AppTextStyle.primaryW600Size16),
+                    : Text(s.verify, style: AppTextStyle.primaryW600Size16),
               ),
             ),
           ],
