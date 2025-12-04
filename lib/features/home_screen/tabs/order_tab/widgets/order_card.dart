@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
+import 'package:kod_ghaseel_provider_app/core/router/router.dart';
 import 'package:kod_ghaseel_provider_app/features/orders/controller/orders_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/orders/data/models/orders_response.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
@@ -12,11 +14,7 @@ class OrderCard extends StatelessWidget {
   final Order order;
   final OrderTabType tabType;
 
-  const OrderCard({
-    super.key,
-    required this.order,
-    required this.tabType,
-  });
+  const OrderCard({super.key, required this.order, required this.tabType});
 
   bool get isOrder => order.orderType == 'order';
 
@@ -113,64 +111,78 @@ class OrderCard extends StatelessWidget {
     final statusColor = _getStatusColor();
     final statusText = _getStatusText(context);
 
-    return Container(
-      margin: EdgeInsets.only(bottom: 15.h),
-      padding: EdgeInsets.only(left: 24.w, right: 8.w, top: 14.h, bottom: 14.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: const Color(0xffEAECF0)),
-        borderRadius: BorderRadius.circular(14.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          isOrder
-              ? OrderCardTitle(
-                  value: _getOrderNumber(),
-                  title: s.order_number,
-                )
-              : OrderCardTitle(
-                  value: _getServiceName(context),
-                  title: s.package,
-                ),
-          SizedBox(height: 10.h),
-          OrderCardData(
-            field: s.date_label,
-            value: _formatDate(order.orderDate),
-          ),
-          SizedBox(height: 6.h),
-          OrderCardData(
-            field: s.time_label,
-            value: _formatTime(order.orderTime),
-          ),
-          SizedBox(height: 6.h),
-          OrderCardData(
-            field: s.service_label,
-            value: _getServiceName(context),
-          ),
-          SizedBox(height: 6.h),
-          Row(
-            children: [
-              Text(s.status_label, style: AppTextStyle.greyW600Size12Roboto),
-              const Spacer(),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                decoration: BoxDecoration(
-                  color: statusColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-                child: Text(
-                  statusText,
-                  style: TextStyle(
-                    color: statusColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.sp,
+    return GestureDetector(
+      onTap: () {
+        if (tabType == OrderTabType.current) {
+          GoRouter.of(
+            context,
+          ).push(AppRouter.serviceScreen, extra: {'order': order});
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 15.h),
+        padding: EdgeInsets.only(
+          left: 24.w,
+          right: 8.w,
+          top: 14.h,
+          bottom: 14.h,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: const Color(0xffEAECF0)),
+          borderRadius: BorderRadius.circular(14.r),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            isOrder
+                ? OrderCardTitle(
+                    value: _getOrderNumber(),
+                    title: s.order_number,
+                  )
+                : OrderCardTitle(
+                    value: _getServiceName(context),
+                    title: s.package,
+                  ),
+            SizedBox(height: 10.h),
+            OrderCardData(
+              field: s.date_label,
+              value: _formatDate(order.orderDate),
+            ),
+            SizedBox(height: 6.h),
+            OrderCardData(
+              field: s.time_label,
+              value: _formatTime(order.orderTime),
+            ),
+            SizedBox(height: 6.h),
+            OrderCardData(
+              field: s.service_label,
+              value: _getServiceName(context),
+            ),
+            SizedBox(height: 6.h),
+            Row(
+              children: [
+                Text(s.status_label, style: AppTextStyle.greyW600Size12Roboto),
+                const Spacer(),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                  decoration: BoxDecoration(
+                    color: statusColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(4.r),
+                  ),
+                  child: Text(
+                    statusText,
+                    style: TextStyle(
+                      color: statusColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.sp,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
