@@ -11,7 +11,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/helper_functions.dart';
 import 'package:kod_ghaseel_provider_app/core/router/router.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
-import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/user_data_section.dart';
 import 'package:kod_ghaseel_provider_app/features/orders/data/models/orders_response.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/controller/service_cubit.dart';
@@ -50,20 +49,31 @@ class _ServiceScreenState extends State<ServiceScreen> {
       final orderLng = double.tryParse(widget.order!.longitude) ?? 0.0;
 
       if (orderLat == 0.0 || orderLng == 0.0) {
-        ToastM.show(S.of(context).mapAddress);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(S.of(context).mapAddress),
+            backgroundColor: Colors.red,
+          ),
+        );
         return;
       }
 
       await HelperFunctions.openGoogleMapsNavigation(orderLat, orderLng);
     } catch (e) {
       if (mounted) {
-        ToastM.show('${S.of(context).errorOpeningNavigation}: ${e.toString()}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error opening navigation: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     }
   }
 
   void _checkServiceAvailability() {
     if (widget.order == null || _currentLocation == null) {
+      print('⚠️ [ServiceScreen] Button disabled: order=${widget.order != null}, location=${_currentLocation != null}');
       setState(() {
         _isButtonEnabled = false;
       });
@@ -72,6 +82,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
 
     // Check time validation
     final isTimeValid = HelperFunctions.isOrderTimeValid(widget.order!);
+    print('⏰ [ServiceScreen] Time validation: $isTimeValid');
     if (!isTimeValid) {
       setState(() {
         _isButtonEnabled = false;
@@ -85,6 +96,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
       final orderLng = double.tryParse(widget.order!.longitude) ?? 0.0;
 
       if (orderLat == 0.0 || orderLng == 0.0) {
+        print('⚠️ [ServiceScreen] Button disabled: Invalid order coordinates (lat=$orderLat, lng=$orderLng)');
         setState(() {
           _isButtonEnabled = false;
         });
@@ -98,8 +110,15 @@ class _ServiceScreenState extends State<ServiceScreen> {
         orderLng,
       );
 
+      print('📏 [ServiceScreen] Distance check: ${distance.toStringAsFixed(2)}m (threshold: 100m)');
+      print('   Current location: (${_currentLocation!.latitude}, ${_currentLocation!.longitude})');
+      print('   Order location: ($orderLat, $orderLng)');
+      
+      final shouldEnable = distance <= 100.0; // 100 meters threshold
+      print('✅ [ServiceScreen] Button enabled: $shouldEnable');
+      
       setState(() {
-        _isButtonEnabled = distance <= 50.0; // 50 meters
+        _isButtonEnabled = shouldEnable;
       });
     } catch (e) {
       print('❌ [ServiceScreen] Error calculating distance: $e');
@@ -135,7 +154,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
               markerId: const MarkerId('customer_location'),
               position: customerLocation,
               infoWindow: InfoWindow(
-                title: widget.order?.customerName ?? S.of(context).customerLocation,
+                title: widget.order?.customerName ?? 'Customer Location',
                 snippet: widget.order?.locationAddress ?? '',
               ),
               icon: BitmapDescriptor.defaultMarkerWithHue(
@@ -171,6 +190,13 @@ class _ServiceScreenState extends State<ServiceScreen> {
       print('🗺️ [ServiceScreen] Got initial location: Lat: ${currentState.latitude}, Lng: ${currentState.longitude}');
     }
 
+    // Check service availability immediately if we have location
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _checkServiceAvailability();
+      }
+    });
+    
     // Start periodic time validation check (every 10 seconds)
     _timeValidationTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
       if (mounted) {
@@ -201,16 +227,21 @@ class _ServiceScreenState extends State<ServiceScreen> {
           print('   📍 Timestamp: ${state.timestamp.toIso8601String()}');
           print('   📍 Accuracy: ${state.accuracy}m, Speed: ${state.speed}m/s');
           final newLocation = LatLng(state.latitude, state.longitude);
-          if (_currentLocation == null ||
+          final locationChanged = _currentLocation == null ||
               _currentLocation!.latitude != state.latitude ||
-              _currentLocation!.longitude != state.longitude) {
+              _currentLocation!.longitude != state.longitude;
+          
+          if (locationChanged) {
             print('🗺️ [ServiceScreen] Updating map camera to new location');
             setState(() {
               _currentLocation = newLocation;
             });
             _updateMapCamera(newLocation);
-            _checkServiceAvailability();
           }
+          
+          // Always check service availability when location updates
+          // (even if coordinates haven't changed, time validation might have changed)
+          _checkServiceAvailability();
         } else if (state is ServiceLocationEnabled) {
           // Update location when enabled (initial location)
           print(
@@ -228,13 +259,27 @@ class _ServiceScreenState extends State<ServiceScreen> {
         } else if (state is ServiceLocationError) {
           print('❌ [ServiceScreen] Location error: ${state.message}');
           // Show error message
-          ToastM.show(state.message);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
+          );
         } else if (state is ServiceLocationPermissionDenied) {
           // Show permission denied message
           print(
             '⚠️ [ServiceScreen] Location permission denied: ${state.message}',
           );
-          ToastM.show(state.message);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.orange,
+              action: SnackBarAction(
+                label: 'Settings',
+                textColor: Colors.white,
+                onPressed: () {
+                  openAppSettings();
+                },
+              ),
+            ),
+          );
         }
       },
       child: BlocBuilder<ServiceCubit, ServiceState>(
@@ -350,7 +395,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                         ),
                                         SizedBox(width: 8.w),
                                         Text(
-                                          s.navigate,
+                                          'Navigate',
                                           style: AppTextStyle
                                               .blackW600Size14Roboto
                                               .copyWith(color: Colors.blue),
