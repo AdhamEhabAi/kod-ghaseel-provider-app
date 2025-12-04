@@ -11,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/helper_functions.dart';
 import 'package:kod_ghaseel_provider_app/core/router/router.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
+import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/user_data_section.dart';
 import 'package:kod_ghaseel_provider_app/features/orders/data/models/orders_response.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/controller/service_cubit.dart';
@@ -49,24 +50,14 @@ class _ServiceScreenState extends State<ServiceScreen> {
       final orderLng = double.tryParse(widget.order!.longitude) ?? 0.0;
 
       if (orderLat == 0.0 || orderLng == 0.0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(S.of(context).mapAddress),
-            backgroundColor: Colors.red,
-          ),
-        );
+        ToastM.show(S.of(context).mapAddress);
         return;
       }
 
       await HelperFunctions.openGoogleMapsNavigation(orderLat, orderLng);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error opening navigation: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        ToastM.show('${S.of(context).errorOpeningNavigation}: ${e.toString()}');
       }
     }
   }
@@ -144,7 +135,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
               markerId: const MarkerId('customer_location'),
               position: customerLocation,
               infoWindow: InfoWindow(
-                title: widget.order?.customerName ?? 'Customer Location',
+                title: widget.order?.customerName ?? S.of(context).customerLocation,
                 snippet: widget.order?.locationAddress ?? '',
               ),
               icon: BitmapDescriptor.defaultMarkerWithHue(
@@ -237,27 +228,13 @@ class _ServiceScreenState extends State<ServiceScreen> {
         } else if (state is ServiceLocationError) {
           print('❌ [ServiceScreen] Location error: ${state.message}');
           // Show error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
-          );
+          ToastM.show(state.message);
         } else if (state is ServiceLocationPermissionDenied) {
           // Show permission denied message
           print(
             '⚠️ [ServiceScreen] Location permission denied: ${state.message}',
           );
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.orange,
-              action: SnackBarAction(
-                label: 'Settings',
-                textColor: Colors.white,
-                onPressed: () {
-                  openAppSettings();
-                },
-              ),
-            ),
-          );
+          ToastM.show(state.message);
         }
       },
       child: BlocBuilder<ServiceCubit, ServiceState>(
@@ -373,7 +350,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                         ),
                                         SizedBox(width: 8.w),
                                         Text(
-                                          'Navigate',
+                                          s.navigate,
                                           style: AppTextStyle
                                               .blackW600Size14Roboto
                                               .copyWith(color: Colors.blue),
