@@ -141,7 +141,7 @@ class AppRouter {
       GoRoute(
         path: chatScreen,
         builder: (BuildContext context, GoRouterState state) {
-          return ChatScreen(userName: 'adham ehab');
+          return ChatScreen(userName: 'adham ehab',userId: "9",);
         },
       ),
       GoRoute(

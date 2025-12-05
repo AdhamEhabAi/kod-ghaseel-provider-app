@@ -1,49 +1,47 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart' show DateFormat;
+import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 
 import '../../Utilites/app_fonts/font.dart';
 import '../../Utilites/app_style/style.dart';
+import '../../core/widgets/app_loader.dart';
 import '../../generated/l10n.dart';
 
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key, required this.userName, this.avatar});
+   ChatScreen({super.key, required this.userName, this.avatar,required this.userId});
 
   final String userName;
   final String? avatar;
+  late String chatId;
+   final String userId;
+  late String currentProviderId;
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  final List<Map<String, dynamic>> _messages = [
-    {
-      "text": "أنا بالطريق لك، أوصل خلال 15 دقيقة إن شاء الله.",
-      "type": "driver",
-      "time": "09:10",
-    },
-    {
-      "text": "تمام، أنا موجود عند البيت. إذا ما عرفت المكان دق علي.",
-      "type": "user",
-      "time": "09:12",
-    },
-    {
-      "text": "خلصت الغسيل. السيارة جاهزة. شوفها وإذا عندك أي ملاحظات بلغني.",
-      "type": "driver",
-      "time": "10:13",
-    },
-    {"text": "ممتاز شغل مرتب 🔥 شكرًا لك!", "type": "user", "time": "10:14"},
-    {
-      "text": "الشكر لك لاختيارك كود غسيل. يومك سعيد 🌟",
-      "type": "driver",
-      "time": "10:15",
-    },
-  ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final userString = AppSharedPreferences.getString(SharedPreferencesKeys.userModel);
+    final userMap = jsonDecode(userString??"{}");
+     widget.currentProviderId = userMap["id"].toString();
+    List<String> ids = [widget.currentProviderId, widget.userId];
+    ids.sort();
+    widget.chatId = ids.join("_");
+  }
 
   @override
   void dispose() {
@@ -51,21 +49,19 @@ class _ChatScreenState extends State<ChatScreen> {
     _scrollController.dispose();
     super.dispose();
   }
-
   void _scrollToBottom() {
-    if (_scrollController.hasClients &&
-        _scrollController.position.hasContentDimensions) {
-      _scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 800),
-        curve: Curves.easeInCubic,
-      );
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.minScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
-
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
     var s=S.of(context);
     return SafeArea(
       child: Scaffold(
@@ -120,63 +116,74 @@ class _ChatScreenState extends State<ChatScreen> {
                 controller: _scrollController,
                 reverse: true,
                 slivers: [
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final message = _messages[_messages.length - index - 1];
-                      final bool isUser = message["type"] == "user";
+                  StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('chats')
+                        .doc(widget.chatId)
+                        .collection('messages')
+                        .orderBy('timestamp', descending: true)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+                      if (!snapshot.hasData) {
+                        return SliverToBoxAdapter(
+                          child: Center(child: AppLoader()),
+                        );
+                      }
 
-                      return Align(
-                        alignment: isUser
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: isUser
-                              ? CrossAxisAlignment.end
-                              : CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 4.h),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14.w,
-                                vertical: 10.h,
-                              ),
-                              constraints: BoxConstraints(maxWidth: 280.w),
-                              decoration: BoxDecoration(
-                                color: isUser
-                                    ? AppStyle.primaryColor
-                                    : AppStyle.white,
-                                borderRadius: BorderRadius.circular(16.r),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    message["text"],
-                                    style: TextStyle(
-                                      color: isUser
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontSize: 14.sp,
+                      final docs = snapshot.data!.docs;
+
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                            final data = docs[index];
+                            final bool isMe = data['senderId'] == widget.currentProviderId;
+                            final Timestamp? timestamp = data['timestamp'];
+                            String formattedTime = '';
+                            if (timestamp != null) {
+                              formattedTime = DateFormat('h:mm a').format(timestamp.toDate());
+                            }
+                            return Align(
+                              alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+                              child: Container(
+                                margin: EdgeInsets.symmetric(vertical: 4.h,horizontal: 8.w),
+                                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+                                decoration: BoxDecoration(
+                                  color: isMe ? AppStyle.primaryColor : AppStyle.white,
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment:isMe ? CrossAxisAlignment.end:CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      data['text'],
+                                      style: TextStyle(
+                                          color: isMe ? Colors.white : Colors.black,
+                                          fontSize: 14.sp
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    message["time"],
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                      color: isUser
-                                          ? Colors.white
-                                          : Colors.grey.shade600,
-                                    ),
-                                  ),
-                                ],
+                                    if (formattedTime.isNotEmpty)
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 5.h),
+                                        child: Text(
+                                          formattedTime,
+                                          style: TextStyle(
+                                            color: isMe ? Colors.white : Colors.black54,
+                                            fontSize: 10.sp,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            );
+                          },
+                          childCount: docs.length,
                         ),
                       );
-                    }, childCount: _messages.length),
+                    },
                   ),
-
                   SliverToBoxAdapter(child: SizedBox(height: 70.h)),
                 ],
               ),
@@ -205,7 +212,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   SizedBox(width: 10.w),
                   InkWell(
-                    onTap: () {},
+                    onTap: sendMessage,
                     child: CircleAvatar(
                       backgroundColor: AppStyle.primaryColor,
                       radius: 24.r,
@@ -220,4 +227,34 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
+  Future<void> sendMessage() async {
+    final text = _controller.text.trim();
+    if (text.isEmpty) return;
+
+    _controller.clear();
+
+    final messageRef = FirebaseFirestore.instance
+        .collection('chats')
+        .doc(widget.chatId)
+        .collection('messages')
+        .doc();
+
+    await messageRef.set({
+      'senderId': widget.currentProviderId,
+      'text': text,
+      'timestamp': FieldValue.serverTimestamp(),
+      'isSeen': false,
+    });
+
+    await FirebaseFirestore.instance.collection('chats').doc(widget.chatId).set({
+      'participants': {
+        widget.currentProviderId: true,
+        widget.userId: true,
+      },
+      'lastMessage': text,
+      'lastMessageTime': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
+  }
+
 }
+
