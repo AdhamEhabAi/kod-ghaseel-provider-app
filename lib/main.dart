@@ -71,19 +71,22 @@ Future<FirebaseApp> ensureFirebase({String? name}) async {
 }
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   Bloc.observer = MyBlocObserver();
   configureDependencies();
-  GoogleMapsFlutterAndroid().warmup();
-  final myHttpOverrides = MyHttpOverrides();
-  clearNotifications();
-  HttpOverrides.global = myHttpOverrides;
   DioHelper.initialize();
   await AppSharedPreferences.init();
+  await NotificationService.instance.initialize();
+  clearNotifications();
+  GoogleMapsFlutterAndroid().warmup();
+  final myHttpOverrides = MyHttpOverrides();
+  HttpOverrides.global = myHttpOverrides;
+
+
 
   await ensureFirebase();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  await NotificationService.instance.initialize();
 
   runApp(const MyApp());
 }

@@ -260,7 +260,7 @@ class _TopBarWidgetState extends State<TopBarWidget> {
                   ),
                   child: GestureDetector(
                     onTap: () =>
-                        GoRouter.of(context).push(AppRouter.notificationScreen),
+                        GoRouter.of(context).push(AppRouter.chatScreen),
                     child: SvgPicture.asset(Assets.notificationIcon),
                   ),
                 ),
