@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/data/models/banner_response_model.dart';
+import 'package:kod_ghaseel_provider_app/features/service_screen/controller/service_cubit.dart';
 
 import '../../../core/widgets/toast_m.dart';
 import '../../../generated/l10n.dart';
@@ -19,9 +20,10 @@ part 'home_screen_state.dart';
 class HomeScreenCubit extends Cubit<HomeScreenState> {
   Locale _currentLocale = const Locale('ar');
   final HomeRepo homeRepo;
+  final ServiceCubit serviceCubit;
   UserData? userData;
 
-  HomeScreenCubit(this.homeRepo) : super(HomeScreenInitial()) {
+  HomeScreenCubit(this.homeRepo, this.serviceCubit) : super(HomeScreenInitial()) {
     loadLanguage();
   }
 
@@ -129,6 +131,8 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       (response) {
         _providerStatus = response.data;
         emit(ProviderStatusLoaded(response: response));
+        // Control location stream based on provider status
+        _handleLocationStreamBasedOnStatus();
       },
     );
   }
@@ -141,6 +145,8 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       (response) {
         _providerStatus = response.data;
         emit(ProviderStatusLoaded(response: response));
+        // Control location stream based on provider status
+        _handleLocationStreamBasedOnStatus();
       },
     );
   }
@@ -153,8 +159,49 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       (response) {
         _providerStatus = response.data;
         emit(ProviderStatusLoaded(response: response));
+        // Control location stream based on provider status
+        _handleLocationStreamBasedOnStatus();
       },
     );
+  }
+
+  /// Handle location stream based on provider online/offline status
+  void _handleLocationStreamBasedOnStatus() {
+    final isOnline = isProviderOnline;
+    final serviceState = serviceCubit.state;
+
+    print('📍 [HomeScreenCubit] Provider status changed - Online: $isOnline');
+
+    if (isOnline) {
+      // Provider is online - start location stream if not already active
+      if (serviceState is! ServiceLocationStreamActive &&
+          serviceState is! ServiceLocationLoading) {
+        print('📍 [HomeScreenCubit] Provider is online - starting location stream');
+        // Ensure location is initialized first if needed
+        if (serviceState is ServiceInitial ||
+            serviceState is ServiceLocationError ||
+            serviceState is ServiceLocationPermissionDenied) {
+          serviceCubit.initializeLocation().then((_) {
+            serviceCubit.startLocationStream();
+          });
+        } else {
+          // Location already initialized, just start the stream
+          serviceCubit.startLocationStream();
+        }
+      } else {
+        print('📍 [HomeScreenCubit] Location stream already active');
+      }
+    } else {
+      // Provider is offline - stop location stream
+      if (serviceState is ServiceLocationStreamActive ||
+          serviceState is ServiceLocationEnabled ||
+          serviceState is ServiceLocationLoading) {
+        print('📍 [HomeScreenCubit] Provider is offline - stopping location stream');
+        serviceCubit.stopLocationStream();
+      } else {
+        print('📍 [HomeScreenCubit] Location stream already stopped');
+      }
+    }
   }
 // // for test
 // Future<void> checkSessionValidation() async {
