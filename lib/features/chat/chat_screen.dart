@@ -14,19 +14,19 @@ import '../../generated/l10n.dart';
 
 
 class ChatScreen extends StatefulWidget {
-   ChatScreen({super.key, required this.userName, this.avatar,required this.userId});
+   const ChatScreen({super.key, required this.userName, this.avatar,required this.userId});
 
   final String userName;
   final String? avatar;
-  late String chatId;
    final String userId;
-  late String currentProviderId;
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  late String currentProviderId;
+  late String chatId;
 
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
@@ -37,10 +37,10 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     final userString = AppSharedPreferences.getString(SharedPreferencesKeys.userModel);
     final userMap = jsonDecode(userString??"{}");
-     widget.currentProviderId = userMap["id"].toString();
-    List<String> ids = [widget.currentProviderId, widget.userId];
+     currentProviderId = userMap["id"].toString();
+    List<String> ids = [currentProviderId, widget.userId];
     ids.sort();
-    widget.chatId = ids.join("_");
+    chatId = ids.join("_");
   }
 
   @override
@@ -119,7 +119,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection('chats')
-                        .doc(widget.chatId)
+                        .doc(chatId)
                         .collection('messages')
                         .orderBy('timestamp', descending: true)
                         .snapshots(),
@@ -137,7 +137,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         delegate: SliverChildBuilderDelegate(
                               (context, index) {
                             final data = docs[index];
-                            final bool isMe = data['senderId'] == widget.currentProviderId;
+                            final bool isMe = data['senderId'] == currentProviderId;
                             final Timestamp? timestamp = data['timestamp'];
                             String formattedTime = '';
                             if (timestamp != null) {
@@ -235,20 +235,20 @@ class _ChatScreenState extends State<ChatScreen> {
 
     final messageRef = FirebaseFirestore.instance
         .collection('chats')
-        .doc(widget.chatId)
+        .doc(chatId)
         .collection('messages')
         .doc();
 
     await messageRef.set({
-      'senderId': widget.currentProviderId,
+      'senderId': currentProviderId,
       'text': text,
       'timestamp': FieldValue.serverTimestamp(),
       'isSeen': false,
     });
 
-    await FirebaseFirestore.instance.collection('chats').doc(widget.chatId).set({
+    await FirebaseFirestore.instance.collection('chats').doc(chatId).set({
       'participants': {
-        widget.currentProviderId: true,
+        currentProviderId: true,
         widget.userId: true,
       },
       'lastMessage': text,

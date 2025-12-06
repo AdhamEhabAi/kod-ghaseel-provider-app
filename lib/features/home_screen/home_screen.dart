@@ -45,14 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeTabController.value.addListener(_onTabChanged);
     context.read<HomeScreenCubit>().checkSessionValidation();
 
-    // Initialize location service and start streaming when HomeScreen loads
+    // Initialize location service (stream will be controlled by HomeScreenCubit based on provider status)
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getBottomNavigationBarSize();
       print('🗺️ [HomeScreen] Initializing location service');
-      context.read<ServiceCubit>().initializeLocation().then((_) {
-        print('🗺️ [HomeScreen] Location initialized, starting stream');
-        context.read<ServiceCubit>().startLocationStream();
-      });
+      context.read<ServiceCubit>().initializeLocation();
     });
   }
 
@@ -226,17 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context.read<HomeScreenCubit>().getHomeBanners();
                 context.read<HomeScreenCubit>().getProviderStatus();
                 context.read<StaticsCubit>().getStatistics();
-
-                // Ensure location stream is running after session validation
-                // (It might have been started in initState, but ensure it's running)
-                final serviceState = context.read<ServiceCubit>().state;
-                if (serviceState is! ServiceLocationStreamActive &&
-                    serviceState is! ServiceLocationLoading) {
-                  // If location is not already initialized, initialize it
-                  context.read<ServiceCubit>().initializeLocation().then((_) {
-                    context.read<ServiceCubit>().startLocationStream();
-                  });
-                }
+                // Location stream will be controlled by HomeScreenCubit based on provider status
               }
             },
             child: pages[_selectedIndex],

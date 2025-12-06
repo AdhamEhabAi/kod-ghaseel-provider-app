@@ -49,9 +49,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i702.ProfileCubit>(
       () => _i702.ProfileCubit(gh<_i491.ProfileRepo>()),
     );
-    gh.factory<_i1066.HomeScreenCubit>(
-      () => _i1066.HomeScreenCubit(gh<_i16.HomeRepo>()),
-    );
     gh.factory<_i97.ServiceCubit>(
       () => _i97.ServiceCubit(gh<_i140.ServiceRepo>()),
     );
@@ -64,6 +61,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i679.StaticsCubit>(
       () => _i679.StaticsCubit(gh<_i661.StaticsRepo>()),
+    );
+    gh.factory<_i1066.HomeScreenCubit>(
+      () =>
+          _i1066.HomeScreenCubit(gh<_i16.HomeRepo>(), gh<_i97.ServiceCubit>()),
     );
     return this;
   }

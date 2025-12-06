@@ -12,7 +12,6 @@ import '../../../../../../Utilites/app_fonts/font.dart';
 import '../../../../../../Utilites/app_style/style.dart';
 import '../../../../../../core/router/router.dart';
 import '../../../../../../generated/l10n.dart';
-import '../../../../../auth/controller/auth_cubit.dart';
 import '../../../../controller/home_screen_cubit.dart';
 
 

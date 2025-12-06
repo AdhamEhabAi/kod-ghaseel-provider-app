@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_assets/assets.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
