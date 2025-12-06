@@ -7,9 +7,9 @@ import '../../controller/profile_cubit.dart';
 import 'otp_section.dart';
 
 class ChangePhoneSheet extends StatefulWidget {
-  ChangePhoneSheet({super.key, required this.phone});
+  const ChangePhoneSheet({super.key, required this.phone});
 
-  String phone;
+  final String phone;
 
   @override
   State<ChangePhoneSheet> createState() => _ChangePhoneSheetState();

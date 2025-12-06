@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
 
 import '../../Utilites/app_fonts/font.dart';
-import '../../Utilites/app_style/style.dart';
 
 
 class DialogUtils {

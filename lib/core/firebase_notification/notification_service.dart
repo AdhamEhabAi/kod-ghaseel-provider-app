@@ -129,7 +129,7 @@ class NotificationService {
   // ============================================================
   Future<void> showNotification({required RemoteMessage message}) async {
     final notif = message.notification;
-    final android = notif?.android;
+    // final android = notif?.android;
 
     if (notif == null) return;
 

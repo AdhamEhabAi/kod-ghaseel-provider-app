@@ -7,14 +7,14 @@ import '../../../../../../../Utilites/app_style/style.dart';
 
 
 class NotificationSettingWidget extends StatelessWidget {
-  NotificationSettingWidget({
+  const NotificationSettingWidget({
     super.key,
     required this.title,
     required this.isOn,
     required this.onChange
   });
   final String title;
-  late bool isOn;
+  final bool isOn;
   final Function(bool)? onChange;
 
   @override

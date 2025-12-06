@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- added for localization
 
 class TodayOrdersCard extends StatelessWidget {
   const TodayOrdersCard({
@@ -18,7 +17,6 @@ class TodayOrdersCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context); // <-- localization instance
     var size = MediaQuery.of(context).size;
 
     // Calculate progress value from done/target, clamped between 0.0 and 1.0

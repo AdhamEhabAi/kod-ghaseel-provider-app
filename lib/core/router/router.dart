@@ -53,6 +53,7 @@ class AppRouter {
     redirect: (context, state) {
       final uri = state.uri.toString();
       debugPrint("Intercepted deep link: $uri");
+      return null;
     },
     routes: <RouteBase>[
       GoRoute(

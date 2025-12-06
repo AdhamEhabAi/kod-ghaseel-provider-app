@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Utilites/app_fonts/font.dart';
-import '../../../generated/l10n.dart'; // ✅ localization import
 
 class AddingAddressTitleWidget extends StatelessWidget {
   const AddingAddressTitleWidget({
@@ -14,7 +13,6 @@ class AddingAddressTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context); // ✅ localization instance
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Padding(

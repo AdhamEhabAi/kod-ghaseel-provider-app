@@ -11,7 +11,7 @@ import '../../../../../../core/network/api_endpoints.dart';
 import '../../../../../auth/data/models/login_response.dart';
 import '../models/RequestUpdatePhoneNumberResponse.dart';
 import '../models/VerifyChangePhoneResponse.dart';
-import '../models/update_profile_response.dart' hide User;
+import '../models/update_profile_response.dart' ;
 
 @injectable
 class ProfileRepo extends Repository {

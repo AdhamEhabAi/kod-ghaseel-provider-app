@@ -108,7 +108,7 @@ class ConnectivityService extends ChangeNotifier {
   }
 
   bool serviceEnabled = true;
-  Timer? _statusCheckTimer;
+  Timer? statusCheckTimer;
   bool mapShow = false;
   final Location _location = Location();
   void startPeriodicStatusCheck() async {
@@ -126,7 +126,7 @@ class ConnectivityService extends ChangeNotifier {
       }
 
       // Start periodic status checking
-      _statusCheckTimer =
+      statusCheckTimer =
           Timer.periodic(const Duration(seconds: 2), (timer) async {
         bool isServiceEnabled = await _location.serviceEnabled();
 
