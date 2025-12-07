@@ -173,6 +173,7 @@ class _HomeTabState extends State<HomeTab> {
                               Skeletonizer(
                                 enabled: true,
                                 child: UserDataSection(
+                                  id: "0",
                                   subtitle: s.mapAddress,
                                   name: 'Loading...',
                                 ),
@@ -204,6 +205,7 @@ class _HomeTabState extends State<HomeTab> {
                                     child: Stack(
                                       children: [
                                         UserDataSection(
+                                          id: orderWithinHour.customerId.toString(),
                                           subtitle: orderWithinHour.locationAddress,
                                           name: orderWithinHour.customerName,
                                         ),

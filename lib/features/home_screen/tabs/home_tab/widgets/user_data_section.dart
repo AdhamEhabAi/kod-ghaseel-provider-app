@@ -15,10 +15,12 @@ class UserDataSection extends StatelessWidget {
   const UserDataSection({
     super.key,
     required this.name,
+    required this.id,
     required this.subtitle,
     this.phoneNumber,
   });
   final String name;
+  final String id;
   final String subtitle;
   final String? phoneNumber;
 
@@ -51,7 +53,10 @@ class UserDataSection extends StatelessWidget {
         IconButton(
           icon: SvgPicture.asset(Assets.messageIcon),
           onPressed: () {
-            GoRouter.of(context).push(AppRouter.chatScreen);
+            GoRouter.of(context).push(AppRouter.chatScreen, extra: {
+              'userId': id,
+              'userName': name,
+            });
           },
         ),
         IconButton(
