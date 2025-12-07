@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kod_ghaseel_provider_app/core/network/api_endpoints.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -39,7 +40,7 @@ class HomeSliverAppBar extends StatelessWidget {
                   itemBuilder: (context, index, realIndex) {
                     final banner = sliderBanners[index];
                     return CachedNetworkImage(
-                      imageUrl: banner.imageUrl,
+                      imageUrl: APIEndpoints.domain + banner.imageUrl,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Container(
                         color: Colors.grey.shade300,
