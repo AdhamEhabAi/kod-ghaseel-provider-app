@@ -1,9 +1,55 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
     id("com.google.gms.google-services")
+}
+val keystorePropertiesFile = rootProject.file("key.properties")
+val keystoreProperties = Properties()
+var keystoreConfigured = false
+
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+    
+    // Validate required properties
+    val requiredProperties = listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+    val missingProperties = requiredProperties.filter { keystoreProperties[it] == null || (keystoreProperties[it] as String).isBlank() }
+    
+    if (missingProperties.isNotEmpty()) {
+        throw GradleException(
+            "Missing required keystore properties in key.properties: ${missingProperties.joinToString(", ")}\n" +
+            "Required properties: storeFile, storePassword, keyAlias, keyPassword"
+        )
+    }
+    
+    // Validate keystore file exists
+    val storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
+    if (!storeFile.exists()) {
+        throw GradleException(
+            "Keystore file not found: ${storeFile.absolutePath}\n" +
+            "Please ensure the keystore file exists at the specified path in key.properties"
+        )
+    }
+    
+    if (!storeFile.isFile) {
+        throw GradleException("Keystore path is not a file: ${storeFile.absolutePath}")
+    }
+    
+    keystoreConfigured = true
+    println("✓ Keystore configuration validated successfully")
+    println("  Store file: ${storeFile.absolutePath}")
+    println("  Key alias: ${keystoreProperties["keyAlias"]}")
+} else {
+    println("⚠ Warning: key.properties not found. Release builds will use debug signing.")
+    println("  To enable release signing, create android/key.properties with:")
+    println("    storeFile=app/my-release-key.jks")
+    println("    storePassword=your-store-password")
+    println("    keyAlias=your-key-alias")
+    println("    keyPassword=your-key-password")
 }
 
 android {
@@ -29,11 +75,25 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
-
+    signingConfigs {
+        create("release") {
+            if (keystoreConfigured) {
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+            }
+        }
+    }
     buildTypes {
         release {
-            // Replace this with your real signing config for production builds
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (keystoreConfigured) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
