@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyChE6InC2Cmha1V073EudezT7yLYlpKjYo',
-    appId: '1:408215864703:android:cef104738cb2fb18c7064a',
+    appId: '1:408215864703:android:a0267a90a9630a1fc7064a',
     messagingSenderId: '408215864703',
     projectId: 'washingcode-22b8e',
     storageBucket: 'washingcode-22b8e.firebasestorage.app',
@@ -59,10 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyClEw8AShmirNV0A-46-l13RwGwhUJV-6g',
-    appId: '1:408215864703:ios:cbbd01eeff2d7435c7064a',
+    appId: '1:408215864703:ios:5bc27e9d059c964ac7064a',
     messagingSenderId: '408215864703',
     projectId: 'washingcode-22b8e',
     storageBucket: 'washingcode-22b8e.firebasestorage.app',
-    iosBundleId: 'com.skada.kod-ghaseel-provider-app',
+    iosBundleId: 'com.skada.washingcodeprovider',
   );
+
 }
