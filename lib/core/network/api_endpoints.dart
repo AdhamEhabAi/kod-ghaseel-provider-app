@@ -7,6 +7,10 @@ class APIEndpoints {
 
   static  String storage  = '${domain}storage/';
 
+  static String termsAndCondition = '${domain}terms-and-conditions.php';
+
+  static String privacyAndPolicy = '${domain}privacy-policy.php';
+
   static const String login = 'delivery/index.php';
   static const String updateProfileEndPoint = 'delivery/index.php';
   static const String notificationEndpoint = 'delivery/index.php';

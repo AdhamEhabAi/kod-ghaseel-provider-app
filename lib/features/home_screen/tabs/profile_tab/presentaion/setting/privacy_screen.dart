@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/setting/widgets/privacy_card.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart'; // <-- localization
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../Utilites/app_style/style.dart';
+import '../../../../../../core/network/api_endpoints.dart';
 import '../../../../../../core/widgets/setting_app_bar.dart';
+import '../../../../../../generated/l10n.dart';
 import '../../../../../../shared/shared_widget.dart';
+
 
 class PrivacyScreen extends StatefulWidget {
   const PrivacyScreen({super.key});
@@ -43,15 +46,21 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                       ),
                     ),
                     SizedBox(height: 22.h),
-                    PolicyCard(title: s.privacy_policy),
+                    PolicyCard(title: s.privacy_policy,
+                        onTap: () async{
+                          await openTermsAndConditions();
+                        }),
                     SizedBox(height: 22.h),
-                    PolicyCard(title: s.terms_conditions),
+                    PolicyCard(title: s.terms_conditions,
+                        onTap: () async{
+                          await privacyAndPolicy();
+                        }),
                     SizedBox(height: 22.h),
-                    PolicyCard(title: s.refund_cancellation_policy),
-                    SizedBox(height: 22.h),
-                    PolicyCard(title: s.cookies_policy),
-                    SizedBox(height: 22.h),
-                    PolicyCard(title: s.user_agreement),
+                    // PolicyCard(title: s.refundCancellationPolicy),
+                    // SizedBox(height: 22.h),
+                    // PolicyCard(title: s.cookiesPolicy),
+                    // SizedBox(height: 22.h),
+                    // PolicyCard(title: s.userAgreement),
                   ],
                 ),
               ),
@@ -60,5 +69,33 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
         ),
       ),
     );
+  }
+}
+
+Future<void> openTermsAndConditions() async {
+  final Uri url = Uri.parse(APIEndpoints.termsAndCondition);
+
+  try {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication, // Forces opening outside the app
+    )) {
+      print("Could not launch $url");
+    }
+  } catch (e) {
+    print("Error launching URL: $e");
+  }
+}Future<void> privacyAndPolicy() async {
+  final Uri url = Uri.parse(APIEndpoints.privacyAndPolicy);
+
+  try {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication, // Forces opening outside the app
+    )) {
+      print("Could not launch $url");
+    }
+  } catch (e) {
+    print("Error launching URL: $e");
   }
 }

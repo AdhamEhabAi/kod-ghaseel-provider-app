@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
-import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
-import 'package:kod_ghaseel_provider_app/core/router/router.dart';
-import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
-import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
-import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
-import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
-import 'package:kod_ghaseel_provider_app/shared/shared_widget.dart';
 
+import '../../../../Utilites/app_fonts/font.dart';
+import '../../../../Utilites/app_style/style.dart';
+import '../../../../core/router/router.dart';
+import '../../../../core/widgets/app_loader.dart';
+import '../../../../core/widgets/toast_m.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../shared/shared_widget.dart';
+import '../../../home_screen/tabs/profile_tab/presentaion/setting/privacy_screen.dart';
+import '../../controller/auth_cubit.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -117,6 +118,22 @@ class _LoginFormState extends State<LoginForm> {
                     titleWidget: Text(
                       loc.getVerificationCode,
                       style: AppTextStyle.whiteW600Size16Roboto,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15.h,),
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      openTermsAndConditions();
+                    },
+                    child: Text(
+                      loc.terms_conditions,
+                      style: AppTextStyle.blackW600Size14Roboto.copyWith(
+                        fontSize: 12.sp,
+                        color: const Color(0xFF01D0FE),
+                        decorationColor: const Color(0xFF01D0FE),
+                      ),
                     ),
                   ),
                 ),
