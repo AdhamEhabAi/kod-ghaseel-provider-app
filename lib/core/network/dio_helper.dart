@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'dart:developer';
 import 'dart:io';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
@@ -499,7 +500,7 @@ class DioHelper {
   }
 
   dynamic handleResponseAi(Response response) {
-    // print('test fares $response');
+    // debugPrint('test fares $response');
     //
     // if (response.statusCode.toString()[0] != '2') {
     //   if (response.statusCode == 401 || response.statusCode == 403) {
@@ -514,7 +515,7 @@ class DioHelper {
     // }
     // if (response.headers.value('content-type')?.contains('text/html') ?? false) {
     //   try{
-    //     print('test fares1 $response');
+    //     debugPrint('test fares1 $response');
     //
     //     return jsonDecode(response.data.toString());
     //   }catch(e){
@@ -522,7 +523,7 @@ class DioHelper {
     //
     //   }
     // }
-    // print('test fares $response');
+    // debugPrint('test fares $response');
     return response.data;
   }
 

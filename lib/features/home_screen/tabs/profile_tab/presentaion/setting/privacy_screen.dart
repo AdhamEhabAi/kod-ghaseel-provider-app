@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/setting/widgets/privacy_card.dart';
@@ -80,10 +81,10 @@ Future<void> openTermsAndConditions() async {
       url,
       mode: LaunchMode.externalApplication, // Forces opening outside the app
     )) {
-      print("Could not launch $url");
+      debugPrint("Could not launch $url");
     }
   } catch (e) {
-    print("Error launching URL: $e");
+    debugPrint("Error launching URL: $e");
   }
 }Future<void> privacyAndPolicy() async {
   final Uri url = Uri.parse(APIEndpoints.privacyAndPolicy);
@@ -93,9 +94,9 @@ Future<void> openTermsAndConditions() async {
       url,
       mode: LaunchMode.externalApplication, // Forces opening outside the app
     )) {
-      print("Could not launch $url");
+      debugPrint("Could not launch $url");
     }
   } catch (e) {
-    print("Error launching URL: $e");
+    debugPrint("Error launching URL: $e");
   }
 }

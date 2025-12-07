@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -170,13 +171,13 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     final isOnline = isProviderOnline;
     final serviceState = serviceCubit.state;
 
-    print('📍 [HomeScreenCubit] Provider status changed - Online: $isOnline');
+    debugPrint('📍 [HomeScreenCubit] Provider status changed - Online: $isOnline');
 
     if (isOnline) {
       // Provider is online - start location stream if not already active
       if (serviceState is! ServiceLocationStreamActive &&
           serviceState is! ServiceLocationLoading) {
-        print('📍 [HomeScreenCubit] Provider is online - starting location stream');
+        debugPrint('📍 [HomeScreenCubit] Provider is online - starting location stream');
         // Ensure location is initialized first if needed
         if (serviceState is ServiceInitial ||
             serviceState is ServiceLocationError ||
@@ -189,17 +190,17 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
           serviceCubit.startLocationStream();
         }
       } else {
-        print('📍 [HomeScreenCubit] Location stream already active');
+        debugPrint('📍 [HomeScreenCubit] Location stream already active');
       }
     } else {
       // Provider is offline - stop location stream
       if (serviceState is ServiceLocationStreamActive ||
           serviceState is ServiceLocationEnabled ||
           serviceState is ServiceLocationLoading) {
-        print('📍 [HomeScreenCubit] Provider is offline - stopping location stream');
+        debugPrint('📍 [HomeScreenCubit] Provider is offline - stopping location stream');
         serviceCubit.stopLocationStream();
       } else {
-        print('📍 [HomeScreenCubit] Location stream already stopped');
+        debugPrint('📍 [HomeScreenCubit] Location stream already stopped');
       }
     }
   }

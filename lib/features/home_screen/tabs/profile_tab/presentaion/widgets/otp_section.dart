@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -76,7 +77,7 @@ class _OtpSectionState extends State<OtpSection> {
                 ),
                 onPressed: loading ? null : () {
                   final otp = controller.text;
-                  print(otp);
+                  debugPrint(otp);
                   context.read<ProfileCubit>().verifyPhoneWithOtp(otp: otp);
                 },
                 child: loading

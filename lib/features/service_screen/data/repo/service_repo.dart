@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/app_repository/repo.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/exceptions.dart';
@@ -152,17 +153,17 @@ class ServiceRepo extends Repository {
       );
 
       if (response == null) {
-        print('❌ [ServiceRepo] getOrderStages: Response is null');
+        debugPrint('❌ [ServiceRepo] getOrderStages: Response is null');
         throw ServerException(
           exceptionMessage: 'No response from server',
         );
       }
 
-      print('📥 [ServiceRepo] getOrderStages response type: ${response.runtimeType}');
-      print('📥 [ServiceRepo] getOrderStages response: $response');
+      debugPrint('📥 [ServiceRepo] getOrderStages response type: ${response.runtimeType}');
+      debugPrint('📥 [ServiceRepo] getOrderStages response: $response');
 
       if (response is! Map<String, dynamic>) {
-        print('❌ [ServiceRepo] getOrderStages: Response is not a Map');
+        debugPrint('❌ [ServiceRepo] getOrderStages: Response is not a Map');
         throw ServerException(
           exceptionMessage: 'Invalid response format from server: ${response.runtimeType}',
         );
@@ -173,7 +174,7 @@ class ServiceRepo extends Repository {
       if (success) {
         final data = response['data'];
         if (data == null) {
-          print('⚠️ [ServiceRepo] getOrderStages: Success but data is null, returning empty map');
+          debugPrint('⚠️ [ServiceRepo] getOrderStages: Success but data is null, returning empty map');
           // Return empty map if no data
           return <String, dynamic>{};
         }
@@ -181,11 +182,11 @@ class ServiceRepo extends Repository {
           return data;
         }
         // If data is not a map, wrap it
-        print('⚠️ [ServiceRepo] getOrderStages: Data is not a Map, wrapping it');
+        debugPrint('⚠️ [ServiceRepo] getOrderStages: Data is not a Map, wrapping it');
         return {'data': data};
       } else {
         final errorMessage = response['message'] ?? 'Failed to get order stages';
-        print('❌ [ServiceRepo] getOrderStages failed: $errorMessage');
+        debugPrint('❌ [ServiceRepo] getOrderStages failed: $errorMessage');
         throw ServerException(
           exceptionMessage: errorMessage,
         );
