@@ -132,10 +132,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
     _isMapReady = true;
     // Add marker for customer location
     _updateMarkers();
-    // Move camera to current location if available
-    if (_currentLocation != null) {
-      _updateMapCamera(_currentLocation!);
-    }
+    // Move camera to show both order location and user location
+    _updateMapCameraToShowBoth();
   }
 
   void _updateMarkers() {
@@ -171,6 +169,54 @@ class _ServiceScreenState extends State<ServiceScreen> {
   void _updateMapCamera(LatLng location) {
     if (_mapController != null && _isMapReady) {
       _mapController!.animateCamera(CameraUpdate.newLatLngZoom(location, 15.0));
+    }
+  }
+
+  void _updateMapCameraToShowBoth() {
+    if (_mapController == null || !_isMapReady) return;
+    
+    // Get order location
+    LatLng? orderLocation;
+    if (widget.order != null) {
+      try {
+        final orderLat = double.tryParse(widget.order!.latitude) ?? 0.0;
+        final orderLng = double.tryParse(widget.order!.longitude) ?? 0.0;
+        if (orderLat != 0.0 && orderLng != 0.0) {
+          orderLocation = LatLng(orderLat, orderLng);
+        }
+      } catch (e) {
+        debugPrint('❌ [ServiceScreen] Error parsing order location: $e');
+      }
+    }
+
+    // If we have both locations, show both in bounds
+    if (orderLocation != null && _currentLocation != null) {
+      final minLat = _currentLocation!.latitude < orderLocation.latitude 
+          ? _currentLocation!.latitude 
+          : orderLocation.latitude;
+      final maxLat = _currentLocation!.latitude > orderLocation.latitude 
+          ? _currentLocation!.latitude 
+          : orderLocation.latitude;
+      final minLng = _currentLocation!.longitude < orderLocation.longitude 
+          ? _currentLocation!.longitude 
+          : orderLocation.longitude;
+      final maxLng = _currentLocation!.longitude > orderLocation.longitude 
+          ? _currentLocation!.longitude 
+          : orderLocation.longitude;
+      
+      final bounds = LatLngBounds(
+        southwest: LatLng(minLat, minLng),
+        northeast: LatLng(maxLat, maxLng),
+      );
+      _mapController!.animateCamera(
+        CameraUpdate.newLatLngBounds(bounds, 100.0),
+      );
+    } else if (orderLocation != null) {
+      // If only order location is available, center on it
+      _updateMapCamera(orderLocation);
+    } else if (_currentLocation != null) {
+      // If only current location is available, center on it
+      _updateMapCamera(_currentLocation!);
     }
   }
 
@@ -231,11 +277,18 @@ class _ServiceScreenState extends State<ServiceScreen> {
               _currentLocation!.longitude != state.longitude;
           
           if (locationChanged) {
-            debugPrint('🗺️ [ServiceScreen] Updating map camera to new location');
+            debugPrint('🗺️ [ServiceScreen] Location updated');
             setState(() {
               _currentLocation = newLocation;
             });
-            _updateMapCamera(newLocation);
+            // Don't auto-center on user location - keep focus on order location
+            // Only update camera if order location is not available
+            if (widget.order == null) {
+              _updateMapCamera(newLocation);
+            } else {
+              // Update camera to show both locations if map is ready
+              _updateMapCameraToShowBoth();
+            }
           }
           
           // Always check service availability when location updates
@@ -250,7 +303,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
           setState(() {
             _currentLocation = newLocation;
           });
-          _updateMapCamera(newLocation);
+          // Update camera to show both locations or center on order if available
+          _updateMapCameraToShowBoth();
           // Check service availability after initial location is set
           WidgetsBinding.instance.addPostFrameCallback((_) {
             _checkServiceAvailability();
@@ -297,7 +351,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
             }
           }
 
-          final initialPosition = _currentLocation ?? orderLocation ?? _center;
+          // Prioritize order location for initial camera position
+          final initialPosition = orderLocation ?? _currentLocation ?? _center;
 
           // Format date and time for display
           String formattedDate = '';
@@ -334,7 +389,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                           onMapCreated: _onMapCreated,
                           initialCameraPosition: CameraPosition(
                             target: initialPosition,
-                            zoom: _currentLocation != null ? 15.0 : 12.0,
+                            zoom: orderLocation != null ? 15.0 : (_currentLocation != null ? 15.0 : 12.0),
                           ),
                           myLocationEnabled: true,
                           myLocationButtonEnabled: false,
@@ -347,14 +402,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 ),
                               },
                         ),
-                        // Show loading indicator when location is loading
-                        if (state is ServiceLocationLoading)
-                          Container(
-                            color: Colors.black.withValues(alpha: 0.3),
-                            child: Center(
-                              child: AppLoader(),
-                            ),
-                          ),
+
                         ServiceScreenAppBar(
                           text: widget.order?.locationAddress ?? s.mapAddress,
                         ),
