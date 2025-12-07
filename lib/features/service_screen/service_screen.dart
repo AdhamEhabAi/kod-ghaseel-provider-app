@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -324,141 +323,134 @@ class _ServiceScreenState extends State<ServiceScreen> {
             }
           }
           return Scaffold(
-            body: CustomMaterialIndicator(
-              onRefresh: () {
-                // TODO: add function that reload the data
-                return Future.delayed(const Duration(seconds: 1));
-              },
-              indicatorBuilder: (context, controller) => AppLoader(),
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.8,
-                      child: Stack(
-                        children: [
-                          GoogleMap(
-                            onMapCreated: _onMapCreated,
-                            initialCameraPosition: CameraPosition(
-                              target: initialPosition,
-                              zoom: _currentLocation != null ? 15.0 : 12.0,
-                            ),
-                            myLocationEnabled: true,
-                            myLocationButtonEnabled: false,
-                            zoomControlsEnabled: false,
-                            markers: _markers,
-                            gestureRecognizers:
-                                <Factory<OneSequenceGestureRecognizer>>{
-                                  Factory<OneSequenceGestureRecognizer>(
-                                    () => EagerGestureRecognizer(),
-                                  ),
-                                },
+            body: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height / 1.8,
+                    child: Stack(
+                      children: [
+                        GoogleMap(
+                          onMapCreated: _onMapCreated,
+                          initialCameraPosition: CameraPosition(
+                            target: initialPosition,
+                            zoom: _currentLocation != null ? 15.0 : 12.0,
                           ),
-                          // Show loading indicator when location is loading
-                          if (state is ServiceLocationLoading)
-                            Container(
-                              color: Colors.black.withValues(alpha: 0.3),
-                              child: Center(
-                                child: AppLoader(),
-                              ),
+                          myLocationEnabled: true,
+                          myLocationButtonEnabled: false,
+                          zoomControlsEnabled: false,
+                          markers: _markers,
+                          gestureRecognizers:
+                              <Factory<OneSequenceGestureRecognizer>>{
+                                Factory<OneSequenceGestureRecognizer>(
+                                  () => EagerGestureRecognizer(),
+                                ),
+                              },
+                        ),
+                        // Show loading indicator when location is loading
+                        if (state is ServiceLocationLoading)
+                          Container(
+                            color: Colors.black.withValues(alpha: 0.3),
+                            child: Center(
+                              child: AppLoader(),
                             ),
-                          ServiceScreenAppBar(
-                            text: widget.order?.locationAddress ?? s.mapAddress,
                           ),
-                          // Navigation button
-                          if (widget.order != null)
-                            Positioned(
-                              bottom: 20.h,
-                              right: 16.w,
-                              child: Material(
-                                elevation: 4,
+                        ServiceScreenAppBar(
+                          text: widget.order?.locationAddress ?? s.mapAddress,
+                        ),
+                        // Navigation button
+                        if (widget.order != null)
+                          Positioned(
+                            bottom: 20.h,
+                            right: 16.w,
+                            child: Material(
+                              elevation: 4,
+                              borderRadius: BorderRadius.circular(12.r),
+                              color: Colors.white,
+                              child: InkWell(
+                                onTap: _openNavigation,
                                 borderRadius: BorderRadius.circular(12.r),
-                                color: Colors.white,
-                                child: InkWell(
-                                  onTap: _openNavigation,
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 16.w,
-                                      vertical: 12.h,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12.r),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.navigation,
-                                          color: Colors.blue,
-                                          size: 24.sp,
-                                        ),
-                                        SizedBox(width: 8.w),
-                                        Text(
-                                          'Navigate',
-                                          style: AppTextStyle
-                                              .blackW600Size14Roboto
-                                              .copyWith(color: Colors.blue),
-                                        ),
-                                      ],
-                                    ),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16.w,
+                                    vertical: 12.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.navigation,
+                                        color: Colors.blue,
+                                        size: 24.sp,
+                                      ),
+                                      SizedBox(width: 8.w),
+                                      Text(
+                                        'Navigate',
+                                        style: AppTextStyle
+                                            .blackW600Size14Roboto
+                                            .copyWith(color: Colors.blue),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        top: 15.h,
-                        left: 16.w,
-                        right: 16.w,
-                      ),
-                      child: UserDataSection(
-                        id: widget.order?.customerId.toString()??"0",
-                        name: widget.order?.customerName ?? '',
-                        subtitle: widget.order?.locationAddress ?? s.mapAddress,
-                        phoneNumber: widget.order?.customerPhone,
-                      ),
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: 15.h,
+                      left: 16.w,
+                      right: 16.w,
+                    ),
+                    child: UserDataSection(
+                      id: widget.order?.customerId.toString()??"0",
+                      name: widget.order?.customerName ?? '',
+                      subtitle: widget.order?.locationAddress ?? s.mapAddress,
+                      phoneNumber: widget.order?.customerPhone,
                     ),
                   ),
-                  SliverToBoxAdapter(child: SizedBox(height: 15.h)),
-                  SliverToBoxAdapter(
-                    child: AddingAddressTitleWidget(title: s.day_and_time),
+                ),
+                SliverToBoxAdapter(child: SizedBox(height: 15.h)),
+                SliverToBoxAdapter(
+                  child: AddingAddressTitleWidget(title: s.day_and_time),
+                ),
+                SliverToBoxAdapter(child: SizedBox(height: 14.h)),
+                SliverToBoxAdapter(
+                  child: ServiceScreenContainer(
+                    title: formattedDate.isNotEmpty
+                        ? formattedDate
+                        : s.day_time_for_service,
+                    subtitle: formattedTime.isNotEmpty
+                        ? formattedTime
+                        : s.day_time_for_service,
                   ),
-                  SliverToBoxAdapter(child: SizedBox(height: 14.h)),
-                  SliverToBoxAdapter(
-                    child: ServiceScreenContainer(
-                      title: formattedDate.isNotEmpty
-                          ? formattedDate
-                          : s.day_time_for_service,
-                      subtitle: formattedTime.isNotEmpty
-                          ? formattedTime
-                          : s.day_time_for_service,
-                    ),
+                ),
+                SliverToBoxAdapter(child: SizedBox(height: 14.h)),
+                SliverToBoxAdapter(
+                  child: AddingAddressTitleWidget(title: s.service_type),
+                ),
+                SliverToBoxAdapter(child: SizedBox(height: 14.h)),
+                SliverToBoxAdapter(
+                  child: ServiceScreenContainer(
+                    title: serviceDescription.isNotEmpty
+                        ? serviceDescription
+                        : s.service_title,
+                    subtitle: carData.isNotEmpty
+                        ? carData
+                        : s.car_data,
                   ),
-                  SliverToBoxAdapter(child: SizedBox(height: 14.h)),
-                  SliverToBoxAdapter(
-                    child: AddingAddressTitleWidget(title: s.service_type),
-                  ),
-                  SliverToBoxAdapter(child: SizedBox(height: 14.h)),
-                  SliverToBoxAdapter(
-                    child: ServiceScreenContainer(
-                      title: serviceDescription.isNotEmpty
-                          ? serviceDescription
-                          : s.service_title,
-                      subtitle: carData.isNotEmpty
-                          ? carData
-                          : s.car_data,
-                    ),
-                  ),
-                  SliverToBoxAdapter(child: SizedBox(height: 80.h)),
+                ),
+                SliverToBoxAdapter(child: SizedBox(height: 80.h)),
 
-                ],
-              ),
+              ],
             ),
 
             floatingActionButton: DefaultButton(
