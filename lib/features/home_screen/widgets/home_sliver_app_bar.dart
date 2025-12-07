@@ -41,13 +41,10 @@ class HomeSliverAppBar extends StatelessWidget {
                     return CachedNetworkImage(
                       imageUrl: banner.imageUrl,
                       fit: BoxFit.cover,
-                      placeholder: (context, url) => Skeletonizer(
-                        enabled: true,
-                        child: Container(
-                          color: Colors.grey.shade300,
-                          width: double.infinity,
-                          height: 300.h,
-                        ),
+                      placeholder: (context, url) => Container(
+                        color: Colors.grey.shade300,
+                        width: double.infinity,
+                        height: 300.h,
                       ),
                       errorWidget: (context, url, error) => SizedBox.expand(
                         child: Image.asset(

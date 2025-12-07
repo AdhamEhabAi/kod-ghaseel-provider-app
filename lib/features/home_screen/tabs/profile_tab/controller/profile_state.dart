@@ -37,3 +37,14 @@ class VerifyChangePhoneNumberError extends ProfileState {
   VerifyChangePhoneNumberError({required this.message});
 }
 class PickAndSetImageSuccessState extends ProfileState {}
+class ContactInfoLoadingState extends ProfileState {}
+class ContactInfoErrorState extends ProfileState {
+  final String message;
+
+  ContactInfoErrorState({required this.message});
+}
+class ContactInfoLoadedState extends ProfileState {
+  final ContactInfoData data;
+
+  ContactInfoLoadedState({required this.data});
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/widgets/show_help_dialog.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 
 import '../../../../../../Utilites/app_assets/assets.dart';
@@ -40,19 +41,21 @@ class ThirdSectionProfileTab extends StatelessWidget {
           //   padding: EdgeInsets.symmetric(horizontal: 8.w),
           //   child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
           // ),
-          OptionTile(
-            title: s.aboutUs, // "من نحن؟"
-            iconPath: Assets.infoSquareProfileTab,
-            onTap: () {},
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
-          ),
+          // OptionTile(
+          //   title: s.aboutUs, // "من نحن؟"
+          //   iconPath: Assets.infoSquareProfileTab,
+          //   onTap: () {},
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 8.w),
+          //   child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
+          // ),
           OptionTile(
             title: s.support, // "الدعم"
             iconPath: Assets.infoSquareProfileTab,
-            onTap: () {},
+            onTap: () {
+              showSupportContactDialog(context);
+            },
           ),
         ],
       ),

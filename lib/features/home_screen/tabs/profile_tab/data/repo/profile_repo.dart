@@ -11,6 +11,7 @@ import '../../../../../../core/network/api_endpoints.dart';
 import '../../../../../auth/data/models/login_response.dart';
 import '../models/RequestUpdatePhoneNumberResponse.dart';
 import '../models/VerifyChangePhoneResponse.dart';
+import '../models/contact_info_response.dart';
 import '../models/update_profile_response.dart' ;
 
 @injectable
@@ -109,4 +110,23 @@ class ProfileRepo extends Repository {
     });
   }
 
+  Future<Either<Failure, ContactInfoResponse>> getContactInfo() {
+    return exceptionHandler(() async {
+      final response = await dioHelper.postData(
+        APIEndpoints.contactInfo,
+        {
+          "action": "get",
+        },
+      );
+
+      if (response["success"] == true) {
+        return ContactInfoResponse.fromJson(response);
+      } else {
+        throw ServerException(
+          exceptionMessage:
+          response["message"] ?? "Failed to load contact information",
+        );
+      }
+    });
+  }
 }

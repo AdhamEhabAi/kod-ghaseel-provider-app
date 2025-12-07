@@ -278,5 +278,15 @@
   "locationPermissionDescription": "This app needs access to your location at all times to track your position and provide services. Please enable 'Allow all the time' location permission.",
   "openLocationSettings": "Open Location Settings",
   "checkAgain": "Check Again",
-  "analyzingDataPleaseWait": "Analyzing data, please wait"
+  "analyzingDataPleaseWait": "Analyzing data, please wait",
+  "loading": "Loading...",
+  "needHelp": "Need help? Contact us here",
+  "unableToLoadContactInfo": "Unable to load contact information",
+  "close": "Close",
+  "whatsapp": "WhatsApp",
+  "unableToOpenWhatsApp": "Unable to open WhatsApp",
+  "unableToSendEmail": "Unable to send email",
+  "retry": "Retry",
+  "emailAddress": "E-mail address",
+  "addressLabel": "Address"
 }

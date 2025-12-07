@@ -12,6 +12,7 @@ class APIEndpoints {
   static String privacyAndPolicy = '${domain}privacy-policy.php';
 
   static const String login = 'delivery/index.php';
+  static const String contactInfo = 'contact_info/index.php';
   static const String updateProfileEndPoint = 'delivery/index.php';
   static const String notificationEndpoint = 'delivery/index.php';
   static const String updatePhoneNumberRequestEndPoint = 'delivery/index.php';

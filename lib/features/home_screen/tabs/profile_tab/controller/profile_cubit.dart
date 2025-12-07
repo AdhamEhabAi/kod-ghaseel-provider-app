@@ -8,6 +8,7 @@ import 'package:kod_ghaseel_provider_app/features/home_screen/data/models/CheckS
 
 import '../../../../../core/router/router.dart';
 import '../../../controller/home_screen_cubit.dart';
+import '../data/models/contact_info_response.dart';
 import '../data/repo/profile_repo.dart';
 
 part 'profile_state.dart';
@@ -17,6 +18,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(this.profileRepo) : super(ProfileInitial());
   final ProfileRepo profileRepo;
   File? imageFile;
+  ContactInfoData? contactInfo;
 
   void updateProfile({
     required String fullName ,
@@ -119,4 +121,23 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
     return pickedFile == null ? null : File(pickedFile.path);
   }
+
+  Future<void> getContactInfo() async {
+    emit(ContactInfoLoadingState());
+
+    final result = await profileRepo.getContactInfo();
+
+    result.fold(
+          (failure) => emit(ContactInfoErrorState(message: failure.message)),
+          (response) {
+        contactInfo = response.data;
+        if (response.data != null) {
+          emit(ContactInfoLoadedState(data: response.data!));
+        } else {
+          emit(ContactInfoErrorState(message: "No contact information available"));
+        }
+      },
+    );
+  }
 }
+

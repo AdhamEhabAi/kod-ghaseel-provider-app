@@ -279,5 +279,15 @@
   "locationPermissionDescription": "يحتاج التطبيق إلى الوصول إلى موقعك في جميع الأوقات لتتبع موقعك وتقديم الخدمات. يرجى تفعيل إذن الموقع 'السماح في جميع الأوقات'.",
   "openLocationSettings": "فتح إعدادات الموقع",
   "checkAgain": "التحقق مرة أخرى",
-  "analyzingDataPleaseWait": "جاري تحليل البيانات برجاء الانتظار"
+  "analyzingDataPleaseWait": "جاري تحليل البيانات برجاء الانتظار",
+  "loading": "جاري التحميل...",
+  "needHelp": "تحتاج مساعدة؟ تواصل معنا هنا",
+  "unableToLoadContactInfo": "تعذر تحميل معلومات الاتصال",
+  "close": "إغلاق",
+  "whatsapp": "واتساب",
+  "unableToOpenWhatsApp": "تعذر فتح واتساب",
+  "unableToSendEmail": "تعذر إرسال البريد الإلكتروني",
+  "retry": "إعادة المحاولة",
+  "emailAddress": "البريد الالكتروني",
+  "addressLabel": "العنوان"
 }
