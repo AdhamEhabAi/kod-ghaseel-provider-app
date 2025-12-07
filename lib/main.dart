@@ -114,6 +114,9 @@ class MyApp extends StatelessWidget {
           splitScreenMode: true,
           builder: (context, child) {
             return BlocBuilder<HomeScreenCubit, HomeScreenState>(
+              buildWhen: (previous, current) =>
+              current is HomeScreenLanguageLoaded ||
+                  current is HomeScreenLanguageChanged,
               builder: (context, state) {
                 Locale currentLocale = const Locale('ar');
 
