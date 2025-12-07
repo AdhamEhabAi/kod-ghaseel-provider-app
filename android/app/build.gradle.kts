@@ -53,7 +53,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.skada.kod_ghaseel_provider_app"
+    namespace = "com.skada.washingcodeprovider"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "29.0.14033849"
 
@@ -69,7 +69,7 @@ android {
 
     defaultConfig {
         // Unique app ID (must match Firebase project registration)
-        applicationId = "com.skada.kod_ghaseel_provider_app"
+        applicationId = "com.skada.washingcodeprovider"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
