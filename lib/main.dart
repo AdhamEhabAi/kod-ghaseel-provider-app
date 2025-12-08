@@ -40,10 +40,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await NotificationService.instance.showNotification(message: message);
 }
 
-void clearNotifications() async {
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
-  await flutterLocalNotificationsPlugin.cancelAll();
+Future<void> clearNotifications() async {
+  try {
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+    await flutterLocalNotificationsPlugin.cancelAll();
+  } catch (e) {
+    log('Error clearing notifications: $e');
+    // Don't rethrow - allow app to continue
+  }
 }
 
 Future<FirebaseApp> ensureFirebase({String? name}) async {
@@ -71,27 +76,50 @@ Future<FirebaseApp> ensureFirebase({String? name}) async {
 }
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  Bloc.observer = MyBlocObserver();
-  await AppSharedPreferences.init();
-  configureDependencies();
 
-
-  if (Platform.isAndroid) {
-    GoogleMapsFlutterAndroid().warmup();
+  try {
+    // Initialize Firebase (single, safe entry point)
+    await ensureFirebase();
+  } catch (e) {
+    log('Firebase initialization error: $e');
+    // Continue even if Firebase fails to prevent crash
   }
-  clearNotifications();
+  Bloc.observer = MyBlocObserver();
+  if (Platform.isAndroid) {
+    try {
+      GoogleMapsFlutterAndroid().warmup();
+    } catch (e) {
+      log('Google Maps warmup error: $e');
+    }
+  }
+
+  try {
+    clearNotifications();
+  } catch (e) {
+    log('Error clearing notifications: $e');
+  }
 
   final myHttpOverrides = MyHttpOverrides();
   HttpOverrides.global = myHttpOverrides;
   DioHelper.initialize();
-
-  await ensureFirebase();
+  await AppSharedPreferences.init();
+  configureDependencies();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  await NotificationService.instance.initialize();
-
+  try {
+    // Defer notification initialization until after app starts
+    // This prevents iOS crashes from permission requests too early
+    Future.microtask(() async {
+      try {
+        await NotificationService.instance.initialize();
+      } catch (e) {
+        log('NotificationService initialization error: $e');
+      }
+    });
+  } catch (e) {
+    log('Error setting up NotificationService: $e');
+  }
 
   runApp(const MyApp());
 }

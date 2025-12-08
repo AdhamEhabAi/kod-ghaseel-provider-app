@@ -6,7 +6,8 @@ import FirebaseMessaging
 import UserNotifications
 
 @main
-@objc class AppDelegate: FlutterAppDelegate, UNUserNotificationCenterDelegate {
+@objc class AppDelegate: FlutterAppDelegate, MessagingDelegate {
+
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -15,17 +16,22 @@ import UserNotifications
 
     FirebaseApp.configure()
 
-    // Set FCM messaging delegate
+    // FCM messaging delegate
     Messaging.messaging().delegate = self
 
-    // Set notification center delegate
+    // Notification center delegate (FlutterAppDelegate already conforms to UNUserNotificationCenterDelegate)
     UNUserNotificationCenter.current().delegate = self
 
-    // Request notification permissions
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-      if granted {
-        DispatchQueue.main.async {
-          application.registerForRemoteNotifications()
+    // Request notification permissions - defer to prevent blocking app launch
+    // This prevents crashes if permission request happens too early
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+        if granted {
+          DispatchQueue.main.async {
+            application.registerForRemoteNotifications()
+          }
+        } else if let error = error {
+          print("Notification permission error: \(error.localizedDescription)")
         }
       }
     }
@@ -34,34 +40,59 @@ import UserNotifications
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
-  // Handle FCM Token Refresh
-  override func application(_ application: UIApplication,
-                   didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+  // APNs token → FCM
+  override func application(
+    _ application: UIApplication,
+    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+  ) {
     Messaging.messaging().apnsToken = deviceToken
+    super.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
   }
 
-  // Handle notification when app is in foreground
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              willPresent notification: UNNotification,
-                              withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+  // Registration failure
+  override func application(
+    _ application: UIApplication,
+    didFailToRegisterForRemoteNotificationsWithError error: Error
+  ) {
+    print("Failed to register for remote notifications: \(error.localizedDescription)")
+    super.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+  }
+
+  // Foreground notification
+  override func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    willPresent notification: UNNotification,
+    withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+  ) {
     let userInfo = notification.request.content.userInfo
-    // Show notification even when app is in foreground
-    completionHandler([[.banner, .sound, .badge]])
+    print("Notification received in foreground: \(userInfo)")
+
+    if #available(iOS 14.0, *) {
+      completionHandler([.banner, .badge, .sound])
+    } else {
+      completionHandler([.alert, .badge, .sound])
+    }
   }
 
-  // Handle notification tap
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              didReceive response: UNNotificationResponse,
-                              withCompletionHandler completionHandler: @escaping () -> Void) {
+  // Notification tap
+  override func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    didReceive response: UNNotificationResponse,
+    withCompletionHandler completionHandler: @escaping () -> Void
+  ) {
     let userInfo = response.notification.request.content.userInfo
+    print("Notification tapped: \(userInfo)")
     completionHandler()
   }
-}
 
-// MARK: - MessagingDelegate
-extension AppDelegate: MessagingDelegate {
+  // FCM token refresh
   func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-    print("Firebase registration token: \(String(describing: fcmToken))")
-    // You can send this token to your server here
+    print("FCM Token: \(fcmToken ?? "nil")")
+    let dataDict: [String: String] = ["token": fcmToken ?? ""]
+    NotificationCenter.default.post(
+      name: Notification.Name("FCMToken"),
+      object: nil,
+      userInfo: dataDict
+    )
   }
 }
