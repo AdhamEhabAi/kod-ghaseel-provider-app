@@ -41,16 +41,17 @@ class HomeSliverAppBar extends StatelessWidget {
                     final banner = sliderBanners[index];
                     return CachedNetworkImage(
                       imageUrl: APIEndpoints.domain + banner.imageUrl,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                       placeholder: (context, url) => Container(
                         color: Colors.grey.shade300,
                         width: double.infinity,
                         height: 300.h,
                       ),
                       errorWidget: (context, url, error) => SizedBox.expand(
-                        child: Image.asset(
-                          Assets.homeBG,
-                          fit: BoxFit.cover,
+                        child: Container(
+                          color: Colors.grey.shade300,
+                          width: double.infinity,
+                          height: 300.h,
                         ),
                       ),
                     );
@@ -58,6 +59,8 @@ class HomeSliverAppBar extends StatelessWidget {
                   options: CarouselOptions(
                     height: 350.h,
                     viewportFraction: 1.0,
+                    padEnds: false,
+
                     autoPlay: true,
                     autoPlayInterval: const Duration(seconds: 3),
                     autoPlayAnimationDuration:
@@ -76,7 +79,7 @@ class HomeSliverAppBar extends StatelessWidget {
                   ),
                 )
               else
-                Image.asset(Assets.homeBG, fit: BoxFit.cover),
+                Image.asset(Assets.homeBG, fit: BoxFit.fill),
 
               SafeArea(
                 child: Align(
