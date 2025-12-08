@@ -72,20 +72,25 @@ Future<FirebaseApp> ensureFirebase({String? name}) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   Bloc.observer = MyBlocObserver();
-  configureDependencies();
-  DioHelper.initialize();
   await AppSharedPreferences.init();
-  await NotificationService.instance.initialize();
+  configureDependencies();
+
+
+  if (Platform.isAndroid) {
+    GoogleMapsFlutterAndroid().warmup();
+  }
   clearNotifications();
-  GoogleMapsFlutterAndroid().warmup();
+
   final myHttpOverrides = MyHttpOverrides();
   HttpOverrides.global = myHttpOverrides;
-
-
+  DioHelper.initialize();
 
   await ensureFirebase();
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  await NotificationService.instance.initialize();
 
 
   runApp(const MyApp());
@@ -106,45 +111,52 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => getIt<StaticsCubit>()),
         BlocProvider(create: (_) => getIt<NotificationCubit>()),
       ],
-      child: MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
-        child: ScreenUtilInit(
-          designSize: const Size(390, 844),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
-            return BlocBuilder<HomeScreenCubit, HomeScreenState>(
-              buildWhen: (previous, current) =>
-              current is HomeScreenLanguageLoaded ||
-                  current is HomeScreenLanguageChanged,
-              builder: (context, state) {
-                Locale currentLocale = const Locale('ar');
+      child: ScreenUtilInit(
+        designSize: const Size(390, 844),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return BlocBuilder<HomeScreenCubit, HomeScreenState>(
+            buildWhen: (previous, current) =>
+            current is HomeScreenLanguageLoaded ||
+                current is HomeScreenLanguageChanged,
+            builder: (context, state) {
+              Locale currentLocale = const Locale('ar');
 
-                if (state is HomeScreenLanguageLoaded) {
-                  currentLocale = state.locale;
-                } else if (state is HomeScreenLanguageChanged) {
-                  currentLocale = state.locale;
-                }
+              if (state is HomeScreenLanguageLoaded) {
+                currentLocale = state.locale;
+              } else if (state is HomeScreenLanguageChanged) {
+                currentLocale = state.locale;
+              }
 
-                return MaterialApp.router(
-                  debugShowCheckedModeBanner: false,
-                  locale: currentLocale,
-                  theme: AppStyle.lightTheme,
-                  darkTheme: AppStyle.darkTheme,
-                  routerConfig: AppRouter.router,
-                  themeMode: ThemeMode.light,
-                  supportedLocales: const [Locale('ar'), Locale('en')],
-                  localizationsDelegates: const [
-                    S.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                );
-              },
-            );
-          },
-        ),
+              return MaterialApp.router(
+                debugShowCheckedModeBanner: false,
+                locale: currentLocale,
+                theme: AppStyle.lightTheme,
+                darkTheme: AppStyle.darkTheme,
+                routerConfig: AppRouter.router,
+                themeMode: ThemeMode.light,
+                supportedLocales: const [Locale('ar'), Locale('en')],
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                // ✅ Safe place to override MediaQuery (now there *is* a MediaQuery above)
+                builder: (context, child) {
+                  final mediaQueryData = MediaQuery.of(context);
+                  return MediaQuery(
+                    data: mediaQueryData.copyWith(
+                      textScaler: TextScaler.noScaling,
+                    ),
+                    child: child ?? const SizedBox.shrink(),
+                  );
+                },
+              );
+            },
+          );
+        },
       ),
     );
   }
