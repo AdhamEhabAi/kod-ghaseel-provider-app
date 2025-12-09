@@ -30,6 +30,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String vehicleType,
     required String vehiclePlate,
     required String licenseNumber,
+    required String email,
   }) async {
     emit(UpdateProfileLoading());
 
@@ -43,6 +44,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       vehicleType: vehicleType,
       vehiclePlate: vehiclePlate,
       licenseNumber: licenseNumber,
+      email: email,
     );
     response.fold(
           (error) {

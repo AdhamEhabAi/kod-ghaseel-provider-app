@@ -76,7 +76,7 @@ class _OtpSectionState extends State<OtpSection> {
                 ),
                 onPressed: loading ? null : () {
                   final otp = controller.text;
-                  print(otp);
+                  debugPrint(otp);
                   context.read<ProfileCubit>().verifyPhoneWithOtp(otp: otp);
                 },
                 child: loading

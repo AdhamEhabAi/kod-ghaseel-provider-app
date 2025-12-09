@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../../Utilites/app_assets/assets.dart';
 import '../../../../../../core/helpers/shared_prefrence.dart';
+import '../../../../../../core/router/router.dart';
+import '../../../../../../generated/l10n.dart';
 import '../../../../../auth/data/models/login_response.dart';
 import 'change_phone_sheet.dart';
 import 'option_tile.dart';
@@ -15,6 +18,8 @@ class FirstSectionProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var s =S.of(context);
+
     final String? userJson =
     AppSharedPreferences.getString(SharedPreferencesKeys.userModel);
 
@@ -28,7 +33,13 @@ class FirstSectionProfileTab extends StatelessWidget {
       ),
       child: Column(
         children: [
-
+          OptionTile(title: s.add_personal_email, iconPath: Assets.emailProfileTab, onTap: (){
+            context.push(AppRouter.editProfileScreen);
+          }),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
+          ),
           OptionTile(
             title: phone??"000000",
             iconPath: Assets.callProfileTab,

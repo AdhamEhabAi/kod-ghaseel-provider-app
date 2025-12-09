@@ -23,14 +23,14 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   final ServiceCubit serviceCubit;
   UserData? userData;
 
-  HomeScreenCubit(this.homeRepo, this.serviceCubit) : super(HomeScreenInitial()) {
+  HomeScreenCubit(this.homeRepo, this.serviceCubit)
+    : super(HomeScreenInitial()) {
     loadLanguage();
   }
 
   Locale get currentLocale => _currentLocale;
   List<BannerItem> sliderBanners = [];
-  List<BannerItem> popupBanners = [];
-  
+
   // Provider status
   ProviderStatusData? _providerStatus;
   ProviderStatusData? get providerStatus => _providerStatus;
@@ -70,8 +70,8 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     final result = await homeRepo.checkSessionValidation();
 
     result.fold(
-          (failure) => emit(NotValidateSession(message: failure.message)),
-          (response) async {
+      (failure) => emit(NotValidateSession(message: failure.message)),
+      (response) async {
         final userJson = response.data?.toJson();
         if (userJson != null) {
           await AppSharedPreferences.setString(
@@ -103,20 +103,17 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     userData = newData;
     emit(UserDataLoaded(userDara: newData));
   }
+
   Future<void> getHomeBanners() async {
     emit(HomeBannersLoading());
 
     final result = await homeRepo.getHomeBanners();
 
     result.fold((failure) => emit(HomeBannersError(message: failure.message)), (
-        response,
-        ) {
+      response,
+    ) {
       sliderBanners = response.data
           .where((banner) => banner.displayType.toLowerCase() == 'slider')
-          .toList();
-
-      popupBanners = response.data
-          .where((banner) => banner.displayType.toLowerCase() == 'popup')
           .toList();
 
       emit(HomeBannersLoaded());
@@ -170,13 +167,17 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     final isOnline = isProviderOnline;
     final serviceState = serviceCubit.state;
 
-    print('📍 [HomeScreenCubit] Provider status changed - Online: $isOnline');
+    debugPrint(
+      '📍 [HomeScreenCubit] Provider status changed - Online: $isOnline',
+    );
 
     if (isOnline) {
       // Provider is online - start location stream if not already active
       if (serviceState is! ServiceLocationStreamActive &&
           serviceState is! ServiceLocationLoading) {
-        print('📍 [HomeScreenCubit] Provider is online - starting location stream');
+        debugPrint(
+          '📍 [HomeScreenCubit] Provider is online - starting location stream',
+        );
         // Ensure location is initialized first if needed
         if (serviceState is ServiceInitial ||
             serviceState is ServiceLocationError ||
@@ -189,31 +190,34 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
           serviceCubit.startLocationStream();
         }
       } else {
-        print('📍 [HomeScreenCubit] Location stream already active');
+        debugPrint('📍 [HomeScreenCubit] Location stream already active');
       }
     } else {
       // Provider is offline - stop location stream
       if (serviceState is ServiceLocationStreamActive ||
           serviceState is ServiceLocationEnabled ||
           serviceState is ServiceLocationLoading) {
-        print('📍 [HomeScreenCubit] Provider is offline - stopping location stream');
+        debugPrint(
+          '📍 [HomeScreenCubit] Provider is offline - stopping location stream',
+        );
         serviceCubit.stopLocationStream();
       } else {
-        print('📍 [HomeScreenCubit] Location stream already stopped');
+        debugPrint('📍 [HomeScreenCubit] Location stream already stopped');
       }
     }
   }
-// // for test
-// Future<void> checkSessionValidation() async {
-//   emit(ValidationLoadingState());
-//   await Future.delayed(Duration(seconds: 5));
-//
-//   bool isSuccess = Random().nextBool();
-//
-//   if (isSuccess) {
-//     emit(ValidatedSession());
-//   } else {
-//      emit(NotValidateSession());
-//   }
-// }
+
+  // // for test
+  // Future<void> checkSessionValidation() async {
+  //   emit(ValidationLoadingState());
+  //   await Future.delayed(Duration(seconds: 5));
+  //
+  //   bool isSuccess = Random().nextBool();
+  //
+  //   if (isSuccess) {
+  //     emit(ValidatedSession());
+  //   } else {
+  //      emit(NotValidateSession());
+  //   }
+  // }
 }

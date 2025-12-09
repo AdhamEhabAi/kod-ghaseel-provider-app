@@ -26,6 +26,7 @@ class ProfileRepo extends Repository {
     required String vehicleType,
     required String vehiclePlate,
     required String licenseNumber,
+    required String email,
   }) async {
     return await exceptionHandler(() async {
       final Map<String, dynamic> response = await dioHelper.postData(
@@ -45,6 +46,7 @@ class ProfileRepo extends Repository {
             "vehicle_type": vehicleType,
             "vehicle_plate": vehiclePlate,
             "license_number": licenseNumber,
+            "email": email,
           },
         },
       );

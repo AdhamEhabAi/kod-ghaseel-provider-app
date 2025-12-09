@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'notification_action.dart';
@@ -220,7 +221,7 @@ class NotificationService {
 
       for (int attempt = 0; attempt < retries; attempt++) {
         token = await _messaging.getToken();
-        print('adhaaaaaaaaaaam fcm Token $token');
+        debugPrint('adhaaaaaaaaaaam fcm Token $token');
 
         if (token != null) {
           return token;

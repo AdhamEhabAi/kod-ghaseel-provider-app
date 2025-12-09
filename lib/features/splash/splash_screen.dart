@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -73,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
       final user = User.fromJson(userMap);
       return user;
     } catch (e) {
-      print('❌ Error loading user: $e');
+      debugPrint('❌ Error loading user: $e');
       return null;
     }
   }

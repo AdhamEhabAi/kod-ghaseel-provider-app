@@ -2,7 +2,7 @@
   "phoneNumber": "رقم الهاتف",
   "phoneNumberHint": "0000...",
   "getVerificationCode": "احصل على رمز التحقق",
-  "loginTitle": "سجل دخولك.",
+  "loginTitle": "سجل دخولك",
   "login": "تسجيل الدخول",
   "resendCode": "أعد إرسال الرمز.",
   "didNotReceiveCode": "لم تصلك الرسالة؟ ",
@@ -66,7 +66,7 @@
   "done": "تم",
   "invalidMinutesMsg": "من فضلك أدخل عدد دقائق صالح",
   "invalidHoursMsg": "من فضلك أدخل عدد ساعات صالح",
-  "helloName": "مرحباً {name} 👋",
+  "helloName": "مرحباً {name} ",
   "@helloName": {
     "description": "تحية بالاسم",
     "placeholders": { "name": { "type": "String" } }

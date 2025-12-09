@@ -2,7 +2,7 @@
   "phoneNumber": "Phone Number",
   "phoneNumberHint": "0000...",
   "getVerificationCode": "Get Verification Code",
-  "loginTitle": "Log In.",
+  "loginTitle": "Log In",
   "login": "Login",
   "resendCode": "Resend code.",
   "enterCode": "Enter the code",
@@ -63,7 +63,7 @@
   "done": "Done",
   "invalidMinutesMsg": "Please enter a valid number of minutes",
   "invalidHoursMsg": "Please enter a valid number of hours",
-  "helloName": "Hello {name} 👋",
+  "helloName": "Hello {name}",
   "@helloName": {
     "description": "Greeting with name",
     "placeholders": { "name": { "type": "String" } }

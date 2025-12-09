@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/app_repository/repo.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/exceptions.dart';
@@ -101,10 +102,10 @@ class AuthRepo extends Repository {
 
       final success = response["success"] == true;
       if (success) {
-        print("fcm token is :${response["data"]}");
+        debugPrint("fcm token is :${response["data"]}");
         return UpdateFcmTokenResponse.fromJson(response);
       } else {
-        print("fcm token message is :${response["message"]}");
+        debugPrint("fcm token message is :${response["message"]}");
         throw ServerException(
           exceptionMessage: response["message"] ?? "Failed to save fcm token",
         );

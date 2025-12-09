@@ -1,5 +1,6 @@
-package com.skada.kod_ghaseel_provider_app
+package com.skada.washingcodeprovider
 
 import io.flutter.embedding.android.FlutterActivity
 
 class MainActivity : FlutterActivity()
+

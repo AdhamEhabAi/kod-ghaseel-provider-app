@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kod_ghaseel_provider_app/core/network/api_endpoints.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/controller/home_screen_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -39,17 +40,18 @@ class HomeSliverAppBar extends StatelessWidget {
                   itemBuilder: (context, index, realIndex) {
                     final banner = sliderBanners[index];
                     return CachedNetworkImage(
-                      imageUrl: banner.imageUrl,
-                      fit: BoxFit.cover,
+                      imageUrl: APIEndpoints.domain + banner.imageUrl,
+                      fit: BoxFit.fill,
                       placeholder: (context, url) => Container(
                         color: Colors.grey.shade300,
                         width: double.infinity,
                         height: 300.h,
                       ),
                       errorWidget: (context, url, error) => SizedBox.expand(
-                        child: Image.asset(
-                          Assets.homeBG,
-                          fit: BoxFit.cover,
+                        child: Container(
+                          color: Colors.grey.shade300,
+                          width: double.infinity,
+                          height: 300.h,
                         ),
                       ),
                     );
@@ -57,6 +59,8 @@ class HomeSliverAppBar extends StatelessWidget {
                   options: CarouselOptions(
                     height: 350.h,
                     viewportFraction: 1.0,
+                    padEnds: false,
+
                     autoPlay: true,
                     autoPlayInterval: const Duration(seconds: 3),
                     autoPlayAnimationDuration:
@@ -75,7 +79,7 @@ class HomeSliverAppBar extends StatelessWidget {
                   ),
                 )
               else
-                Image.asset(Assets.homeBG, fit: BoxFit.cover),
+                Image.asset(Assets.homeBG, fit: BoxFit.fill),
 
               SafeArea(
                 child: Align(

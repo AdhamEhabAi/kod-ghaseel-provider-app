@@ -23,33 +23,33 @@ class ThirdSectionProfileTab extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // OptionTile(
-          //   title: s.rateApp, // "تقييم التطبيق"
-          //   iconPath: Assets.starProfileTab,
-          //   onTap: () {},
-          // ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: 8.w),
-          //   child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
-          // ),
-          // OptionTile(
-          //   title: s.shareWithFriends, // "شارك مع اصدقائك"
-          //   iconPath: Assets.shareProfileTab,
-          //   onTap: () {},
-          // ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: 8.w),
-          //   child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
-          // ),
-          // OptionTile(
-          //   title: s.aboutUs, // "من نحن؟"
-          //   iconPath: Assets.infoSquareProfileTab,
-          //   onTap: () {},
-          // ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: 8.w),
-          //   child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
-          // ),
+          OptionTile(
+            title: s.rateApp, // "تقييم التطبيق"
+            iconPath: Assets.starProfileTab,
+            onTap: () {},
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
+          ),
+          OptionTile(
+            title: s.shareWithFriends, // "شارك مع اصدقائك"
+            iconPath: Assets.shareProfileTab,
+            onTap: () {},
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
+          ),
+          OptionTile(
+            title: s.aboutUs, // "من نحن؟"
+            iconPath: Assets.infoSquareProfileTab,
+            onTap: () {},
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            child: Divider(height: 24.h, thickness: 1, color: const Color(0xFFF2F4F5)),
+          ),
           OptionTile(
             title: s.support, // "الدعم"
             iconPath: Assets.infoSquareProfileTab,

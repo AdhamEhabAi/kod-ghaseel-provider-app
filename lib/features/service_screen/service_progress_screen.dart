@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -158,7 +159,7 @@ class _ServiceProgressScreenState extends State<ServiceProgressScreen> {
         _washingElapsedTime = _finalWashingDuration!;
       }
     } catch (e) {
-      print('⚠️ [ServiceProgressScreen] Error calculating washing duration: $e');
+      debugPrint('⚠️ [ServiceProgressScreen] Error calculating washing duration: $e');
     }
   }
 
@@ -184,7 +185,7 @@ class _ServiceProgressScreenState extends State<ServiceProgressScreen> {
         _dryingElapsedTime = _finalDryingDuration!;
       }
     } catch (e) {
-      print('⚠️ [ServiceProgressScreen] Error calculating drying duration: $e');
+      debugPrint('⚠️ [ServiceProgressScreen] Error calculating drying duration: $e');
     }
   }
 
@@ -321,7 +322,7 @@ class _ServiceProgressScreenState extends State<ServiceProgressScreen> {
           
           // Check if stages are empty - if so, call acceptOrder (only once)
           if (state.stagesData.stages.isEmpty && !_hasCalledAcceptOrder) {
-            print('📋 [ServiceProgressScreen] No stages found, calling acceptOrder');
+            debugPrint('📋 [ServiceProgressScreen] No stages found, calling acceptOrder');
             _hasCalledAcceptOrder = true;
             if (widget.orderId != null) {
               context.read<ServiceCubit>().acceptOrder(widget.orderId!);
@@ -383,7 +384,7 @@ class _ServiceProgressScreenState extends State<ServiceProgressScreen> {
           // If acceptOrder succeeded, refresh stages to get updated data
           if (_hasCalledAcceptOrder && 
               (_orderStagesData == null || _orderStagesData!.stages.isEmpty)) {
-            print('📋 [ServiceProgressScreen] acceptOrder succeeded, refreshing stages');
+            debugPrint('📋 [ServiceProgressScreen] acceptOrder succeeded, refreshing stages');
             if (widget.orderId != null) {
               context.read<ServiceCubit>().getOrderStages(widget.orderId!);
             }

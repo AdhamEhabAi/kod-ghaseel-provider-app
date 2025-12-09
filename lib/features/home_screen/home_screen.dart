@@ -84,6 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isArabic = Localizations.localeOf(context).languageCode == "ar";
+
     final itemWidth = _bottomNavigationBarSize.width / 4;
 
     return PopScope(
@@ -114,8 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           child: Directionality(
-            textDirection: TextDirection.rtl,
-
+            textDirection: isArabic ?TextDirection.rtl:TextDirection.ltr,
             child: Stack(
               children: [
                 ClipRRect(
@@ -177,7 +178,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   duration: const Duration(milliseconds: 350),
                   curve: Curves.easeOutCubic,
                   bottom: 0,
-                  right: (itemWidth * _selectedIndex) - 30.w,
+                  right:isArabic? (itemWidth * _selectedIndex) - 30.w:null ,
+                  left:isArabic? null: (itemWidth * _selectedIndex) +20.w,
                   child: const WaveShape(),
                 ),
               ],

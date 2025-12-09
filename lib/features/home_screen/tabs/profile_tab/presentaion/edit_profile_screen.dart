@@ -44,7 +44,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     image = userModel?.profileImage;
 
     nameController.text = userModel?.fullName ?? '';
-    emailController.text = "example@gmail.com";
+    emailController.text =
+         userModel?.email ??
+            'example@gmail.com';
   }
 
   @override
@@ -221,6 +223,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                           vehicleType: 'Toktok',
                                           vehiclePlate: '1235',
                                           licenseNumber: 'شسم',
+                                          email:emailController.text
                                         );
                                       },
                                       borderRadius: BorderRadius.circular(50.r),

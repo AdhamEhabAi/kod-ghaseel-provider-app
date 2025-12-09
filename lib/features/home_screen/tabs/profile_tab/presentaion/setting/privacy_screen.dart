@@ -80,10 +80,10 @@ Future<void> openTermsAndConditions() async {
       url,
       mode: LaunchMode.externalApplication, // Forces opening outside the app
     )) {
-      print("Could not launch $url");
+      debugPrint("Could not launch $url");
     }
   } catch (e) {
-    print("Error launching URL: $e");
+    debugPrint("Error launching URL: $e");
   }
 }Future<void> privacyAndPolicy() async {
   final Uri url = Uri.parse(APIEndpoints.privacyAndPolicy);
@@ -93,9 +93,9 @@ Future<void> openTermsAndConditions() async {
       url,
       mode: LaunchMode.externalApplication, // Forces opening outside the app
     )) {
-      print("Could not launch $url");
+      debugPrint("Could not launch $url");
     }
   } catch (e) {
-    print("Error launching URL: $e");
+    debugPrint("Error launching URL: $e");
   }
 }

@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:location/location.dart';
 
 class ConnectivityService extends ChangeNotifier {
@@ -83,11 +85,11 @@ class ConnectivityService extends ChangeNotifier {
   //     if (result == ConnectivityResult.none) {
   //       _isConnected = false;
   //
-  //       print('emitting connection offline');
+  //       debugPrint('emitting connection offline');
   //     } else {
   //       _isConnected = true;
   //
-  //       print('emitting connection online, connection result = $result');
+  //       debugPrint('emitting connection online, connection result = $result');
   //     }
   //     notifyListeners();
   //
@@ -118,10 +120,10 @@ class ConnectivityService extends ChangeNotifier {
 
       // Emit the initial state explicitly
       if (!serviceEnabled) {
-        print('Emitting initial location offline');
+        debugPrint('Emitting initial location offline');
         notifyListeners();
       } else {
-        print('Emitting initial location online');
+        debugPrint('Emitting initial location online');
         notifyListeners();
       }
 
@@ -135,10 +137,10 @@ class ConnectivityService extends ChangeNotifier {
           serviceEnabled = isServiceEnabled;
 
           if (!serviceEnabled) {
-            print('Emitting location offline');
+            debugPrint('Emitting location offline');
             notifyListeners();
           } else {
-            print('Emitting location online');
+            debugPrint('Emitting location online');
             notifyListeners();
           }
         }
@@ -147,14 +149,14 @@ class ConnectivityService extends ChangeNotifier {
   }
 
   Future<void> requestLocationEnable() async {
-    print('test location enabled');
+    debugPrint('test location enabled');
     serviceEnabled = await _location.requestService();
 
     if (!serviceEnabled) {
-      print('Emitting location offline');
+      debugPrint('Emitting location offline');
       notifyListeners();
     } else {
-      print('Emitting location online');
+      debugPrint('Emitting location online');
       notifyListeners();
     }
   }
