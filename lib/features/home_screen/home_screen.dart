@@ -1,4 +1,5 @@
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Initialize location service (stream will be controlled by HomeScreenCubit based on provider status)
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getBottomNavigationBarSize();
-      print('🗺️ [HomeScreen] Initializing location service');
+      debugPrint('🗺️ [HomeScreen] Initializing location service');
       context.read<ServiceCubit>().initializeLocation();
     });
   }

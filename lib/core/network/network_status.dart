@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:location/location.dart';
 
 class ConnectivityService extends ChangeNotifier {
