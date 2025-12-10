@@ -50,7 +50,6 @@ class _TopBarWidgetState extends State<TopBarWidget> {
     final dur = offlineUntil.difference(now);
     _autoEnableTimer = Timer(dur, () {
       if (!mounted) return;
-      // Refresh status from API
       context.read<HomeScreenCubit>().getProviderStatus();
       ToastM.show(S
           .of(context)
