@@ -12,12 +12,20 @@ import UserNotifications
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    // Initialize Google Maps
     GMSServices.provideAPIKey("AIzaSyAvpaNrhvRUzgqiLBfwtCETDNVGYJiDATw")
 
-    FirebaseApp.configure()
+    // Initialize Firebase (required since FirebaseAppDelegateProxyEnabled is false)
+    // main.dart's ensureFirebase() will check if already initialized and skip
+    if FirebaseApp.app() == nil {
+      FirebaseApp.configure()
+    }
 
-    // FCM messaging delegate
-    Messaging.messaging().delegate = self
+    // FCM messaging delegate - set after Firebase is initialized
+    // Defer slightly to ensure Firebase is ready
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      Messaging.messaging().delegate = self
+    }
 
     // Notification center delegate (FlutterAppDelegate already conforms to UNUserNotificationCenterDelegate)
     UNUserNotificationCenter.current().delegate = self
