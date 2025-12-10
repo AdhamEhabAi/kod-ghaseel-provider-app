@@ -33,7 +33,7 @@ class TopBarWidget extends StatefulWidget {
 
 class _TopBarWidgetState extends State<TopBarWidget> {
   final TextEditingController controller = TextEditingController();
-  Timer? _autoEnableTimer; // auto re-enable timer
+  Timer? _autoEnableTimer;
 
   @override
   void dispose() {
