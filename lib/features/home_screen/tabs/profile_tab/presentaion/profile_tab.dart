@@ -17,41 +17,42 @@ class ProfileTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = S.of(context);
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color(0xFFF2F4F5),
-        body: Padding(
-          padding: EdgeInsets.all(16.w),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const ProfileTabAppBar(),
-                SizedBox(height: 24.h),
-                Text(
-                  s.profile_title, // "حسابي الشخصي"
-                  style: AppTextStyle.blackW700Size14Roboto.copyWith(
-                    fontSize: 28.sp,
-                  ),
+    return Scaffold(
+      backgroundColor: const Color(0xFFF2F4F5),
+      body: Padding(
+        padding: EdgeInsets.all(16.w),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:  EdgeInsets.only(top: 20.h),
+                child: const ProfileTabAppBar(),
+              ),
+              SizedBox(height: 24.h),
+              Text(
+                s.profile_title, // "حسابي الشخصي"
+                style: AppTextStyle.blackW700Size14Roboto.copyWith(
+                  fontSize: 28.sp,
                 ),
-                SizedBox(height: 24.h),
+              ),
+              SizedBox(height: 24.h),
 
-                const ProfileEditWidget(),
-                SizedBox(height: 20.h),
+              const ProfileEditWidget(),
+              SizedBox(height: 20.h),
 
-                const FirstSectionProfileTab(),
+              const FirstSectionProfileTab(),
 
-                SizedBox(height: 16.h),
+              SizedBox(height: 16.h),
 
-                const SecondSectionProfileTab(),
+              const SecondSectionProfileTab(),
 
-                SizedBox(height: 16.h),
+              SizedBox(height: 16.h),
 
-                const ThirdSectionProfileTab(),
+              const ThirdSectionProfileTab(),
 
-                SizedBox(height: 30.h),
-              ],
-            ),
+              SizedBox(height: 30.h),
+            ],
           ),
         ),
       ),

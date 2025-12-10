@@ -15,10 +15,10 @@ class NotificationSettingScreen extends StatefulWidget {
       _NotificationSettingScreenState();
 }
 
-bool paymentNotify = false;
-bool messageNotify = false;
-bool reminderNotify = false;
-bool offersNotify = false;
+bool paymentNotify = true;
+bool messageNotify = true;
+bool reminderNotify = true;
+bool offersNotify = true;
 
 class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
   @override
