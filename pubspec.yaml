@@ -82,6 +82,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_launcher_icons:
   intl_utils:
+  flutter_native_splash:
   injectable_generator: 2.9.1
   build_runner: ^2.10.4
 # For information on the generic Dart part of this file, see the
@@ -133,11 +134,22 @@ flutter_intl:
   output_dir: lib/generated
 
 
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/launcher_icon_provider.png
+
+  android: true
+  ios: true
+
+  android_12:
+    image: assets/images/launcher_icon_provider.png
+    icon_background_color: "#FFFFFF"
+
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/launcher_Icon.png"
+  image_path: "assets/images/launcher_icon_provider.png"
   adaptive_icon_background: "#FFFFFF"  # Or an image path
-  adaptive_icon_foreground: "assets/images/launcher_Icon.png"
+  adaptive_icon_foreground: "assets/images/launcher_icon_provider.png"
   remove_alpha_ios: true
 #  adaptive_icon_foreground: "assets/icons/app_icon_foreground.png"
