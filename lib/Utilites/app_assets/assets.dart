@@ -62,6 +62,7 @@ class Assets {
   static const String sparksLogin = '$imagesPath/sparksLogin.svg';
   static const String upperLoginHalfCircle = '$imagesPath/upperLoginHalfCircle.svg';
   static const String lowerHalfCircle = '$imagesPath/lowerHalfCircle.svg';
+  static const String loginBanner = '$imagesPath/login_banner.png';
   static const String homeBG = '$imagesPath/home_bg.png';
   static const String avatarIconPng = '$imagesPath/avatar.png';
   static const String infoSquareProfileTab = '$iconsPath/Info_Square_profiletab.png';

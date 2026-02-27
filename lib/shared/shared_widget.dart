@@ -327,7 +327,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextDirection? hintTextDirection;
 
   final void Function(String)? onFailedSubmit;
-
+  final FocusNode? focusNode;
   const CustomTextFormField({
     required this.controller,
     super.key,
@@ -358,13 +358,14 @@ class CustomTextFormField extends StatelessWidget {
     this.color,
     this.colorBorder,
     this.autoCorrect,
-    this.style, this.textDirection, this.hintTextDirection,
+    this.style, this.textDirection, this.hintTextDirection, this.focusNode,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(textDirection: textDirection,
       onFieldSubmitted: onFailedSubmit,
+      focusNode: focusNode,
       controller: controller,
       maxLength: maxLength,
       decoration: InputDecoration(
