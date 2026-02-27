@@ -86,7 +86,7 @@ class _LoginFormState extends State<LoginForm> {
                   keyboardType: TextInputType.phone,
                   textDirection: TextDirection.ltr,
                   hintTextDirection: TextDirection.ltr,
-                  hintText: loc.phoneNumberHint,
+                  hintText: loc.phoneNumber,
                   colorBorder: const Color(0xffEEEEEE),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
@@ -97,24 +97,24 @@ class _LoginFormState extends State<LoginForm> {
                     }
                     return null;
                   },
-                  suffixIcon: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 15.w,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color(0x8acbcbcb),
-                        width: 1.5.w,
-                      ),
-                      color: const Color(0x66eeeeee),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: Text(
-                      '+966',
-                      style: AppTextStyle.blackW600Size16Roboto,
-                    ),
-                  ),
+                  // suffixIcon: Container(
+                  //   padding: EdgeInsets.symmetric(
+                  //     horizontal: 12.w,
+                  //     vertical: 15.w,
+                  //   ),
+                  //   decoration: BoxDecoration(
+                  //     border: Border.all(
+                  //       color: const Color(0x8acbcbcb),
+                  //       width: 1.5.w,
+                  //     ),
+                  //     color: const Color(0x66eeeeee),
+                  //     borderRadius: BorderRadius.circular(12.r),
+                  //   ),
+                  //   child: Text(
+                  //     '+966',
+                  //     style: AppTextStyle.blackW600Size16Roboto,
+                  //   ),
+                  // ),
                 ),
 
                 SizedBox(height: 40.h),
