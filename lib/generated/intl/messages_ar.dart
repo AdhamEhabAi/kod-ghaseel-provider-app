@@ -116,6 +116,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("اكتب عدد الساعات"),
         "enterMinutesHint":
             MessageLookupByLibrary.simpleMessage("اكتب عدد الدقائق"),
+        "enterPhoneToLogin": MessageLookupByLibrary.simpleMessage(
+            "أدخل رقم هاتفك لتسجيل الدخول"),
         "enterVerificationCodeSentTo": m4,
         "enterYourName": MessageLookupByLibrary.simpleMessage("ادخل اسمك.."),
         "enterYourPhoneNumber":
@@ -382,6 +384,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "view": MessageLookupByLibrary.simpleMessage("عرض"),
         "wallet": MessageLookupByLibrary.simpleMessage("محفظتك"),
         "washes_count": MessageLookupByLibrary.simpleMessage("عدد الغسلات"),
+        "welcomeKodGhaseel":
+            MessageLookupByLibrary.simpleMessage("حياك في كــــود الغسيل"),
         "whatsapp": MessageLookupByLibrary.simpleMessage("واتساب"),
         "writeMessage": MessageLookupByLibrary.simpleMessage("اكتب رسالة..."),
         "yes": MessageLookupByLibrary.simpleMessage("نعم"),

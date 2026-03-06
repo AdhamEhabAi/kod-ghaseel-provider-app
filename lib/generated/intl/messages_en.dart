@@ -118,6 +118,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterHoursHint": MessageLookupByLibrary.simpleMessage("Enter hours"),
         "enterMinutesHint":
             MessageLookupByLibrary.simpleMessage("Enter minutes"),
+        "enterPhoneToLogin": MessageLookupByLibrary.simpleMessage(
+            "Enter your phone number to log in"),
         "enterVerificationCodeSentTo": m4,
         "enterYourName":
             MessageLookupByLibrary.simpleMessage("Enter your name..."),
@@ -393,6 +395,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "view": MessageLookupByLibrary.simpleMessage("View"),
         "wallet": MessageLookupByLibrary.simpleMessage("Your Wallet"),
         "washes_count": MessageLookupByLibrary.simpleMessage("Washes"),
+        "welcomeKodGhaseel":
+            MessageLookupByLibrary.simpleMessage("Welcome to Washing Code"),
         "whatsapp": MessageLookupByLibrary.simpleMessage("WhatsApp"),
         "writeMessage":
             MessageLookupByLibrary.simpleMessage("Write Message..."),

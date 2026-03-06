@@ -1819,6 +1819,26 @@ class S {
     );
   }
 
+  /// `Welcome to Washing Code`
+  String get welcomeKodGhaseel {
+    return Intl.message(
+      'Welcome to Washing Code',
+      name: 'welcomeKodGhaseel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your phone number to log in`
+  String get enterPhoneToLogin {
+    return Intl.message(
+      'Enter your phone number to log in',
+      name: 'enterPhoneToLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Your car will be washed regularly.`
   String get notification5Subtitle {
     return Intl.message(
