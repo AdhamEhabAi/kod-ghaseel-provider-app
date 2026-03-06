@@ -43,7 +43,8 @@ class Assets {
   static const String tabbyIconSVG = '$iconsPath/tabby_icon.svg';
   static const String emailProfileTab = '$iconsPath/email_profiletab.png';
   static const String callProfileTab = '$iconsPath/Call_profiletab.png';
-
+  static const String authStackWidget = '$imagesPath/auth_stack_widget.svg';
+  static const String authStackWidgetDown = '$imagesPath/auth_stack_widget_down.svg';
   static const String tamaraIconSVG = '$iconsPath/tamara_icon.svg';
   static const String profileIconSVG = '$iconsPath/Profile_icon.svg';
   static const String homeIconSVG = '$iconsPath/Home_icon.svg';

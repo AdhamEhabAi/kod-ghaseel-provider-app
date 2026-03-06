@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_assets/assets.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/presentation/widgets/login_form.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,7 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _scrollToBottom() {
-    // Scrolls to the max scroll extent smoothly
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
@@ -40,35 +41,74 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: NotificationListener<SizeChangedLayoutNotification>(
-        onNotification: (notification) {
-          // This triggers when keyboard opens/closes
-          _scrollToBottom();
-          return true;
-        },
-        child: SizeChangedLayoutNotifier(
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            padding: EdgeInsets.only(bottom: 20.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.asset(Assets.loginBanner),
-                SizedBox(height: 20.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 12.0.w, vertical: 20.h),
-                  child: Text(
-                    loc.loginTitle,
-                    style: AppTextStyle.blackW700Size30,
-                  ),
-                ),
-                LoginForm(
-                  onFocus: _scrollToBottom,
-                ),
-              ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+
+            Positioned(
+              left: 0,
+              bottom: MediaQuery.of(context).size.height / 3.5,
+              child: SvgPicture.asset(Assets.authStackWidget),
             ),
-          ),
+
+            Positioned(
+              left: 0,
+              bottom: 0,
+              child: SvgPicture.asset(Assets.authStackWidgetDown),
+            ),
+
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  controller: _scrollController,
+                  padding: EdgeInsets.only(bottom: 20.h),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+
+                        /// TOP SECTION
+                        Column(
+                          children: [
+                            SizedBox(height: 40.h),
+                            SvgPicture.asset(Assets.logoSvg),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 20.h,
+                              ),
+                              child: Text(
+                                loc.welcomeKodGhaseel,
+                                style: AppTextStyle
+                                    .blackW700Size18Roboto
+                                    .copyWith(fontSize: 24.sp),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Text(
+                              loc.enterPhoneToLogin,
+                              style: AppTextStyle.blackW600Size14Roboto,
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 40.h),
+                          ],
+                        ),
+
+                        /// BOTTOM FORM
+                        LoginForm(
+                          onFocus: _scrollToBottom,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
