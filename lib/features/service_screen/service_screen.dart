@@ -112,7 +112,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
       debugPrint('   Current location: (${_currentLocation!.latitude}, ${_currentLocation!.longitude})');
       debugPrint('   Order location: ($orderLat, $orderLng)');
       
-      final shouldEnable = distance <= 100.0; // 100 meters threshold
+      final shouldEnable = distance <= 500.0; // 100 meters threshold
       debugPrint('✅ [ServiceScreen] Button enabled: $shouldEnable');
       
       setState(() {

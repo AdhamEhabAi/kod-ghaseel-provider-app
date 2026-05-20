@@ -93,7 +93,7 @@ class HelperFunctions {
     final now = DateTime.now();
     final difference = orderDateTime.difference(now);
 
-    return difference.inMinutes >= 0 && difference.inMinutes <= 60;
+    return difference.inMinutes >= 0 && difference.inMinutes <= 120;
   }
 
   static String getServiceDescription(Order order) {
@@ -151,7 +151,7 @@ class HelperFunctions {
     final now = DateTime.now();
     
     // Calculate 15 minutes before the scheduled time
-    final fifteenMinutesBefore = orderDateTime.subtract(const Duration(minutes: 15));
+    final fifteenMinutesBefore = orderDateTime.subtract(const Duration(minutes: 30));
     
     // Allow starting the service if current time is at or after 15 minutes before scheduled time
     // This covers both cases:
