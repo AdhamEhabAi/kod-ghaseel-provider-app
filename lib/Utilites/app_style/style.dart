@@ -232,9 +232,9 @@ class AppStyle {
   static ThemeData lightTheme = ThemeData(
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
-        TargetPlatform.android:
-            ZoomPageTransitionsBuilder(), // smooth zoom hero
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.android: ZoomPageTransitionsBuilder(),
+        // iOS uses Flutter's built-in Cupertino slide transition by default;
+        // CupertinoPageTransitionsBuilder was removed in Flutter 3.x.
       },
     ),
     bottomSheetTheme: BottomSheetThemeData(
