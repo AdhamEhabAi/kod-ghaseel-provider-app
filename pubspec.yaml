@@ -52,14 +52,14 @@ dependencies:
   salomon_bottom_bar: ^3.3.2
   badges: ^3.1.2
   shared_preferences:
-  firebase_core:
+  firebase_core: ">=4.2.1"
   dio:
   dartz:
   skeletonizer:
   cached_network_image:
   carousel_slider:
   location:
-  firebase_messaging:
+  firebase_messaging: ">=16.0.4"
   internet_connection_checker:
   flutter_local_notifications:
   device_info_plus:
@@ -67,7 +67,7 @@ dependencies:
   url_launcher:
   injectable: ^2.7.0
   image_picker: ^1.2.1
-  cloud_firestore: ^6.1.0
+  cloud_firestore: ">=6.1.0"
   custom_refresh_indicator: ^4.0.1
   connectivity_plus: ^6.1.5
 dev_dependencies:
