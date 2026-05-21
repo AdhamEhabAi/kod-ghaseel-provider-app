@@ -69,6 +69,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "autoEnabledSnackbar":
             MessageLookupByLibrary.simpleMessage("تم تفعيل التوفر تلقائياً"),
         "avg_order": MessageLookupByLibrary.simpleMessage("متوسط الطلب"),
+        "backgroundLocationAllow":
+            MessageLookupByLibrary.simpleMessage("السماح دائماً"),
+        "backgroundLocationDialogBody": MessageLookupByLibrary.simpleMessage(
+            "للسماح للعملاء بتتبع وصولك على الخريطة أثناء تنفيذ المهمة، يحتاج التطبيق للوصول إلى موقعك حتى عند استخدام تطبيقات أخرى.\n\nهذا مطلوب فقط أثناء المهمة النشطة ويتوقف تلقائياً عند إتمامها."),
+        "backgroundLocationDialogTitle": MessageLookupByLibrary.simpleMessage(
+            "التتبع في الخلفية أثناء المهمة"),
+        "backgroundLocationSkip": MessageLookupByLibrary.simpleMessage("تخطي"),
         "browseAsGuest": MessageLookupByLibrary.simpleMessage("تصفح كزائر"),
         "camera": MessageLookupByLibrary.simpleMessage("الكاميرا"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
@@ -102,6 +109,36 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الخميس 10 اغسطس"),
         "daysAgo": m3,
         "delete": MessageLookupByLibrary.simpleMessage("حذف"),
+        "deleteAccountBullet1": MessageLookupByLibrary.simpleMessage(
+            "سيتم حذف ملفك الشخصي ومعلوماتك نهائياً"),
+        "deleteAccountBullet2": MessageLookupByLibrary.simpleMessage(
+            "لن تتمكن من الوصول إلى سجل طلباتك"),
+        "deleteAccountBullet3": MessageLookupByLibrary.simpleMessage(
+            "سيتم إلغاء أي طلبات نشطة حالياً"),
+        "deleteAccountBullet4": MessageLookupByLibrary.simpleMessage(
+            "لن تتمكن من استرداد بياناتك بعد الحذف"),
+        "deleteAccountBullet5":
+            MessageLookupByLibrary.simpleMessage("سيتم إيقاف تتبع موقعك فوراً"),
+        "deleteAccountButton":
+            MessageLookupByLibrary.simpleMessage("حذف حسابي نهائياً"),
+        "deleteAccountConfirmButton":
+            MessageLookupByLibrary.simpleMessage("نعم، احذف حسابي"),
+        "deleteAccountConfirmMessage": MessageLookupByLibrary.simpleMessage(
+            "هل أنت متأكد تماماً؟\n\nلا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع بياناتك بشكل دائم."),
+        "deleteAccountConfirmTitle":
+            MessageLookupByLibrary.simpleMessage("تأكيد حذف الحساب"),
+        "deleteAccountFallbackError": MessageLookupByLibrary.simpleMessage(
+            "فشل حذف الحساب. يرجى التواصل مع الدعم الفني."),
+        "deleteAccountRetentionNotice": MessageLookupByLibrary.simpleMessage(
+            "ملاحظة: قد يتم الاحتفاظ ببعض البيانات المالية أو القانونية لفترة محدودة وفقاً لسياسة الخصوصية والمتطلبات القانونية."),
+        "deleteAccountSectionTitle":
+            MessageLookupByLibrary.simpleMessage("ماذا سيحدث عند حذف الحساب؟"),
+        "deleteAccountSessionError": MessageLookupByLibrary.simpleMessage(
+            "الجلسة غير موجودة. يرجى تسجيل الدخول مرة أخرى."),
+        "deleteAccountTitle":
+            MessageLookupByLibrary.simpleMessage("حذف الحساب"),
+        "deleteAccountWarning": MessageLookupByLibrary.simpleMessage(
+            "تحذير: هذا الإجراء لا يمكن التراجع عنه"),
         "didNotReceiveCode":
             MessageLookupByLibrary.simpleMessage("لم تصلك الرسالة؟ "),
         "done": MessageLookupByLibrary.simpleMessage("تم"),
@@ -197,8 +234,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "last_earnings": MessageLookupByLibrary.simpleMessage("آخر الأرباح"),
         "later": MessageLookupByLibrary.simpleMessage("لاحقًا"),
         "loading": MessageLookupByLibrary.simpleMessage("جاري التحميل..."),
+        "locationPermissionAllow":
+            MessageLookupByLibrary.simpleMessage("السماح بالوصول"),
         "locationPermissionDescription": MessageLookupByLibrary.simpleMessage(
             "يحتاج التطبيق إلى الوصول إلى موقعك في جميع الأوقات لتتبع موقعك وتقديم الخدمات. يرجى تفعيل إذن الموقع \'السماح في جميع الأوقات\'."),
+        "locationPermissionDialogBody": MessageLookupByLibrary.simpleMessage(
+            "يستخدم تطبيق Washing Code Provider موقعك لـ:\n\n• عرض موقعك الحالي للعملاء الذين ينتظرون الخدمة\n• تعيين الوظائف القريبة منك تلقائياً\n• تأكيد مواقع الاستلام والتسليم\n\nلن يتم مشاركة موقعك إلا أثناء جلسة الخدمة النشطة."),
+        "locationPermissionDialogTitle":
+            MessageLookupByLibrary.simpleMessage("نحتاج إلى موقعك"),
+        "locationPermissionNotNow":
+            MessageLookupByLibrary.simpleMessage("ليس الآن"),
         "locationPermissionRequired":
             MessageLookupByLibrary.simpleMessage("إذن الموقع مطلوب"),
         "location_disabled": MessageLookupByLibrary.simpleMessage(
@@ -369,6 +414,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "twoHours": MessageLookupByLibrary.simpleMessage("ساعتين"),
         "unableToLoadContactInfo":
             MessageLookupByLibrary.simpleMessage("تعذر تحميل معلومات الاتصال"),
+        "unableToMakePhoneCall": MessageLookupByLibrary.simpleMessage(
+            "تعذر إجراء المكالمة الهاتفية"),
         "unableToOpenWhatsApp":
             MessageLookupByLibrary.simpleMessage("تعذر فتح واتساب"),
         "unableToSendEmail": MessageLookupByLibrary.simpleMessage(

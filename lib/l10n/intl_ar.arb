@@ -291,5 +291,33 @@
   "unableToSendEmail": "تعذر إرسال البريد الإلكتروني",
   "retry": "إعادة المحاولة",
   "emailAddress": "البريد الالكتروني",
-  "addressLabel": "العنوان"
+  "addressLabel": "العنوان",
+
+  "deleteAccountTitle": "حذف الحساب",
+  "deleteAccountWarning": "تحذير: هذا الإجراء لا يمكن التراجع عنه",
+  "deleteAccountSectionTitle": "ماذا سيحدث عند حذف الحساب؟",
+  "deleteAccountBullet1": "سيتم حذف ملفك الشخصي ومعلوماتك نهائياً",
+  "deleteAccountBullet2": "لن تتمكن من الوصول إلى سجل طلباتك",
+  "deleteAccountBullet3": "سيتم إلغاء أي طلبات نشطة حالياً",
+  "deleteAccountBullet4": "لن تتمكن من استرداد بياناتك بعد الحذف",
+  "deleteAccountBullet5": "سيتم إيقاف تتبع موقعك فوراً",
+  "deleteAccountRetentionNotice": "ملاحظة: قد يتم الاحتفاظ ببعض البيانات المالية أو القانونية لفترة محدودة وفقاً لسياسة الخصوصية والمتطلبات القانونية.",
+  "deleteAccountConfirmTitle": "تأكيد حذف الحساب",
+  "deleteAccountConfirmMessage": "هل أنت متأكد تماماً؟\n\nلا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع بياناتك بشكل دائم.",
+  "deleteAccountConfirmButton": "نعم، احذف حسابي",
+  "deleteAccountButton": "حذف حسابي نهائياً",
+  "deleteAccountFallbackError": "فشل حذف الحساب. يرجى التواصل مع الدعم الفني.",
+  "deleteAccountSessionError": "الجلسة غير موجودة. يرجى تسجيل الدخول مرة أخرى.",
+
+  "locationPermissionDialogTitle": "نحتاج إلى موقعك",
+  "locationPermissionDialogBody": "يستخدم تطبيق Washing Code Provider موقعك لـ:\n\n• عرض موقعك الحالي للعملاء الذين ينتظرون الخدمة\n• تعيين الوظائف القريبة منك تلقائياً\n• تأكيد مواقع الاستلام والتسليم\n\nلن يتم مشاركة موقعك إلا أثناء جلسة الخدمة النشطة.",
+  "locationPermissionNotNow": "ليس الآن",
+  "locationPermissionAllow": "السماح بالوصول",
+
+  "backgroundLocationDialogTitle": "التتبع في الخلفية أثناء المهمة",
+  "backgroundLocationDialogBody": "للسماح للعملاء بتتبع وصولك على الخريطة أثناء تنفيذ المهمة، يحتاج التطبيق للوصول إلى موقعك حتى عند استخدام تطبيقات أخرى.\n\nهذا مطلوب فقط أثناء المهمة النشطة ويتوقف تلقائياً عند إتمامها.",
+  "backgroundLocationSkip": "تخطي",
+  "backgroundLocationAllow": "السماح دائماً",
+
+  "unableToMakePhoneCall": "تعذر إجراء المكالمة الهاتفية"
 }

@@ -92,6 +92,17 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
+            // Code shrinking, obfuscation, and resource shrinking enabled for release.
+            // Run: flutter build appbundle --release --obfuscate --split-debug-info=build/debug-symbols
+            // Save build/debug-symbols — required to decode production crash stack traces.
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        debug {
             isMinifyEnabled = false
             isShrinkResources = false
         }

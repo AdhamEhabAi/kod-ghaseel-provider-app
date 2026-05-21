@@ -233,7 +233,7 @@ Future<void> _makePhoneCall(BuildContext context, String phoneNumber) async {
     // Show user-friendly error message
     if (context.mounted) {
       final s = S.of(context);
-      ToastM.show("s.unableToMakePhoneCall");
+      ToastM.show(s.unableToMakePhoneCall);
     }
   }
 }
@@ -265,7 +265,7 @@ Future<void> _sendEmail(BuildContext context, String email) async {
     debugPrint('Error launching email: $e');
     if (context.mounted) {
       final s = S.of(context);
-      ToastM.show("s.unableToSendEmail");
+      ToastM.show(s.unableToSendEmail);
     }
   }
 }
