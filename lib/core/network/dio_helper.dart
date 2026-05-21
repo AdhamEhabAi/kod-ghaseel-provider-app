@@ -1,26 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
+
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/core/network/api_endpoints.dart';
-import 'package:mime/mime.dart';
-import 'package:path/path.dart' as path;
 
 
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    final client = super.createHttpClient(context);
-    // Accept all certificates (INSECURE, ONLY FOR TESTING)
-    client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
-    return client;
-  }}
-
+// REMOVED: MyHttpOverrides with badCertificateCallback = true was a critical
+// security vulnerability allowing MITM attacks. SSL is now validated normally.
 
 class DioHelper {
   static late Dio dio;
@@ -28,24 +17,6 @@ class DioHelper {
   static String api = APIEndpoints.baseUrl;
 
   static Future<void> initialize() async {
-    // final certBytes = await rootBundle.load('assets/cert/zeds-ips-all.crt');
-    //
-    // // Create SecurityContext and add your certificate
-    // SecurityContext securityContext = SecurityContext(withTrustedRoots: false);
-    // securityContext.setTrustedCertificatesBytes(certBytes.buffer.asUint8List());
-
-    // Create a HttpClient with this context
-
-    // Create a Dio HttpClientAdapter that uses this HttpClient
-    // final ioAdapter = IOHttpClientAdapter();
-    // ioAdapter.createHttpClient = () {
-    //
-    //   final client = HttpClient(context: securityContext);
-    //
-    //   // Optional: trust all certificates, use carefully
-    //
-    //   return client;
-    // };
     dio = Dio(
       BaseOptions(
         followRedirects: true,
@@ -60,7 +31,6 @@ class DioHelper {
         contentType: 'application/json',
       ),
     );
-    // dio.httpClientAdapter = ioAdapter;
 
     dio.interceptors.addAll([
       InterceptorsWrapper(
@@ -68,25 +38,18 @@ class DioHelper {
             (RequestOptions options, RequestInterceptorHandler handler) =>
                 onRequestHandler(options, handler),
         onError: (DioException error, ErrorInterceptorHandler handler) {
-          // if (error.response?.statusCode == 401 ||
-          //     error.response?.statusCode == 403) {
-          //   if (AppRouter.globalNavKey.currentContext != null) {
-          //     GoRouter.of(AppRouter.globalNavKey.currentContext!)
-          //         .go(AppRouter.phoneVerificationScreen);
-          //   } else {
-          //     log('Navigation context is null. Cannot navigate to phoneVerificationScreen.');
-          //   }
-          //   return;
-          // }
           handler.next(error);
         },
       ),
-      LogInterceptor(
-        responseBody: true,
-        error: true,
-        requestBody: true,
-        requestHeader: true,
-      ),
+      // SECURITY FIX: Logging is now restricted to debug builds only.
+      // Full request/response logging in production leaks tokens and PII.
+      if (kDebugMode)
+        LogInterceptor(
+          responseBody: true,
+          error: true,
+          requestBody: true,
+          requestHeader: true,
+        ),
     ]);
   }
 
@@ -95,14 +58,14 @@ class DioHelper {
     final token =
         AppSharedPreferences.getString(SharedPreferencesKeys.accessToken);
     final uuid =
-    AppSharedPreferences.getString(SharedPreferencesKeys.uuid);
-    log(token.toString() + ' token');
+        AppSharedPreferences.getString(SharedPreferencesKeys.uuid);
+    if (kDebugMode) log('${token.toString()} token');
     if (token != null && token.isNotEmpty) {
       req.headers['Authorization'] = 'Bearer $token';
     }
     req.headers['Content-Type'] = 'application/json';
     if (uuid != null && uuid.isNotEmpty) {
-      req.headers['X-Device-UUID'] = '$uuid';
+      req.headers['X-Device-UUID'] = uuid;
     }
     handler.next(req);
   }
@@ -121,17 +84,12 @@ class DioHelper {
               ));
       return handleResponse(response);
     } on Exception catch (e) {
-      log('Unexpected error: $e', error: e);
+      if (kDebugMode) log('Unexpected error: $e', error: e);
     }
   }
 
-
   dynamic handleResponse(Response response) {
     if (response.statusCode.toString()[0] != '2') {
-      // if (response.statusCode == 401 || response.statusCode == 403) {
-      //   navigateToPhoneVerificationScreenSafely();
-      //   return;
-      // }
       throw DioException(
         response: response,
         requestOptions: response.requestOptions,
@@ -148,6 +106,4 @@ class DioHelper {
     }
     return response.data;
   }
-
-
 }

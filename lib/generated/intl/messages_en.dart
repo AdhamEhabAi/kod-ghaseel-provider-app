@@ -71,6 +71,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "autoEnabledSnackbar":
             MessageLookupByLibrary.simpleMessage("Availability auto-enabled"),
         "avg_order": MessageLookupByLibrary.simpleMessage("Average Order"),
+        "backgroundLocationAllow":
+            MessageLookupByLibrary.simpleMessage("Allow Always"),
+        "backgroundLocationDialogBody": MessageLookupByLibrary.simpleMessage(
+            "To let customers track your arrival on a live map during a service job, the app needs to access your location even when you switch to other apps.\n\nThis is only active during an assigned job and stops automatically when the job is completed."),
+        "backgroundLocationDialogTitle": MessageLookupByLibrary.simpleMessage(
+            "Background Location for Active Jobs"),
+        "backgroundLocationSkip": MessageLookupByLibrary.simpleMessage("Skip"),
         "browseAsGuest": MessageLookupByLibrary.simpleMessage("Login as Guest"),
         "camera": MessageLookupByLibrary.simpleMessage("Camera"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
@@ -106,6 +113,36 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Thursday, August 10"),
         "daysAgo": m3,
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "deleteAccountBullet1": MessageLookupByLibrary.simpleMessage(
+            "Your profile and personal information will be permanently deleted"),
+        "deleteAccountBullet2": MessageLookupByLibrary.simpleMessage(
+            "You will no longer have access to your order history"),
+        "deleteAccountBullet3": MessageLookupByLibrary.simpleMessage(
+            "Any currently active orders will be cancelled"),
+        "deleteAccountBullet4": MessageLookupByLibrary.simpleMessage(
+            "Your data cannot be recovered after deletion"),
+        "deleteAccountBullet5": MessageLookupByLibrary.simpleMessage(
+            "Your location tracking will stop immediately"),
+        "deleteAccountButton": MessageLookupByLibrary.simpleMessage(
+            "Permanently delete my account"),
+        "deleteAccountConfirmButton":
+            MessageLookupByLibrary.simpleMessage("Yes, delete my account"),
+        "deleteAccountConfirmMessage": MessageLookupByLibrary.simpleMessage(
+            "Are you absolutely sure?\n\nThis action cannot be undone. All your data will be permanently deleted."),
+        "deleteAccountConfirmTitle":
+            MessageLookupByLibrary.simpleMessage("Confirm Account Deletion"),
+        "deleteAccountFallbackError": MessageLookupByLibrary.simpleMessage(
+            "Account deletion failed. Please contact support."),
+        "deleteAccountRetentionNotice": MessageLookupByLibrary.simpleMessage(
+            "Note: Some financial or legal data may be retained for a limited period in accordance with our privacy policy and legal requirements."),
+        "deleteAccountSectionTitle": MessageLookupByLibrary.simpleMessage(
+            "What happens when you delete your account?"),
+        "deleteAccountSessionError": MessageLookupByLibrary.simpleMessage(
+            "Session not found. Please log in again."),
+        "deleteAccountTitle":
+            MessageLookupByLibrary.simpleMessage("Delete Account"),
+        "deleteAccountWarning": MessageLookupByLibrary.simpleMessage(
+            "Warning: This action cannot be undone"),
         "didNotReceiveCode":
             MessageLookupByLibrary.simpleMessage("Didn’t receive the code? "),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
@@ -201,8 +238,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "last_earnings": MessageLookupByLibrary.simpleMessage("Last Earnings"),
         "later": MessageLookupByLibrary.simpleMessage("Later"),
         "loading": MessageLookupByLibrary.simpleMessage("Loading..."),
+        "locationPermissionAllow":
+            MessageLookupByLibrary.simpleMessage("Allow Location"),
         "locationPermissionDescription": MessageLookupByLibrary.simpleMessage(
             "This app needs access to your location at all times to track your position and provide services. Please enable \'Allow all the time\' location permission."),
+        "locationPermissionDialogBody": MessageLookupByLibrary.simpleMessage(
+            "Washing Code Provider uses your location to:\n\n• Show customers your real-time position while on a job\n• Automatically assign nearby service requests to you\n• Confirm pickup and delivery locations\n\nYour location is only shared with customers during an active service session."),
+        "locationPermissionDialogTitle":
+            MessageLookupByLibrary.simpleMessage("Location Access Required"),
+        "locationPermissionNotNow":
+            MessageLookupByLibrary.simpleMessage("Not Now"),
         "locationPermissionRequired": MessageLookupByLibrary.simpleMessage(
             "Location Permission Required"),
         "location_disabled": MessageLookupByLibrary.simpleMessage(
@@ -380,6 +425,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "twoHours": MessageLookupByLibrary.simpleMessage("2 hours"),
         "unableToLoadContactInfo": MessageLookupByLibrary.simpleMessage(
             "Unable to load contact information"),
+        "unableToMakePhoneCall":
+            MessageLookupByLibrary.simpleMessage("Unable to make phone call"),
         "unableToOpenWhatsApp":
             MessageLookupByLibrary.simpleMessage("Unable to open WhatsApp"),
         "unableToSendEmail":

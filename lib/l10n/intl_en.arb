@@ -290,5 +290,33 @@
   "unableToSendEmail": "Unable to send email",
   "retry": "Retry",
   "emailAddress": "E-mail address",
-  "addressLabel": "Address"
+  "addressLabel": "Address",
+
+  "deleteAccountTitle": "Delete Account",
+  "deleteAccountWarning": "Warning: This action cannot be undone",
+  "deleteAccountSectionTitle": "What happens when you delete your account?",
+  "deleteAccountBullet1": "Your profile and personal information will be permanently deleted",
+  "deleteAccountBullet2": "You will no longer have access to your order history",
+  "deleteAccountBullet3": "Any currently active orders will be cancelled",
+  "deleteAccountBullet4": "Your data cannot be recovered after deletion",
+  "deleteAccountBullet5": "Your location tracking will stop immediately",
+  "deleteAccountRetentionNotice": "Note: Some financial or legal data may be retained for a limited period in accordance with our privacy policy and legal requirements.",
+  "deleteAccountConfirmTitle": "Confirm Account Deletion",
+  "deleteAccountConfirmMessage": "Are you absolutely sure?\n\nThis action cannot be undone. All your data will be permanently deleted.",
+  "deleteAccountConfirmButton": "Yes, delete my account",
+  "deleteAccountButton": "Permanently delete my account",
+  "deleteAccountFallbackError": "Account deletion failed. Please contact support.",
+  "deleteAccountSessionError": "Session not found. Please log in again.",
+
+  "locationPermissionDialogTitle": "Location Access Required",
+  "locationPermissionDialogBody": "Washing Code Provider uses your location to:\n\n• Show customers your real-time position while on a job\n• Automatically assign nearby service requests to you\n• Confirm pickup and delivery locations\n\nYour location is only shared with customers during an active service session.",
+  "locationPermissionNotNow": "Not Now",
+  "locationPermissionAllow": "Allow Location",
+
+  "backgroundLocationDialogTitle": "Background Location for Active Jobs",
+  "backgroundLocationDialogBody": "To let customers track your arrival on a live map during a service job, the app needs to access your location even when you switch to other apps.\n\nThis is only active during an assigned job and stops automatically when the job is completed.",
+  "backgroundLocationSkip": "Skip",
+  "backgroundLocationAllow": "Allow Always",
+
+  "unableToMakePhoneCall": "Unable to make phone call"
 }

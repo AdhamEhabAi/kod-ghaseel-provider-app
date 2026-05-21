@@ -55,26 +55,40 @@
 		<true/>
 		<key>FirebaseAppDelegateProxyEnabled</key>
 		<false/>
+
+		<!-- Camera and photo permissions (Arabic + English) -->
 		<key>NSCameraUsageDescription</key>
-		<string>تحتاج التطبيق للوصول إلى الكاميرا لالتقاط الصور</string>
+		<string>يحتاج التطبيق إلى الكاميرا لالتقاط صور ملف مزود الخدمة والسيارة. The app needs camera access to capture provider profile and vehicle photos.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>تحتاج التطبيق للوصول إلى مكتبة الصور لاختيار الصور</string>
+		<string>يحتاج التطبيق للوصول إلى مكتبة الصور لاختيار صور ملف مزود الخدمة. The app needs photo library access to select provider profile images.</string>
 		<key>NSPhotoLibraryAddUsageDescription</key>
-		<string>تحتاج التطبيق لحفظ الصور في مكتبة الصور</string>
+		<string>يحتاج التطبيق لحفظ الصور في مكتبة الصور. The app needs permission to save photos to your photo library.</string>
+
+		<!-- Location permissions — Apple requires clear, specific descriptions.
+		     "When In Use" is requested on the home screen to prepare for dispatch.
+		     "Always" is requested only when the provider starts an active service job. -->
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>This app needs access to your location for maps functionality.</string>
+		<string>Washing Code Provider uses your location to show your current position to customers waiting for service, and to dispatch nearby service jobs to you. Your location is only accessed while the app is open and you are actively using it.</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>This app needs access to your location to track your position even when the app is in the background.</string>
+		<string>Washing Code Provider needs to access your location in the background during active service jobs so customers can track your real-time arrival on a map. Background location is used only while you have an active job assigned to you, and stops automatically when the job is completed.</string>
 		<key>NSLocationAlwaysUsageDescription</key>
-		<string>This app needs access to your location to track your position even when the app is in the background.</string>
-		<key>NSUserTrackingUsageDescription</key>
-		<string>We use this to show you relevant notifications.</string>
+		<string>Washing Code Provider requires background location access during active service jobs so customers can track your real-time arrival. We never collect location data outside of active job sessions.</string>
+
+		<!-- REMOVED: NSUserTrackingUsageDescription — This app does not use IDFA or
+		     cross-app advertising tracking. Firebase Analytics is disabled.
+		     Keeping this key incorrectly triggers ATT dialogs and misleads Apple reviewers. -->
+
+		<!-- Background modes:
+		     - remote-notification: Required for FCM push notifications
+		     - location: Required for background location tracking during active jobs
+		     NOTE: "fetch" background mode removed — the app does not use
+		     UIApplication.setMinimumBackgroundFetchInterval. -->
 		<key>UIBackgroundModes</key>
 		<array>
-			<string>fetch</string>
 			<string>remote-notification</string>
 			<string>location</string>
 		</array>
+
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>comgooglemaps</string>

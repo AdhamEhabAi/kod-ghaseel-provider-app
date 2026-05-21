@@ -1,27 +1,48 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Location permissions — foreground (fine) is the baseline.
+         ACCESS_BACKGROUND_LOCATION is required for tracking during active jobs
+         when the provider minimises the app while driving.
+         Google Play requires a Background Location Permission Declaration for this. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
+    <!-- Notifications (runtime permission on Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <!-- Network, wake lock -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <!-- Foreground service required for background location tracking -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
+
+    <!-- Camera and media access for profile photo capture/selection -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
-
 
     <application
         android:label="@string/app_name"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
+        <!-- FCM default notification channel -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="default_channel" />
+            android:value="high_importance_channel" />
+
+        <!-- Google Maps API Key
+             SECURITY ACTION REQUIRED: Restrict this key in Google Cloud Console:
+             Application restrictions → Android apps → add SHA-1 + package name
+             API restrictions → Maps SDK for Android only -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAvpaNrhvRUzgqiLBfwtCETDNVGYJiDATw"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,10 +51,6 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
-            <!-- Specifies an Android theme to apply to this Activity as soon as
-                 the Android process has started. This theme is visible to the user
-                 while the Flutter UI initializes. After that, this theme continues
-                 to determine the Window background behind the Flutter UI. -->
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
@@ -43,28 +60,34 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- Don't delete the meta-data below.
-             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+
+        <!-- Flutter embedding version -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAvpaNrhvRUzgqiLBfwtCETDNVGYJiDATw"/>
+
+        <!-- Flutter local notifications broadcast receiver -->
         <receiver
             android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver"
             android:exported="false" />
-    </application>
-    <!-- Required to query activities that can process text, see:
-         https://developer.android.com/training/package-visibility and
-         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
 
-         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+        <!-- Location foreground service from the 'location' Flutter package.
+             android:foregroundServiceType="location" is required on Android 14+
+             (API 34+). Without it the foreground service will be killed immediately. -->
+        <service
+            android:name="com.lyokone.location.FlutterLocationService"
+            android:foregroundServiceType="location"
+            android:exported="false" />
+
+    </application>
+
+    <!-- Required to query activities that can process text (Flutter engine) -->
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
-        <!-- Google Maps navigation -->
+        <!-- Google Maps navigation deep-link support -->
         <package android:name="com.google.android.apps.maps" />
     </queries>
 </manifest>

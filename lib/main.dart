@@ -27,6 +27,9 @@ import 'core/network/bloc_observer.dart';
 import 'features/home_screen/tabs/profile_tab/controller/profile_cubit.dart';
 import 'generated/l10n.dart';
 
+// SECURITY: MyHttpOverrides with badCertificateCallback has been removed.
+// All SSL certificates are now validated properly in production.
+
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -99,8 +102,6 @@ void main() async {
     log('Error clearing notifications: $e');
   }
 
-  final myHttpOverrides = MyHttpOverrides();
-  HttpOverrides.global = myHttpOverrides;
   DioHelper.initialize();
   await AppSharedPreferences.init();
   configureDependencies();

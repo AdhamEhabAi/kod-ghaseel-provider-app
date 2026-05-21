@@ -2418,6 +2418,246 @@ class S {
       args: [],
     );
   }
+
+  /// `Delete Account`
+  String get deleteAccountTitle {
+    return Intl.message(
+      'Delete Account',
+      name: 'deleteAccountTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning: This action cannot be undone`
+  String get deleteAccountWarning {
+    return Intl.message(
+      'Warning: This action cannot be undone',
+      name: 'deleteAccountWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What happens when you delete your account?`
+  String get deleteAccountSectionTitle {
+    return Intl.message(
+      'What happens when you delete your account?',
+      name: 'deleteAccountSectionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your profile and personal information will be permanently deleted`
+  String get deleteAccountBullet1 {
+    return Intl.message(
+      'Your profile and personal information will be permanently deleted',
+      name: 'deleteAccountBullet1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You will no longer have access to your order history`
+  String get deleteAccountBullet2 {
+    return Intl.message(
+      'You will no longer have access to your order history',
+      name: 'deleteAccountBullet2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Any currently active orders will be cancelled`
+  String get deleteAccountBullet3 {
+    return Intl.message(
+      'Any currently active orders will be cancelled',
+      name: 'deleteAccountBullet3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your data cannot be recovered after deletion`
+  String get deleteAccountBullet4 {
+    return Intl.message(
+      'Your data cannot be recovered after deletion',
+      name: 'deleteAccountBullet4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your location tracking will stop immediately`
+  String get deleteAccountBullet5 {
+    return Intl.message(
+      'Your location tracking will stop immediately',
+      name: 'deleteAccountBullet5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note: Some financial or legal data may be retained for a limited period in accordance with our privacy policy and legal requirements.`
+  String get deleteAccountRetentionNotice {
+    return Intl.message(
+      'Note: Some financial or legal data may be retained for a limited period in accordance with our privacy policy and legal requirements.',
+      name: 'deleteAccountRetentionNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Account Deletion`
+  String get deleteAccountConfirmTitle {
+    return Intl.message(
+      'Confirm Account Deletion',
+      name: 'deleteAccountConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you absolutely sure?\n\nThis action cannot be undone. All your data will be permanently deleted.`
+  String get deleteAccountConfirmMessage {
+    return Intl.message(
+      'Are you absolutely sure?\n\nThis action cannot be undone. All your data will be permanently deleted.',
+      name: 'deleteAccountConfirmMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes, delete my account`
+  String get deleteAccountConfirmButton {
+    return Intl.message(
+      'Yes, delete my account',
+      name: 'deleteAccountConfirmButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permanently delete my account`
+  String get deleteAccountButton {
+    return Intl.message(
+      'Permanently delete my account',
+      name: 'deleteAccountButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account deletion failed. Please contact support.`
+  String get deleteAccountFallbackError {
+    return Intl.message(
+      'Account deletion failed. Please contact support.',
+      name: 'deleteAccountFallbackError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Session not found. Please log in again.`
+  String get deleteAccountSessionError {
+    return Intl.message(
+      'Session not found. Please log in again.',
+      name: 'deleteAccountSessionError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location Access Required`
+  String get locationPermissionDialogTitle {
+    return Intl.message(
+      'Location Access Required',
+      name: 'locationPermissionDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Washing Code Provider uses your location to:\n\n• Show customers your real-time position while on a job\n• Automatically assign nearby service requests to you\n• Confirm pickup and delivery locations\n\nYour location is only shared with customers during an active service session.`
+  String get locationPermissionDialogBody {
+    return Intl.message(
+      'Washing Code Provider uses your location to:\n\n• Show customers your real-time position while on a job\n• Automatically assign nearby service requests to you\n• Confirm pickup and delivery locations\n\nYour location is only shared with customers during an active service session.',
+      name: 'locationPermissionDialogBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not Now`
+  String get locationPermissionNotNow {
+    return Intl.message(
+      'Not Now',
+      name: 'locationPermissionNotNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow Location`
+  String get locationPermissionAllow {
+    return Intl.message(
+      'Allow Location',
+      name: 'locationPermissionAllow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Background Location for Active Jobs`
+  String get backgroundLocationDialogTitle {
+    return Intl.message(
+      'Background Location for Active Jobs',
+      name: 'backgroundLocationDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To let customers track your arrival on a live map during a service job, the app needs to access your location even when you switch to other apps.\n\nThis is only active during an assigned job and stops automatically when the job is completed.`
+  String get backgroundLocationDialogBody {
+    return Intl.message(
+      'To let customers track your arrival on a live map during a service job, the app needs to access your location even when you switch to other apps.\n\nThis is only active during an assigned job and stops automatically when the job is completed.',
+      name: 'backgroundLocationDialogBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skip`
+  String get backgroundLocationSkip {
+    return Intl.message(
+      'Skip',
+      name: 'backgroundLocationSkip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow Always`
+  String get backgroundLocationAllow {
+    return Intl.message(
+      'Allow Always',
+      name: 'backgroundLocationAllow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to make phone call`
+  String get unableToMakePhoneCall {
+    return Intl.message(
+      'Unable to make phone call',
+      name: 'unableToMakePhoneCall',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

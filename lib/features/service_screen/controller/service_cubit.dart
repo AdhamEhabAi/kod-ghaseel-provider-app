@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kod_ghaseel_provider_app/core/errors/failures.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/data/models/order_stages_model.dart';
@@ -27,290 +26,239 @@ class ServiceCubit extends Cubit<ServiceState> {
 
   ServiceCubit(this._serviceRepo) : super(ServiceInitial());
 
-  /// Initialize location service and request permissions
+  // ─────────────────────────────────────────────────────────────────────────
+  // PERMISSION FLOW — App Store Compliant
+  //
+  // Step 1 (Home Screen, after login):
+  //   Call initializeLocation() → requests "When In Use" permission only.
+  //   The system dialog is shown AFTER the app's own rationale dialog
+  //   (LocationPermissionDialog) is accepted by the user.
+  //
+  // Step 2 (Service Screen, when provider starts an active job):
+  //   Call requestBackgroundLocationForJob() → requests "Always" permission.
+  //   This is only called in the context where background tracking is needed,
+  //   which satisfies both Apple Guideline 5.1.1 and Google Play policy.
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /// Initialises location for "When In Use" only.
+  /// Called from HomeScreen AFTER the app's own rationale dialog is accepted.
+  /// Does NOT request background/always location — that comes later at job start.
   Future<void> initializeLocation() async {
-    debugPrint('📍 [ServiceCubit] initializeLocation() called');
-    developer.log(
-      '📍 [ServiceCubit] initializeLocation() called',
-      name: 'Location',
-    );
+    debugPrint('📍 [ServiceCubit] initializeLocation() — foreground only');
     emit(ServiceLocationLoading());
 
     try {
-      // Check and request location service
+      // 1. Ensure location service is on
       bool serviceEnabled = await _serviceRepo.isLocationServiceEnabled();
-      debugPrint('📍 [ServiceCubit] Location service enabled: $serviceEnabled');
       if (!serviceEnabled) {
         serviceEnabled = await _serviceRepo.requestLocationService();
-        debugPrint(
-          '📍 [ServiceCubit] Location service requested, enabled: $serviceEnabled',
-        );
         if (!serviceEnabled) {
-          debugPrint('❌ [ServiceCubit] Location service denied');
-          emit(
-            ServiceLocationPermissionDenied(
-              'Location services are disabled. Please enable them in settings.',
-            ),
-          );
+          emit(ServiceLocationPermissionDenied(
+            'Location services are disabled. Please enable them in device settings.',
+          ));
           return;
         }
       }
 
-      // Check and request location permissions
-      PermissionStatus permissionStatus = await _serviceRepo
-          .getLocationPermissionStatus();
-      debugPrint('📍 [ServiceCubit] Location permission status: $permissionStatus');
+      // 2. Check foreground permission status
+      PermissionStatus permissionStatus =
+          await _serviceRepo.getLocationPermissionStatus();
 
+      // 3. Request foreground-only permission if not yet granted.
+      //    We never jump directly to "Always" — that violates both Apple and
+      //    Google policy. "Always" is only requested at job-start time.
       if (permissionStatus == PermissionStatus.denied) {
         permissionStatus = await _serviceRepo.requestLocationPermission();
-        debugPrint(
-          '📍 [ServiceCubit] Location permission requested, status: $permissionStatus',
-        );
-      }
-
-      // For Android, also request background location permission
-      if (Platform.isAndroid) {
-        if (permissionStatus == PermissionStatus.granted) {
-          // Request background location permission for Android 10+
-          final backgroundPermission = await Permission.locationAlways.status;
-          debugPrint(
-            '📍 [ServiceCubit] Background location permission status: $backgroundPermission',
-          );
-          if (backgroundPermission.isDenied) {
-            await Permission.locationAlways.request();
-            debugPrint('📍 [ServiceCubit] Background location permission requested');
-          }
-        }
       }
 
       if (permissionStatus != PermissionStatus.granted) {
-        debugPrint('❌ [ServiceCubit] Location permission not granted');
-        emit(
-          ServiceLocationPermissionDenied(
-            'Location permission is required to track your position.',
-          ),
-        );
+        emit(ServiceLocationPermissionDenied(
+          'Location permission is required to receive service jobs.',
+        ));
         return;
       }
 
-      // Configure location settings for background tracking
-      bool configured = await _serviceRepo.configureLocationSettings();
-      debugPrint('📍 [ServiceCubit] Location settings configured: $configured');
+      // 4. Configure location settings (accuracy, interval, distance filter)
+      final configured = await _serviceRepo.configureLocationSettings();
       if (!configured) {
         emit(ServiceLocationError('Failed to configure location settings.'));
         return;
       }
 
-      // Get initial location
+      // 5. Get initial position
       final locationData = await _serviceRepo.getCurrentLocation();
-      if (locationData != null) {
-        debugPrint(
-          '📍 [ServiceCubit] Initial location received - Lat: ${locationData.latitude}, Lng: ${locationData.longitude}, Accuracy: ${locationData.accuracy}m',
-        );
-
-        // Store initial location for API updates
-        if (locationData.latitude != null && locationData.longitude != null) {
-          _lastLatitude = locationData.latitude;
-          _lastLongitude = locationData.longitude;
-        }
-
-        emit(
-          ServiceLocationEnabled(
-            latitude: locationData.latitude ?? 0.0,
-            longitude: locationData.longitude ?? 0.0,
-            accuracy: locationData.accuracy,
-            altitude: locationData.altitude,
-            speed: locationData.speed,
-            timestamp: DateTime.now(),
-          ),
-        );
+      if (locationData != null &&
+          locationData.latitude != null &&
+          locationData.longitude != null) {
+        _lastLatitude = locationData.latitude;
+        _lastLongitude = locationData.longitude;
+        emit(ServiceLocationEnabled(
+          latitude: locationData.latitude!,
+          longitude: locationData.longitude!,
+          accuracy: locationData.accuracy,
+          altitude: locationData.altitude,
+          speed: locationData.speed,
+          timestamp: DateTime.now(),
+        ));
       } else {
-        debugPrint('❌ [ServiceCubit] Unable to get current location');
         emit(ServiceLocationError('Unable to get current location.'));
       }
     } catch (e) {
-      debugPrint('❌ [ServiceCubit] Error initializing location: $e');
-      emit(
-        ServiceLocationError('Error initializing location: ${e.toString()}'),
-      );
+      debugPrint('❌ [ServiceCubit] initializeLocation error: $e');
+      emit(ServiceLocationError('Error initialising location: ${e.toString()}'));
     }
   }
 
-  /// Start location streaming (works in background)
-  Future<void> startLocationStream() async {
-    if (_isStreaming) {
-      debugPrint('📍 [ServiceCubit] Location stream already active');
-      return; // Already streaming
+  /// Requests background (Always) location permission immediately before
+  /// starting an active service job. Must only be called:
+  ///  - When foreground location is already granted
+  ///  - When the provider explicitly presses "Start Job"
+  ///  - On Android only (iOS background mode is declared in Info.plist and
+  ///    granted as part of the "Always" permission flow automatically)
+  ///
+  /// Returns true if background permission is granted or already available.
+  Future<bool> requestBackgroundLocationForJob() async {
+    if (!Platform.isAndroid) return true;
+
+    final foregroundStatus = await _serviceRepo.getLocationPermissionStatus();
+    if (foregroundStatus != PermissionStatus.granted) {
+      debugPrint('❌ [ServiceCubit] Cannot request background location — foreground not granted');
+      return false;
     }
 
-    debugPrint('📍 [ServiceCubit] startLocationStream() called');
+    final backgroundStatus = await Permission.locationAlways.status;
+    if (backgroundStatus.isGranted) return true;
+
+    // On Android, the system will only show the "Allow all the time" option
+    // in device settings after foreground is granted. We open settings directly
+    // because Android 11+ does not allow showing the permission dialog for
+    // background location inline — it must go through settings.
+    if (Platform.isAndroid) {
+      final result = await Permission.locationAlways.request();
+      return result.isGranted;
+    }
+
+    return false;
+  }
+
+  /// Starts the live location stream and periodic server updates.
+  /// Called when a service job begins. Optionally attempts background permission
+  /// if [requestBackground] is true (default).
+  Future<void> startLocationStream({bool requestBackground = true}) async {
+    if (_isStreaming) return;
+
+    debugPrint('📍 [ServiceCubit] startLocationStream()');
 
     try {
-      // Ensure permissions are granted
-      PermissionStatus permissionStatus = await _serviceRepo
-          .getLocationPermissionStatus();
+      PermissionStatus permissionStatus =
+          await _serviceRepo.getLocationPermissionStatus();
+
       if (permissionStatus != PermissionStatus.granted) {
-        debugPrint('📍 [ServiceCubit] Permission not granted, initializing...');
         await initializeLocation();
         permissionStatus = await _serviceRepo.getLocationPermissionStatus();
         if (permissionStatus != PermissionStatus.granted) {
-          debugPrint(
-            '❌ [ServiceCubit] Permission still not granted after initialization',
-          );
-          emit(
-            ServiceLocationPermissionDenied(
-              'Location permission is required to track your position.',
-            ),
-          );
+          emit(ServiceLocationPermissionDenied(
+            'Location permission is required to track your position.',
+          ));
           return;
         }
       }
 
-      // Configure location settings
       await _serviceRepo.configureLocationSettings();
 
       _locationSubscription = _serviceRepo.getLocationStream().listen(
         (LocationData locationData) {
           if (locationData.latitude != null && locationData.longitude != null) {
-            final timestamp = DateTime.now();
-            developer.log(
-              '📍 [BACKGROUND] Location - Lat: ${locationData.latitude}, Lng: ${locationData.longitude}, Accuracy: ${locationData.accuracy}m',
-              name: 'Location',
-            );
-
-            // Update last known location
             _lastLatitude = locationData.latitude;
             _lastLongitude = locationData.longitude;
 
-            emit(
-              ServiceLocationStreamActive(
-                latitude: locationData.latitude!,
-                longitude: locationData.longitude!,
-                accuracy: locationData.accuracy,
-                altitude: locationData.altitude,
-                speed: locationData.speed,
-                timestamp: timestamp,
-              ),
-            );
-          } else {
-            debugPrint(
-              '⚠️ [ServiceCubit] Location data received but lat/lng is null',
-            );
+            if (kDebugMode) {
+              developer.log(
+                '📍 Location — Lat: ${locationData.latitude}, '
+                'Lng: ${locationData.longitude}, '
+                'Accuracy: ${locationData.accuracy}m',
+                name: 'Location',
+              );
+            }
+
+            emit(ServiceLocationStreamActive(
+              latitude: locationData.latitude!,
+              longitude: locationData.longitude!,
+              accuracy: locationData.accuracy,
+              altitude: locationData.altitude,
+              speed: locationData.speed,
+              timestamp: DateTime.now(),
+            ));
           }
         },
         onError: (error) {
           debugPrint('❌ [ServiceCubit] Location stream error: $error');
-          developer.log(
-            '❌ Location stream error: $error',
-            name: 'Location',
-            error: error,
-          );
-          emit(
-            ServiceLocationError('Location stream error: ${error.toString()}'),
-          );
+          emit(ServiceLocationError('Location stream error: ${error.toString()}'));
         },
         cancelOnError: false,
       );
 
-      // Start periodic location update to server (every 30 seconds)
       _startLocationUpdateTimer();
-
       _isStreaming = true;
-      debugPrint('✅ [ServiceCubit] Location stream started successfully');
-      developer.log('✅ Location stream started', name: 'Location');
+      debugPrint('✅ [ServiceCubit] Location stream started');
     } catch (e) {
-      debugPrint('❌ [ServiceCubit] Error starting location stream: $e');
-      emit(
-        ServiceLocationError('Error starting location stream: ${e.toString()}'),
-      );
+      debugPrint('❌ [ServiceCubit] startLocationStream error: $e');
+      emit(ServiceLocationError('Error starting location stream: ${e.toString()}'));
     }
   }
 
   void _startLocationUpdateTimer() {
     _locationUpdateTimer?.cancel();
-    debugPrint(
-      '⏰ [ServiceCubit] Starting location update timer (30 seconds interval)',
-    );
-
-    // Send initial location update immediately if available
+    // Send initial update immediately
     if (_lastLatitude != null && _lastLongitude != null) {
       _updateLocationOnServer(_lastLatitude!, _lastLongitude!);
     }
-
-    // Then update every 30 seconds
-    _locationUpdateTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
+    // Then every 30 seconds
+    _locationUpdateTimer = Timer.periodic(const Duration(seconds: 30), (_) {
       if (_lastLatitude != null && _lastLongitude != null && _isStreaming) {
         _updateLocationOnServer(_lastLatitude!, _lastLongitude!);
-      } else {
-        debugPrint(
-          '⚠️ [ServiceCubit] Skipping location update - no location data or stream not active',
-        );
       }
     });
   }
 
-  /// Update location on server
-  Future<void> _updateLocationOnServer(
-    double latitude,
-    double longitude,
-  ) async {
+  Future<void> _updateLocationOnServer(double latitude, double longitude) async {
     try {
       final result = await _serviceRepo.updateDeliveryLocation(
         latitude: latitude,
         longitude: longitude,
       );
-
       result.fold(
-        (failure) {
-          debugPrint(
-            '❌ [ServiceCubit] Failed to update location on server: ${failure.message}',
-          );
-        },
-        (data) {
-          debugPrint('✅ [ServiceCubit] Location updated on server successfully');
-        },
+        (failure) => debugPrint(
+            '❌ [ServiceCubit] Location server update failed: ${failure.message}'),
+        (_) => debugPrint('✅ [ServiceCubit] Location updated on server'),
       );
     } catch (e) {
-      debugPrint('❌ [ServiceCubit] Error updating location on server: $e');
+      debugPrint('❌ [ServiceCubit] Location server update error: $e');
     }
   }
 
-  /// Stop location streaming
   Future<void> stopLocationStream() async {
-    debugPrint('🛑 [ServiceCubit] stopLocationStream() called');
-
-    // Cancel location update timer
+    debugPrint('🛑 [ServiceCubit] stopLocationStream()');
     _locationUpdateTimer?.cancel();
     _locationUpdateTimer = null;
-
     await _locationSubscription?.cancel();
     _locationSubscription = null;
     _isStreaming = false;
     _lastLatitude = null;
     _lastLongitude = null;
-
-    debugPrint('✅ [ServiceCubit] Location stream stopped');
     emit(ServiceInitial());
   }
 
   Future<void> getCurrentLocation() async {
-    debugPrint('📍 [ServiceCubit] getCurrentLocation() called');
     emit(ServiceLocationLoading());
-
     try {
-      // Check permissions
-      PermissionStatus permissionStatus = await _serviceRepo
-          .getLocationPermissionStatus();
+      PermissionStatus permissionStatus =
+          await _serviceRepo.getLocationPermissionStatus();
       if (permissionStatus != PermissionStatus.granted) {
         await initializeLocation();
         permissionStatus = await _serviceRepo.getLocationPermissionStatus();
         if (permissionStatus != PermissionStatus.granted) {
-          debugPrint(
-            '❌ [ServiceCubit] Permission not granted for getCurrentLocation',
-          );
-          emit(
-            ServiceLocationPermissionDenied('Location permission is required.'),
-          );
+          emit(ServiceLocationPermissionDenied('Location permission is required.'));
           return;
         }
       }
@@ -319,162 +267,122 @@ class ServiceCubit extends Cubit<ServiceState> {
       if (locationData != null &&
           locationData.latitude != null &&
           locationData.longitude != null) {
-        debugPrint(
-          '📍 [ServiceCubit] Current location - Lat: ${locationData.latitude}, Lng: ${locationData.longitude}',
-        );
-        emit(
-          ServiceLocationEnabled(
-            latitude: locationData.latitude!,
-            longitude: locationData.longitude!,
-            accuracy: locationData.accuracy,
-            altitude: locationData.altitude,
-            speed: locationData.speed,
-            timestamp: DateTime.now(),
-          ),
-        );
+        emit(ServiceLocationEnabled(
+          latitude: locationData.latitude!,
+          longitude: locationData.longitude!,
+          accuracy: locationData.accuracy,
+          altitude: locationData.altitude,
+          speed: locationData.speed,
+          timestamp: DateTime.now(),
+        ));
       } else {
-        debugPrint('❌ [ServiceCubit] Unable to get current location');
         emit(ServiceLocationError('Unable to get current location.'));
       }
     } catch (e) {
-      debugPrint('❌ [ServiceCubit] Error getting location: $e');
       emit(ServiceLocationError('Error getting location: ${e.toString()}'));
     }
   }
 
-  /// Get order stages
+  // ── Order stage actions ──────────────────────────────────────────────────
+
   Future<void> getOrderStages(int deliveryOrderId) async {
-    debugPrint('📋 [ServiceCubit] getOrderStages() called for order: $deliveryOrderId');
     emit(OrderStagesLoading());
-
     final result = await _serviceRepo.getOrderStages(
-      deliveryOrderId: deliveryOrderId,
-    );
-
+        deliveryOrderId: deliveryOrderId);
     result.fold(
-      (failure) {
-        debugPrint('❌ [ServiceCubit] Failed to get order stages: ${failure.message}');
-        emit(OrderStagesError(failure.message));
-      },
+      (failure) => emit(OrderStagesError(failure.message)),
       (data) {
         try {
-          debugPrint('✅ [ServiceCubit] Order stages loaded successfully');
-          final stagesData = OrderStagesData.fromJson(data);
-          emit(OrderStagesLoaded(stagesData));
+          emit(OrderStagesLoaded(OrderStagesData.fromJson(data)));
         } catch (e) {
-          debugPrint('❌ [ServiceCubit] Error parsing order stages: $e');
           emit(OrderStagesError('Failed to parse order stages data'));
         }
       },
     );
   }
 
-  /// Accept order
-  Future<void> acceptOrder(int deliveryOrderId) async {
-    _callOrderStageAction(
-      action: 'accept_order',
-      deliveryOrderId: deliveryOrderId,
-      repoCall: () => _serviceRepo.acceptOrder(deliveryOrderId: deliveryOrderId),
-    );
-  }
-
-  /// Mark as arrived
-  Future<void> markArrived(int deliveryOrderId, {String? notes}) async {
-    _callOrderStageAction(
-      action: 'arrived',
-      deliveryOrderId: deliveryOrderId,
-      repoCall: () => _serviceRepo.markArrived(
+  Future<void> acceptOrder(int deliveryOrderId) =>
+      _callOrderStageAction(
+        action: 'accept_order',
         deliveryOrderId: deliveryOrderId,
-        notes: notes,
-      ),
-    );
-  }
+        repoCall: () =>
+            _serviceRepo.acceptOrder(deliveryOrderId: deliveryOrderId),
+      );
 
-  /// Verify car
-  Future<void> verifyCar(int deliveryOrderId) async {
-    _callOrderStageAction(
-      action: 'car_verified',
-      deliveryOrderId: deliveryOrderId,
-      repoCall: () => _serviceRepo.verifyCar(deliveryOrderId: deliveryOrderId),
-    );
-  }
+  Future<void> markArrived(int deliveryOrderId, {String? notes}) =>
+      _callOrderStageAction(
+        action: 'arrived',
+        deliveryOrderId: deliveryOrderId,
+        repoCall: () =>
+            _serviceRepo.markArrived(deliveryOrderId: deliveryOrderId, notes: notes),
+      );
 
-  /// Start washing
-  Future<void> startWashing(int deliveryOrderId) async {
-    _callOrderStageAction(
-      action: 'washing_started',
-      deliveryOrderId: deliveryOrderId,
-      repoCall: () => _serviceRepo.startWashing(deliveryOrderId: deliveryOrderId),
-    );
-  }
+  Future<void> verifyCar(int deliveryOrderId) =>
+      _callOrderStageAction(
+        action: 'car_verified',
+        deliveryOrderId: deliveryOrderId,
+        repoCall: () =>
+            _serviceRepo.verifyCar(deliveryOrderId: deliveryOrderId),
+      );
 
-  /// Complete washing
-  Future<void> completeWashing(int deliveryOrderId) async {
-    _callOrderStageAction(
-      action: 'washing_completed',
-      deliveryOrderId: deliveryOrderId,
-      repoCall: () => _serviceRepo.completeWashing(deliveryOrderId: deliveryOrderId),
-    );
-  }
+  Future<void> startWashing(int deliveryOrderId) =>
+      _callOrderStageAction(
+        action: 'washing_started',
+        deliveryOrderId: deliveryOrderId,
+        repoCall: () =>
+            _serviceRepo.startWashing(deliveryOrderId: deliveryOrderId),
+      );
 
-  /// Start drying
-  Future<void> startDrying(int deliveryOrderId) async {
-    _callOrderStageAction(
-      action: 'drying_started',
-      deliveryOrderId: deliveryOrderId,
-      repoCall: () => _serviceRepo.startDrying(deliveryOrderId: deliveryOrderId),
-    );
-  }
+  Future<void> completeWashing(int deliveryOrderId) =>
+      _callOrderStageAction(
+        action: 'washing_completed',
+        deliveryOrderId: deliveryOrderId,
+        repoCall: () =>
+            _serviceRepo.completeWashing(deliveryOrderId: deliveryOrderId),
+      );
 
-  /// Complete drying
-  Future<void> completeDrying(int deliveryOrderId) async {
-    _callOrderStageAction(
-      action: 'drying_completed',
-      deliveryOrderId: deliveryOrderId,
-      repoCall: () => _serviceRepo.completeDrying(deliveryOrderId: deliveryOrderId),
-    );
-  }
+  Future<void> startDrying(int deliveryOrderId) =>
+      _callOrderStageAction(
+        action: 'drying_started',
+        deliveryOrderId: deliveryOrderId,
+        repoCall: () =>
+            _serviceRepo.startDrying(deliveryOrderId: deliveryOrderId),
+      );
 
-  /// Complete order
-  Future<void> completeOrder(int deliveryOrderId) async {
-    _callOrderStageAction(
-      action: 'complete_order',
-      deliveryOrderId: deliveryOrderId,
-      repoCall: () => _serviceRepo.completeOrder(deliveryOrderId: deliveryOrderId),
-    );
-  }
+  Future<void> completeDrying(int deliveryOrderId) =>
+      _callOrderStageAction(
+        action: 'drying_completed',
+        deliveryOrderId: deliveryOrderId,
+        repoCall: () =>
+            _serviceRepo.completeDrying(deliveryOrderId: deliveryOrderId),
+      );
 
-  /// Helper method to call order stage actions
+  Future<void> completeOrder(int deliveryOrderId) =>
+      _callOrderStageAction(
+        action: 'complete_order',
+        deliveryOrderId: deliveryOrderId,
+        repoCall: () =>
+            _serviceRepo.completeOrder(deliveryOrderId: deliveryOrderId),
+      );
+
   Future<void> _callOrderStageAction({
     required String action,
     required int deliveryOrderId,
     required Future<Either<Failure, Map<String, dynamic>>> Function() repoCall,
   }) async {
-    debugPrint('🔄 [ServiceCubit] $action called for order: $deliveryOrderId');
     emit(OrderStageActionLoading());
-
     final result = await repoCall();
-
     result.fold(
-      (failure) {
-        debugPrint('❌ [ServiceCubit] Failed to $action: ${failure.message}');
-        emit(OrderStageActionError(action, failure.message));
-      },
-      (data) {
-        debugPrint('✅ [ServiceCubit] $action completed successfully');
-        emit(OrderStageActionSuccess(action, data: data));
-      },
+      (failure) => emit(OrderStageActionError(action, failure.message)),
+      (data) => emit(OrderStageActionSuccess(action, data: data)),
     );
   }
 
   @override
   Future<void> close() {
-    debugPrint('🛑 [ServiceCubit] close() called - cleaning up location stream');
     _locationUpdateTimer?.cancel();
     _locationSubscription?.cancel();
     _isStreaming = false;
-    _lastLatitude = null;
-    _lastLongitude = null;
     return super.close();
   }
 }

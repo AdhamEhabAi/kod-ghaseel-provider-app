@@ -10,6 +10,7 @@ import 'package:kod_ghaseel_provider_app/features/service_screen/service_screen.
 import '../../features/chat/chat_screen.dart';
 import '../../features/home_screen/home_screen.dart';
 import '../../features/home_screen/tabs/order_tab/order_tab.dart';
+import '../../features/home_screen/tabs/profile_tab/presentaion/delete_account_screen.dart';
 import '../../features/home_screen/tabs/profile_tab/presentaion/edit_profile_screen.dart';
 import '../../features/home_screen/tabs/profile_tab/presentaion/help_center/help_center_screen.dart';
 import '../../features/home_screen/tabs/profile_tab/presentaion/help_center/question_screen.dart';
@@ -42,7 +43,7 @@ class AppRouter {
   static const String orderScreen = '/orderScreen';
   static const String serviceScreen = '/serviceScreen';
   static const String serviceProgressScreen = '/ServiceProgressScreen';
-
+  static const String deleteAccountScreen = '/deleteAccountScreen';
 
   static var globalNavKey = GlobalKey<NavigatorState>();
 
@@ -56,6 +57,14 @@ class AppRouter {
       return null;
     },
     routes: <RouteBase>[
+      GoRoute(
+        path: deleteAccountScreen,
+        pageBuilder: (context, state) => TransitionHelper.page(
+          state: state,
+          child: const DeleteAccountScreen(),
+          transition: AppTransition.slideFromRight,
+        ),
+      ),
       GoRoute(
         path: filterScreen,
         pageBuilder: (context, state) => TransitionHelper.page(
