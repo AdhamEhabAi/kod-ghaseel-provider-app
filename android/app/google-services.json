@@ -7,47 +7,28 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:408215864703:android:640ec180cd9f4ba7c7064a",
-        "android_client_info": {
-          "package_name": "com.skada.kod_ghaseel"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyChE6InC2Cmha1V073EudezT7yLYlpKjYo"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:408215864703:android:ab68ac53030b5b62c7064a",
-        "android_client_info": {
-          "package_name": "com.skada.kod_ghaseel_app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyChE6InC2Cmha1V073EudezT7yLYlpKjYo"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:408215864703:android:a0267a90a9630a1fc7064a",
+        "mobilesdk_app_id": "1:408215864703:android:ceb8ef481eef5879c7064a",
         "android_client_info": {
           "package_name": "com.skada.kodghaseelprovider"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChE6InC2Cmha1V073EudezT7yLYlpKjYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408215864703:android:49643026c3946d30c7064a",
+        "android_client_info": {
+          "package_name": "com.skada.washingcode"
         }
       },
       "oauth_client": [],
