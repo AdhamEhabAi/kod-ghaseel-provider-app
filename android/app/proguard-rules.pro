@@ -77,7 +77,7 @@
 -keep class com.google.gson.** { *; }
 
 # --- App models (prevent stripping of JSON-serialised model classes) ---
--keep class com.skada.washingcodeprovider.** { *; }
+-keep class com.skada.kodghaseelprovider.** { *; }
 
 # --- Dart VM entry points (background isolates, Dart native callbacks) ---
 -keep @interface dart.annotation.DartName

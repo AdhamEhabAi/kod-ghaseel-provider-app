@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '408215864703',
     projectId: 'washingcode-22b8e',
     storageBucket: 'washingcode-22b8e.firebasestorage.app',
-    iosBundleId: 'com.skada.washingcodeprovider',
+    iosBundleId: 'com.skada.kodghaseelprovider',
   );
 
 }
