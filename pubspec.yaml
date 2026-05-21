@@ -90,10 +90,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-  # Disable experimental Swift Package Manager — several plugins (permission_handler_apple,
-  # location, google_maps_flutter_ios, fluttertoast) don't support SPM, and firebase_messaging
-  # / cloud_firestore pull in conflicting flutterfire SPM versions. Use CocoaPods instead.
-  SwiftPackageManagerEnabled: false
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
