@@ -60,16 +60,13 @@ class ServiceCubit extends Cubit<ServiceState> {
         }
       }
 
-      // 2. Check foreground permission status
-      PermissionStatus permissionStatus =
+      // 2. Check foreground permission status.
+      //    initializeLocation() never requests permission — that is exclusively
+      //    the caller's responsibility (HomeScreen handles the full dialog flow).
+      //    If permission is not granted here, it means the caller did not obtain
+      //    it first; fail gracefully rather than popping an unexpected OS dialog.
+      final PermissionStatus permissionStatus =
           await _serviceRepo.getLocationPermissionStatus();
-
-      // 3. Request foreground-only permission if not yet granted.
-      //    We never jump directly to "Always" — that violates both Apple and
-      //    Google policy. "Always" is only requested at job-start time.
-      if (permissionStatus == PermissionStatus.denied) {
-        permissionStatus = await _serviceRepo.requestLocationPermission();
-      }
 
       if (permissionStatus != PermissionStatus.granted) {
         emit(ServiceLocationPermissionDenied(
@@ -150,18 +147,14 @@ class ServiceCubit extends Cubit<ServiceState> {
     debugPrint('📍 [ServiceCubit] startLocationStream()');
 
     try {
-      PermissionStatus permissionStatus =
+      final PermissionStatus permissionStatus =
           await _serviceRepo.getLocationPermissionStatus();
 
       if (permissionStatus != PermissionStatus.granted) {
-        await initializeLocation();
-        permissionStatus = await _serviceRepo.getLocationPermissionStatus();
-        if (permissionStatus != PermissionStatus.granted) {
-          emit(ServiceLocationPermissionDenied(
-            'Location permission is required to track your position.',
-          ));
-          return;
-        }
+        emit(ServiceLocationPermissionDenied(
+          'Location permission is required to track your position.',
+        ));
+        return;
       }
 
       await _serviceRepo.configureLocationSettings();
@@ -252,15 +245,11 @@ class ServiceCubit extends Cubit<ServiceState> {
   Future<void> getCurrentLocation() async {
     emit(ServiceLocationLoading());
     try {
-      PermissionStatus permissionStatus =
+      final PermissionStatus permissionStatus =
           await _serviceRepo.getLocationPermissionStatus();
       if (permissionStatus != PermissionStatus.granted) {
-        await initializeLocation();
-        permissionStatus = await _serviceRepo.getLocationPermissionStatus();
-        if (permissionStatus != PermissionStatus.granted) {
-          emit(ServiceLocationPermissionDenied('Location permission is required.'));
-          return;
-        }
+        emit(ServiceLocationPermissionDenied('Location permission is required.'));
+        return;
       }
 
       final locationData = await _serviceRepo.getCurrentLocation();

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
+import 'package:permission_handler/permission_handler.dart' as ph;
 import 'package:kod_ghaseel_provider_app/core/widgets/location_permission_dialog.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
@@ -27,9 +30,6 @@ import '../../core/router/router.dart';
 import '../orders/controller/orders_cubit.dart';
 import 'controller/home_screen_cubit.dart';
 
-// SharedPreferences key to track whether the location rationale has been shown.
-// We only show it once per app install to avoid being intrusive.
-const _kLocationRationaleShownKey = 'location_rationale_shown';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -57,54 +57,81 @@ class _HomeScreenState extends State<HomeScreen> {
     // and Google Play's user-facing permission rationale requirement.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getBottomNavigationBarSize();
-      _initLocationWithRationale();
     });
   }
 
-  /// App Store-compliant location initialisation flow:
-  ///
-  /// 1. If permission is already granted → initialise silently (no dialog needed)
-  /// 2. If not yet asked → show our own rationale dialog first, THEN the system dialog
-  /// 3. If permanently denied → do not spam the user; show a one-time settings prompt
-  ///
-  /// This approach satisfies:
-  ///  - Apple: permission shown "in context" with clear purpose description
-  ///  - Google Play: rationale shown before the system permission dialog
+  // ── Location permission flow ───────────────────────────────────────────────
+  //
+  // Step 1 — Foreground ("While Using"):
+  //   • Already granted → init silently, jump to step 2.
+  //   • Permanently denied → stop; respect user's choice.
+  //   • Not yet decided → show LocationPermissionDialog, then OS dialog on Accept.
+  //
+  // Step 2 — Background ("Allow All the Time", Android only):
+  //   • Already granted → done.
+  //   • Not yet granted → show BackgroundLocationPermissionDialog, then OS dialog.
+  //   • iOS: system handles the "Always" upgrade automatically; no custom dialog.
+  // ──────────────────────────────────────────────────────────────────────────
+
   Future<void> _initLocationWithRationale() async {
     final serviceCubit = context.read<ServiceCubit>();
-    final repo = serviceCubit; // ServiceCubit exposes permission check indirectly
 
-    // Check if we have already shown the rationale this install
-    final bool rationaleAlreadyShown =
-        AppSharedPreferences.getBool(_kLocationRationaleShownKey) ?? false;
+    // ── Step 1: foreground permission ─────────────────────────────────────
+    final ph.PermissionStatus fgStatus =
+        await ph.Permission.locationWhenInUse.status;
 
-    if (!rationaleAlreadyShown) {
-      // Ensure the widget is still mounted before showing a dialog
+    if (fgStatus.isPermanentlyDenied) return;
+
+    if (fgStatus.isGranted || fgStatus.isLimited) {
+      // Already have foreground — initialise silently then start streaming.
       if (!mounted) return;
-
-      // Show the app's own pre-permission dialog
-      final bool userAccepted =
-          await LocationPermissionDialog.show(context);
-
-      // Record that we have shown it regardless of outcome so we never
-      // show it again (the system will handle repeat requests)
-      await AppSharedPreferences.setBool(
-          _kLocationRationaleShownKey, true);
-
-      if (!userAccepted) {
-        // User dismissed — try to init anyway (system may already be granted)
-        // so the app is not broken on second launch
-        if (mounted) {
-          serviceCubit.initializeLocation();
-        }
-        return;
-      }
+      await serviceCubit.initializeLocation();
+      if (mounted) await _requestBackgroundIfNeeded(serviceCubit);
+      if (mounted) await serviceCubit.startLocationStream();
+      return;
     }
 
-    // Trigger the actual permission request + location init
-    if (mounted) {
-      serviceCubit.initializeLocation();
+    // Not yet decided — show our rationale dialog before the OS dialog.
+    if (!mounted) return;
+    final bool fgAccepted = await LocationPermissionDialog.show(context);
+    if (!fgAccepted || !mounted) return;
+
+    // User tapped Allow → immediately trigger the OS "While Using" dialog.
+    // We call request() here directly so the native dialog is the immediate
+    // result of the button tap. initializeLocation() is called only AFTER the
+    // permission is already granted, so it never triggers a second OS dialog.
+    final ph.PermissionStatus requestedStatus =
+        await ph.Permission.locationWhenInUse.request();
+    if (!requestedStatus.isGranted && !requestedStatus.isLimited) return;
+
+    // Permission was just granted — init location then start the 30 s stream.
+    if (!mounted) return;
+    await serviceCubit.initializeLocation();
+    if (mounted) await _requestBackgroundIfNeeded(serviceCubit);
+    if (mounted) await serviceCubit.startLocationStream();
+  }
+
+  /// Shows the background-location rationale dialog (Android only) and, if the
+  /// user agrees, requests "Allow all the time" permission via the OS.
+  /// On iOS the system handles the "Always" upgrade automatically.
+  Future<void> _requestBackgroundIfNeeded(ServiceCubit serviceCubit) async {
+    if (!Platform.isAndroid) {
+      // iOS: request is a no-op in the cubit (returns true immediately).
+      await serviceCubit.requestBackgroundLocationForJob();
+      return;
     }
+
+    final ph.PermissionStatus bgStatus =
+        await ph.Permission.locationAlways.status;
+    if (bgStatus.isGranted) return; // Already have "Allow all the time".
+
+    // Show our rationale dialog before the OS settings redirect.
+    if (!mounted) return;
+    final bool bgAccepted =
+        await BackgroundLocationPermissionDialog.show(context);
+    if (!bgAccepted || !mounted) return;
+
+    await serviceCubit.requestBackgroundLocationForJob();
   }
 
   @override
@@ -121,7 +148,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _getBottomNavigationBarSize() {
     final RenderBox? box =
-        _bottomNavigationBarKey.currentContext?.findRenderObject() as RenderBox?;
+        _bottomNavigationBarKey.currentContext?.findRenderObject()
+            as RenderBox?;
     if (box != null) {
       setState(() => _bottomNavigationBarSize = box.size);
     }
@@ -136,8 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isArabic =
-        Localizations.localeOf(context).languageCode == 'ar';
+    final bool isArabic = Localizations.localeOf(context).languageCode == 'ar';
     final double itemWidth = _bottomNavigationBarSize.width / 4;
 
     return PopScope(
@@ -166,8 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           child: Directionality(
-            textDirection:
-                isArabic ? TextDirection.rtl : TextDirection.ltr,
+            textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
             child: Stack(
               children: [
                 ClipRRect(
@@ -186,31 +212,39 @@ class _HomeScreenState extends State<HomeScreen> {
                       key: _bottomNavigationBarKey,
                       items: [
                         BottomNavigationBarItem(
-                          icon: SvgPicture.asset(Assets.homeIconSVG,
-                              color: _selectedIndex == 0
-                                  ? AppStyle.primaryColor
-                                  : null),
+                          icon: SvgPicture.asset(
+                            Assets.homeIconSVG,
+                            color: _selectedIndex == 0
+                                ? AppStyle.primaryColor
+                                : null,
+                          ),
                           label: 'Home',
                         ),
                         BottomNavigationBarItem(
-                          icon: SvgPicture.asset(Assets.calendarIconSVG,
-                              color: _selectedIndex == 1
-                                  ? AppStyle.primaryColor
-                                  : null),
+                          icon: SvgPicture.asset(
+                            Assets.calendarIconSVG,
+                            color: _selectedIndex == 1
+                                ? AppStyle.primaryColor
+                                : null,
+                          ),
                           label: 'Orders',
                         ),
                         BottomNavigationBarItem(
-                          icon: SvgPicture.asset(Assets.activityIcon,
-                              color: _selectedIndex == 2
-                                  ? AppStyle.primaryColor
-                                  : null),
+                          icon: SvgPicture.asset(
+                            Assets.activityIcon,
+                            color: _selectedIndex == 2
+                                ? AppStyle.primaryColor
+                                : null,
+                          ),
                           label: 'Reports',
                         ),
                         BottomNavigationBarItem(
-                          icon: SvgPicture.asset(Assets.profileIconSVG,
-                              color: _selectedIndex == 3
-                                  ? AppStyle.primaryColor
-                                  : null),
+                          icon: SvgPicture.asset(
+                            Assets.profileIconSVG,
+                            color: _selectedIndex == 3
+                                ? AppStyle.primaryColor
+                                : null,
+                          ),
                           label: 'Profile',
                         ),
                       ],
@@ -228,12 +262,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   duration: const Duration(milliseconds: 350),
                   curve: Curves.easeOutCubic,
                   bottom: 0,
-                  right: isArabic
-                      ? (itemWidth * _selectedIndex) - 30.w
-                      : null,
-                  left: isArabic
-                      ? null
-                      : (itemWidth * _selectedIndex) + 20.w,
+                  right: isArabic ? (itemWidth * _selectedIndex) - 30.w : null,
+                  left: isArabic ? null : (itemWidth * _selectedIndex) + 20.w,
                   child: const WaveShape(),
                 ),
               ],
@@ -260,26 +290,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   message: state.message,
                   posAction: () {
                     if (isNoInternet) {
-                      context
-                          .read<HomeScreenCubit>()
-                          .checkSessionValidation();
+                      context.read<HomeScreenCubit>().checkSessionValidation();
                       return;
                     }
-                    GoRouter.of(context)
-                        .pushReplacement(AppRouter.loginScreen);
+                    GoRouter.of(context).pushReplacement(AppRouter.loginScreen);
                     AppSharedPreferences.clear();
                   },
-                  posActionName:
-                      isNoInternet ? 'اعادة الاتصال' : 'تسجيل الدخول',
+                  posActionName: isNoInternet
+                      ? 'اعادة الاتصال'
+                      : 'تسجيل الدخول',
                 );
               } else if (state is ValidatedSession) {
                 DialogUtils.hideLoading(context);
-                final fcmToken =
-                    await context.read<AuthCubit>().getFcmToken();
-                context.read<AuthCubit>().updateFcmToken(fcmToken ?? '');
-                context.read<HomeScreenCubit>().getHomeBanners();
-                context.read<HomeScreenCubit>().getProviderStatus();
-                context.read<StaticsCubit>().getStatistics();
+                final fcmToken = await context.read<AuthCubit>().getFcmToken();
+                await context.read<AuthCubit>().updateFcmToken(fcmToken ?? '');
+                await context.read<HomeScreenCubit>().getHomeBanners();
+                await context.read<HomeScreenCubit>().getProviderStatus();
+                await context.read<StaticsCubit>().getStatistics();
+                _initLocationWithRationale();
               }
             },
             child: pages[_selectedIndex],

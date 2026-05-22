@@ -2,7 +2,7 @@
 
 
 class APIEndpoints {
-  static  String domain  = 'https://washing.aminyoussef.tech/';
+  static  String domain  = 'https://api.washingcode.com/';
   static  String baseUrl  = '${domain}api/v1/';
 
   static  String storage  = '${domain}storage/';
