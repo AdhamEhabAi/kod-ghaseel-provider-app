@@ -28,30 +28,20 @@ import 'core/network/bloc_observer.dart';
 import 'features/home_screen/tabs/profile_tab/controller/profile_cubit.dart';
 import 'generated/l10n.dart';
 
-// SECURITY: MyHttpOverrides with badCertificateCallback has been removed.
-// All SSL certificates are now validated properly in production.
-
-
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await ensureFirebase();
-  log('Background message received:');
-  log(
-    '------------  new doc notification ${message.notification} -------------',
-  );
-
-  // Show notification using NotificationService
+  if (kDebugMode) log('Background message received: ${message.notification}');
   await NotificationService.instance.showNotification(message: message);
 }
 
 Future<void> clearNotifications() async {
   try {
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+        FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin.cancelAll();
   } catch (e) {
-    log('Error clearing notifications: $e');
-    // Don't rethrow - allow app to continue
+    if (kDebugMode) log('Error clearing notifications: $e');
   }
 }
 
@@ -60,16 +50,16 @@ Future<FirebaseApp> ensureFirebase({String? name}) async {
     if (name == null) {
       return Firebase.apps.isEmpty
           ? await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      )
+              options: DefaultFirebaseOptions.currentPlatform,
+            )
           : Firebase.app();
     } else {
       return Firebase.apps.any((a) => a.name == name)
           ? Firebase.app(name)
           : await Firebase.initializeApp(
-        name: name,
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
+              name: name,
+              options: DefaultFirebaseOptions.currentPlatform,
+            );
     }
   } on FirebaseException catch (e) {
     if (e.code == 'duplicate-app') {
@@ -78,29 +68,30 @@ Future<FirebaseApp> ensureFirebase({String? name}) async {
     rethrow;
   }
 }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    // Initialize Firebase (single, safe entry point)
     await ensureFirebase();
   } catch (e) {
-    log('Firebase initialization error: $e');
-    // Continue even if Firebase fails to prevent crash
+    if (kDebugMode) log('Firebase initialization error: $e');
   }
+
   if (kDebugMode) Bloc.observer = MyBlocObserver();
+
   if (Platform.isAndroid) {
     try {
       GoogleMapsFlutterAndroid().warmup();
     } catch (e) {
-      log('Google Maps warmup error: $e');
+      if (kDebugMode) log('Google Maps warmup error: $e');
     }
   }
 
   try {
-    clearNotifications();
+    await clearNotifications();
   } catch (e) {
-    log('Error clearing notifications: $e');
+    if (kDebugMode) log('Error clearing notifications: $e');
   }
 
   DioHelper.initialize();
@@ -110,7 +101,7 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // NotificationService is initialised from HomeScreen after session validation
-  // so that the rationale sheet is shown before the permission dialog.
+  // so that the rationale sheet is shown before the OS permission dialog.
 
   runApp(const MyApp());
 }
@@ -137,7 +128,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return BlocBuilder<HomeScreenCubit, HomeScreenState>(
             buildWhen: (previous, current) =>
-            current is HomeScreenLanguageLoaded ||
+                current is HomeScreenLanguageLoaded ||
                 current is HomeScreenLanguageChanged,
             builder: (context, state) {
               Locale currentLocale = const Locale('ar');
@@ -162,7 +153,6 @@ class MyApp extends StatelessWidget {
                   GlobalWidgetsLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
                 ],
-                // ✅ Safe place to override MediaQuery (now there *is* a MediaQuery above)
                 builder: (context, child) {
                   final mediaQueryData = MediaQuery.of(context);
                   return MediaQuery(

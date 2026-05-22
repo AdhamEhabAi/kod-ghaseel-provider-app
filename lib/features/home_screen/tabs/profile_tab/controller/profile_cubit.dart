@@ -21,7 +21,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   ContactInfoData? contactInfo;
 
   void updateProfile({
-    required String fullName ,
+    required String fullName,
     required String dateOfBirth,
     required String gender,
     required String city,
@@ -47,74 +47,60 @@ class ProfileCubit extends Cubit<ProfileState> {
       email: email,
     );
     response.fold(
-          (error) {
+      (error) {
         emit(UpdateProfileError(message: error.message));
       },
-          (success) {
-            BlocProvider.of<HomeScreenCubit>(AppRouter.globalNavKey.currentContext!).updateUserData(success.data);
-                  emit(UpdateProfileSuccess(message: success.message, user: success.data));
+      (success) {
+        BlocProvider.of<HomeScreenCubit>(AppRouter.globalNavKey.currentContext!)
+            .updateUserData(success.data);
+        emit(UpdateProfileSuccess(message: success.message, user: success.data));
       },
     );
   }
 
   void requestUpdatePhoneNumber({
-    required String phoneNumber ,
+    required String phoneNumber,
   }) async {
     emit(RequestUpdatePhoneNumberLoading());
 
-    // await Future.delayed(Duration(seconds: 5));
-    //
-    //   bool isSuccess = true;
-    //
-    //   if (isSuccess) {
-    //     emit(RequestUpdatePhoneNumberSuccess(message: "message"));
-    //   } else {
-    //      emit(RequestUpdatePhoneNumberError(message: "error"));
-    //   }
-
-    var response = await profileRepo.updatePhoneNumberRequest(
+    final response = await profileRepo.updatePhoneNumberRequest(
       phoneNumber: phoneNumber,
     );
     response.fold(
-          (error) {
+      (error) {
         emit(RequestUpdatePhoneNumberError(message: error.message));
       },
-          (success) {
-        emit(RequestUpdatePhoneNumberSuccess(message: success.message ?? ""));
+      (success) {
+        emit(RequestUpdatePhoneNumberSuccess(message: success.message ?? ''));
       },
     );
   }
 
   void verifyPhoneWithOtp({
-    required String otp ,
+    required String otp,
   }) async {
     emit(VerifyChangePhoneNumberLoading());
-    // await Future.delayed(Duration(seconds: 5));
-    // if(otp=="1234"){
-    //   emit(VerifyChangePhoneNumberSuccess(message: "success"));
-    // }else{
-    //   emit(VerifyChangePhoneNumberError(message: "error"));
-    // }
-    var response = await profileRepo.verifyPhoneWithOtp(
+
+    final response = await profileRepo.verifyPhoneWithOtp(
       otp: otp,
     );
     response.fold(
-          (error) {
+      (error) {
         emit(VerifyChangePhoneNumberError(message: error.message));
       },
-          (success) {
-        emit(VerifyChangePhoneNumberSuccess(message: success.message ?? ""));
+      (success) {
+        emit(VerifyChangePhoneNumberSuccess(message: success.message ?? ''));
       },
     );
-
   }
+
   Future<void> pickAndSet({required bool fromCamera}) async {
     final file = await pickImage(fromCamera: fromCamera);
     if (file == null) return;
     imageFile = file;
     emit(PickAndSetImageSuccessState());
-
   }
+
   Future<File?> pickImage({required bool fromCamera}) async {
     final picker = ImagePicker();
     final XFile? pickedFile = await picker.pickImage(
@@ -130,16 +116,15 @@ class ProfileCubit extends Cubit<ProfileState> {
     final result = await profileRepo.getContactInfo();
 
     result.fold(
-          (failure) => emit(ContactInfoErrorState(message: failure.message)),
-          (response) {
+      (failure) => emit(ContactInfoErrorState(message: failure.message)),
+      (response) {
         contactInfo = response.data;
         if (response.data != null) {
           emit(ContactInfoLoadedState(data: response.data!));
         } else {
-          emit(ContactInfoErrorState(message: "No contact information available"));
+          emit(ContactInfoErrorState(message: 'No contact information available'));
         }
       },
     );
   }
 }
-
