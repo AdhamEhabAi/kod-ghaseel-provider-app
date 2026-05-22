@@ -14,11 +14,11 @@ import '../../generated/l10n.dart';
 
 
 class ChatScreen extends StatefulWidget {
-   const ChatScreen({super.key, required this.userName, this.avatar,required this.userId});
+   const ChatScreen({super.key, required this.userName, this.avatar, required this.userId});
 
   final String userName;
   final String? avatar;
-   final String userId;
+  final String userId;
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -33,14 +33,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     final userString = AppSharedPreferences.getString(SharedPreferencesKeys.userModel);
-    final userMap = jsonDecode(userString??"{}");
-     currentProviderId = userMap["id"].toString();
-    List<String> ids = [currentProviderId, widget.userId];
+    final userMap = jsonDecode(userString ?? '{}') as Map<String, dynamic>;
+    currentProviderId = (userMap['id'] ?? '').toString();
+    final List<String> ids = [currentProviderId, widget.userId];
     ids.sort();
-    chatId = ids.join("_");
+    chatId = ids.join('_');
   }
 
   @override
@@ -49,6 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
     _scrollController.dispose();
     super.dispose();
   }
+
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -60,9 +60,10 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    var s=S.of(context);
+    final s = S.of(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppStyle.grey,
@@ -135,10 +136,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
                       return SliverList(
                         delegate: SliverChildBuilderDelegate(
-                              (context, index) {
-                            final data = docs[index];
-                            final bool isMe = data['senderId'] == currentProviderId;
-                            final Timestamp? timestamp = data['timestamp'];
+                          (context, index) {
+                            final data = docs[index].data() as Map<String, dynamic>;
+                            final bool isMe = (data['senderId'] as String?) == currentProviderId;
+                            final Timestamp? timestamp = data['timestamp'] as Timestamp?;
                             String formattedTime = '';
                             if (timestamp != null) {
                               formattedTime = DateFormat('h:mm a').format(timestamp.toDate());
@@ -146,21 +147,23 @@ class _ChatScreenState extends State<ChatScreen> {
                             return Align(
                               alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
                               child: Container(
-                                margin: EdgeInsets.symmetric(vertical: 4.h,horizontal: 8.w),
+                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
                                 padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
                                 decoration: BoxDecoration(
                                   color: isMe ? AppStyle.primaryColor : AppStyle.white,
                                   borderRadius: BorderRadius.circular(16.r),
                                 ),
                                 child: Column(
-                                  crossAxisAlignment:isMe ? CrossAxisAlignment.end:CrossAxisAlignment.start,
+                                  crossAxisAlignment: isMe
+                                      ? CrossAxisAlignment.end
+                                      : CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      data['text'],
+                                      (data['text'] as String?) ?? '',
                                       style: TextStyle(
-                                          color: isMe ? Colors.white : Colors.black,
-                                          fontSize: 14.sp
+                                        color: isMe ? Colors.white : Colors.black,
+                                        fontSize: 14.sp,
                                       ),
                                     ),
                                     if (formattedTime.isNotEmpty)
@@ -203,8 +206,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: TextField(
                         controller: _controller,
                         style: TextStyle(fontSize: 14.sp),
-                        decoration:  InputDecoration(
-                          hintText:s.writeMessage,
+                        decoration: InputDecoration(
+                          hintText: s.writeMessage,
                           border: InputBorder.none,
                         ),
                       ),
@@ -227,9 +230,10 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
+
   Future<void> sendMessage() async {
     final text = _controller.text.trim();
-    if (text.isEmpty) return;
+    if (text.isEmpty || text.length > 1000) return;
 
     _controller.clear();
 
@@ -255,6 +259,4 @@ class _ChatScreenState extends State<ChatScreen> {
       'lastMessageTime': FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
   }
-
 }
-

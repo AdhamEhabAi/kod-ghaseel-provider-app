@@ -41,12 +41,6 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                         onTap: () async{
                           await openTermsAndConditions();
                         }),
-                    SizedBox(height: 22.h),
-                    // PolicyCard(title: s.refundCancellationPolicy),
-                    // SizedBox(height: 22.h),
-                    // PolicyCard(title: s.cookiesPolicy),
-                    // SizedBox(height: 22.h),
-                    // PolicyCard(title: s.userAgreement),
                   ],
                 ),
               ),

@@ -28,8 +28,6 @@
 		<true/>
 		<key>UILaunchStoryboardName</key>
 		<string>LaunchScreen</string>
-		<key>UIMainStoryboardFile</key>
-		<string>Main</string>
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
@@ -47,24 +45,16 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
-		<key>UIStatusBarHidden</key>
-		<false/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
-		<false/>
+		<true/>
 		<key>FirebaseAppDelegateProxyEnabled</key>
 		<false/>
 
-		<!-- Camera and photo permissions (Arabic + English) -->
 		<key>NSCameraUsageDescription</key>
 		<string>يحتاج التطبيق إلى الكاميرا لالتقاط صور ملف مزود الخدمة والسيارة. The app needs camera access to capture provider profile and vehicle photos.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>يحتاج التطبيق للوصول إلى مكتبة الصور لاختيار صور ملف مزود الخدمة. The app needs photo library access to select provider profile images.</string>
-		<key>NSPhotoLibraryAddUsageDescription</key>
-		<string>يحتاج التطبيق لحفظ الصور في مكتبة الصور. The app needs permission to save photos to your photo library.</string>
 
-		<!-- Location permissions — Apple requires clear, specific descriptions.
-		     "When In Use" is requested on the home screen to prepare for dispatch.
-		     "Always" is requested only when the provider starts an active service job. -->
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Washing Code Provider uses your location to show your current position to customers waiting for service, and to dispatch nearby service jobs to you. Your location is only accessed while the app is open and you are actively using it.</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -72,15 +62,6 @@
 		<key>NSLocationAlwaysUsageDescription</key>
 		<string>Washing Code Provider requires background location access during active service jobs so customers can track your real-time arrival. We never collect location data outside of active job sessions.</string>
 
-		<!-- REMOVED: NSUserTrackingUsageDescription — This app does not use IDFA or
-		     cross-app advertising tracking. Firebase Analytics is disabled.
-		     Keeping this key incorrectly triggers ATT dialogs and misleads Apple reviewers. -->
-
-		<!-- Background modes:
-		     - remote-notification: Required for FCM push notifications
-		     - location: Required for background location tracking during active jobs
-		     NOTE: "fetch" background mode removed — the app does not use
-		     UIApplication.setMinimumBackgroundFetchInterval. -->
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>remote-notification</string>
@@ -90,7 +71,6 @@
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>comgooglemaps</string>
-			<string>googlechromes</string>
 		</array>
 	</dict>
 </plist>

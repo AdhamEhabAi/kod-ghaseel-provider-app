@@ -12,43 +12,24 @@ import UserNotifications
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    // Initialize Google Maps
     GMSServices.provideAPIKey("AIzaSyAvpaNrhvRUzgqiLBfwtCETDNVGYJiDATw")
 
-    // Initialize Firebase (required since FirebaseAppDelegateProxyEnabled is false)
-    // main.dart's ensureFirebase() will check if already initialized and skip
     if FirebaseApp.app() == nil {
       FirebaseApp.configure()
     }
 
-    // FCM messaging delegate - set after Firebase is initialized
-    // Defer slightly to ensure Firebase is ready
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
       Messaging.messaging().delegate = self
     }
 
-    // Notification center delegate (FlutterAppDelegate already conforms to UNUserNotificationCenterDelegate)
     UNUserNotificationCenter.current().delegate = self
-
-    // Request notification permissions - defer to prevent blocking app launch
-    // This prevents crashes if permission request happens too early
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-        if granted {
-          DispatchQueue.main.async {
-            application.registerForRemoteNotifications()
-          }
-        } else if let error = error {
-          print("Notification permission error: \(error.localizedDescription)")
-        }
-      }
-    }
+    // Notification permission is requested contextually from Dart
+    // after the in-app rationale sheet — see NotificationService.initialize()
 
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
-  // APNs token → FCM
   override func application(
     _ application: UIApplication,
     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
@@ -57,24 +38,21 @@ import UserNotifications
     super.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
   }
 
-  // Registration failure
   override func application(
     _ application: UIApplication,
     didFailToRegisterForRemoteNotificationsWithError error: Error
   ) {
+    #if DEBUG
     print("Failed to register for remote notifications: \(error.localizedDescription)")
+    #endif
     super.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
   }
 
-  // Foreground notification
   override func userNotificationCenter(
     _ center: UNUserNotificationCenter,
     willPresent notification: UNNotification,
     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
   ) {
-    let userInfo = notification.request.content.userInfo
-    print("Notification received in foreground: \(userInfo)")
-
     if #available(iOS 14.0, *) {
       completionHandler([.banner, .badge, .sound])
     } else {
@@ -82,20 +60,18 @@ import UserNotifications
     }
   }
 
-  // Notification tap
   override func userNotificationCenter(
     _ center: UNUserNotificationCenter,
     didReceive response: UNNotificationResponse,
     withCompletionHandler completionHandler: @escaping () -> Void
   ) {
-    let userInfo = response.notification.request.content.userInfo
-    print("Notification tapped: \(userInfo)")
     completionHandler()
   }
 
-  // FCM token refresh
   func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-    print("FCM Token: \(fcmToken ?? "nil")")
+    #if DEBUG
+    print("FCM Token refreshed")
+    #endif
     let dataDict: [String: String] = ["token": fcmToken ?? ""]
     NotificationCenter.default.post(
       name: Notification.Name("FCMToken"),
