@@ -4,11 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/profile_tab/presentaion/setting/widgets/privacy_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../../../Utilites/app_style/style.dart';
 import '../../../../../../core/network/api_endpoints.dart';
 import '../../../../../../core/widgets/setting_app_bar.dart';
 import '../../../../../../generated/l10n.dart';
-import '../../../../../../shared/shared_widget.dart';
 
 
 class PrivacyScreen extends StatefulWidget {
@@ -19,8 +17,6 @@ class PrivacyScreen extends StatefulWidget {
 }
 
 class _PrivacyScreenState extends State<PrivacyScreen> {
-  final TextEditingController searchCtrl = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
@@ -36,25 +32,14 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   children: [
-                    CustomTextFormField(
-                      hintText: s.search_hint,
-                      controller: searchCtrl,
-                      colorBorder: const Color(0xffDADADA),
-                      radius: 24.r,
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: AppStyle.primaryColor,
-                      ),
-                    ),
-                    SizedBox(height: 22.h),
                     PolicyCard(title: s.privacy_policy,
                         onTap: () async{
-                          await openTermsAndConditions();
+                          await privacyAndPolicy();
                         }),
                     SizedBox(height: 22.h),
                     PolicyCard(title: s.terms_conditions,
                         onTap: () async{
-                          await privacyAndPolicy();
+                          await openTermsAndConditions();
                         }),
                     SizedBox(height: 22.h),
                     // PolicyCard(title: s.refundCancellationPolicy),

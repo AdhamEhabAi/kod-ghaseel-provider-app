@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../Utilites/app_style/style.dart';
 import 'bottom_sheet_notification_permission_content.dart';
 
-void showNotificationPermission(BuildContext context){
-  showModalBottomSheet(
+Future<void> showNotificationPermission(BuildContext context) async {
+  await showModalBottomSheet(
 
     isScrollControlled: true,
     enableDrag: false,

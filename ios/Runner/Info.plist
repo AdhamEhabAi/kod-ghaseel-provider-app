@@ -51,8 +51,6 @@
 		<false/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
-		<key>io.flutter.embedded_views_preview</key>
-		<true/>
 		<key>FirebaseAppDelegateProxyEnabled</key>
 		<false/>
 
