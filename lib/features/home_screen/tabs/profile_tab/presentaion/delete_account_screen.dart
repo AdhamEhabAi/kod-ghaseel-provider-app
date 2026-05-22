@@ -14,7 +14,6 @@ class DeleteAccountScreen extends StatelessWidget {
   const DeleteAccountScreen({super.key});
 
   Future<bool> _showConfirmDialog(BuildContext context) async {
-    final sd = S.of(context);
     return await showDialog<bool>(
           context: context,
           builder: (ctx) {

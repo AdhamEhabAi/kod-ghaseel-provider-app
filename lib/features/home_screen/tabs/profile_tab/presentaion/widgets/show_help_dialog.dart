@@ -252,7 +252,7 @@ Future<void> _openWhatsApp(BuildContext context, String phoneNumber) async {
     debugPrint('Error launching WhatsApp: $e');
     if (context.mounted) {
       final s = S.of(context);
-      ToastM.show("s.unableToOpenWhatsApp");
+      ToastM.show(s.unableToOpenWhatsApp);
     }
   }
 }

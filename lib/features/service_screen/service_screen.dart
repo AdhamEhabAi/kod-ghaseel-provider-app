@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -9,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kod_ghaseel_provider_app/core/helpers/helper_functions.dart';
 import 'package:kod_ghaseel_provider_app/core/router/router.dart';
+import 'package:kod_ghaseel_provider_app/core/widgets/location_permission_dialog.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/widgets/user_data_section.dart';
 import 'package:kod_ghaseel_provider_app/features/orders/data/models/orders_response.dart';
 import 'package:kod_ghaseel_provider_app/features/service_screen/controller/service_cubit.dart';
@@ -126,6 +128,22 @@ class _ServiceScreenState extends State<ServiceScreen> {
     }
   }
 
+  /// Requests "Allow all the time" location permission when the provider opens
+  /// a service job. This is the correct contextual trigger: the provider is
+  /// actively on a job and the customer needs real-time tracking.
+  /// Android only — iOS background access is declared in Info.plist and
+  /// granted via the system "Always" picker automatically.
+  Future<void> _requestBackgroundLocationIfNeeded() async {
+    if (!Platform.isAndroid) return;
+    if (!mounted) return;
+    final bgStatus = await Permission.locationAlways.status;
+    if (bgStatus.isGranted) return;
+    if (!mounted) return;
+    final accepted = await BackgroundLocationPermissionDialog.show(context);
+    if (!accepted || !mounted) return;
+    await context.read<ServiceCubit>().requestBackgroundLocationForJob();
+  }
+
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     _isMapReady = true;
@@ -234,10 +252,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
       debugPrint('🗺️ [ServiceScreen] Got initial location: Lat: ${currentState.latitude}, Lng: ${currentState.longitude}');
     }
 
-    // Check service availability immediately if we have location
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         _checkServiceAvailability();
+        _requestBackgroundLocationIfNeeded();
       }
     });
     

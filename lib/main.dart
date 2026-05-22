@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -87,7 +88,7 @@ void main() async {
     log('Firebase initialization error: $e');
     // Continue even if Firebase fails to prevent crash
   }
-  Bloc.observer = MyBlocObserver();
+  if (kDebugMode) Bloc.observer = MyBlocObserver();
   if (Platform.isAndroid) {
     try {
       GoogleMapsFlutterAndroid().warmup();
@@ -108,19 +109,8 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  try {
-    // Defer notification initialization until after app starts
-    // This prevents iOS crashes from permission requests too early
-    Future.microtask(() async {
-      try {
-        await NotificationService.instance.initialize();
-      } catch (e) {
-        log('NotificationService initialization error: $e');
-      }
-    });
-  } catch (e) {
-    log('Error setting up NotificationService: $e');
-  }
+  // NotificationService is initialised from HomeScreen after session validation
+  // so that the rationale sheet is shown before the permission dialog.
 
   runApp(const MyApp());
 }

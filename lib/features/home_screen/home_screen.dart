@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +9,7 @@ import 'package:kod_ghaseel_provider_app/core/helpers/shared_prefrence.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/app_loader.dart';
 import 'package:permission_handler/permission_handler.dart' as ph;
 import 'package:kod_ghaseel_provider_app/core/widgets/location_permission_dialog.dart';
+import 'package:kod_ghaseel_provider_app/features/notification/widgets/notification_permission_sheet/show_notification_permission.dart';
 import 'package:kod_ghaseel_provider_app/core/widgets/toast_m.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/controller/auth_cubit.dart';
 import 'package:kod_ghaseel_provider_app/features/home_screen/tabs/home_tab/home_tab.dart';
@@ -68,9 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
   //   • Not yet decided → show LocationPermissionDialog, then OS dialog on Accept.
   //
   // Step 2 — Background ("Allow All the Time", Android only):
-  //   • Already granted → done.
-  //   • Not yet granted → show BackgroundLocationPermissionDialog, then OS dialog.
-  //   • iOS: system handles the "Always" upgrade automatically; no custom dialog.
+  //   • Requested in ServiceScreen.initState() when the provider opens a job,
+  //     not here. Keeps the permission request in the correct context.
   // ──────────────────────────────────────────────────────────────────────────
 
   Future<void> _initLocationWithRationale() async {
@@ -86,7 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
       // Already have foreground — initialise silently then start streaming.
       if (!mounted) return;
       await serviceCubit.initializeLocation();
-      if (mounted) await _requestBackgroundIfNeeded(serviceCubit);
       if (mounted) await serviceCubit.startLocationStream();
       return;
     }
@@ -107,31 +104,18 @@ class _HomeScreenState extends State<HomeScreen> {
     // Permission was just granted — init location then start the 30 s stream.
     if (!mounted) return;
     await serviceCubit.initializeLocation();
-    if (mounted) await _requestBackgroundIfNeeded(serviceCubit);
     if (mounted) await serviceCubit.startLocationStream();
   }
 
-  /// Shows the background-location rationale dialog (Android only) and, if the
-  /// user agrees, requests "Allow all the time" permission via the OS.
-  /// On iOS the system handles the "Always" upgrade automatically.
-  Future<void> _requestBackgroundIfNeeded(ServiceCubit serviceCubit) async {
-    if (!Platform.isAndroid) {
-      // iOS: request is a no-op in the cubit (returns true immediately).
-      await serviceCubit.requestBackgroundLocationForJob();
-      return;
-    }
-
-    final ph.PermissionStatus bgStatus =
-        await ph.Permission.locationAlways.status;
-    if (bgStatus.isGranted) return; // Already have "Allow all the time".
-
-    // Show our rationale dialog before the OS settings redirect.
+  /// Shows the notification rationale bottom sheet once if permission has not
+  /// yet been decided. Called before getFcmToken() so the OS dialog is always
+  /// preceded by an in-app explanation (Apple Guideline 5.1.1).
+  Future<void> _showNotificationRationaleIfNeeded() async {
     if (!mounted) return;
-    final bool bgAccepted =
-        await BackgroundLocationPermissionDialog.show(context);
-    if (!bgAccepted || !mounted) return;
-
-    await serviceCubit.requestBackgroundLocationForJob();
+    final status = await ph.Permission.notification.status;
+    if (status.isGranted || status.isPermanentlyDenied) return;
+    if (!mounted) return;
+    await showNotificationPermission(context);
   }
 
   @override
@@ -302,6 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               } else if (state is ValidatedSession) {
                 DialogUtils.hideLoading(context);
+                await _showNotificationRationaleIfNeeded();
                 final fcmToken = await context.read<AuthCubit>().getFcmToken();
                 await context.read<AuthCubit>().updateFcmToken(fcmToken ?? '');
                 await context.read<HomeScreenCubit>().getHomeBanners();

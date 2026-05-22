@@ -63,13 +63,21 @@ class NotificationService {
       },
     );
 
-    // Create the main notification channel ONLY (stable)
     const AndroidNotificationChannel mainChannel = AndroidNotificationChannel(
-      'high_importance_channel', // Must match server payload
+      'high_importance_channel',
       'High Importance Notifications',
       description: 'Main notification channel',
       importance: Importance.high,
       playSound: true,
+    );
+
+    const AndroidNotificationChannel silentChannel = AndroidNotificationChannel(
+      'silent_channel',
+      'Silent Notifications',
+      description: 'Background status updates (no sound)',
+      importance: Importance.low,
+      playSound: false,
+      enableVibration: false,
     );
 
     final androidPlugin =
@@ -77,6 +85,7 @@ class NotificationService {
         AndroidFlutterLocalNotificationsPlugin>();
 
     await androidPlugin?.createNotificationChannel(mainChannel);
+    await androidPlugin?.createNotificationChannel(silentChannel);
   }
 
   // ============================================================
@@ -95,7 +104,7 @@ class NotificationService {
 
     // ========= FOREGROUND NOTIFICATIONS =========
     _msgSub = FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      log("🔥 Foreground message: ${message.data}");
+      if (kDebugMode) log("🔥 Foreground message: ${message.data}");
 
       _handleNotificationActions(message);
       await showNotification(message: message);
@@ -103,14 +112,14 @@ class NotificationService {
 
     // ========= USER TAPS BACKGROUND NOTIFICATION =========
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      log("🟢 onMessageOpenedApp: ${message.data}");
+      if (kDebugMode) log("🟢 onMessageOpenedApp: ${message.data}");
       handleNotificationClick(message: message);
     });
 
     // ========= TERMINATED APP =========
     final initialMsg = await _messaging.getInitialMessage();
     if (initialMsg != null) {
-      log("🟣 App opened from TERMINATED: ${initialMsg.data}");
+      if (kDebugMode) log("🟣 App opened from TERMINATED: ${initialMsg.data}");
       _handleNotificationActions(initialMsg);
     }
   }
@@ -120,9 +129,11 @@ class NotificationService {
     if (code == null) return;
 
     final action = NotificationCode.fromCode(code);
-    NotificationAction.notificationHandlers[action]
-        ?.call(message.data, message) ??
-        log("⚠ Unhandled notification code: $code");
+    if (NotificationAction.notificationHandlers.containsKey(action)) {
+      NotificationAction.notificationHandlers[action]!.call(message.data, message);
+    } else if (kDebugMode) {
+      log("⚠ Unhandled notification code: $code");
+    }
   }
 
   // ============================================================
@@ -209,10 +220,13 @@ class NotificationService {
     final code = data['code'];
     final action = NotificationCode.fromCode(code);
 
-    NotificationAction.notificationHandlers[action]
-        ?.call(data, RemoteMessage(data: data)) ??
-        log("⚠ Unhandled click code: $code");
+    if (NotificationAction.notificationHandlers.containsKey(action)) {
+      NotificationAction.notificationHandlers[action]!.call(data, RemoteMessage(data: data));
+    } else if (kDebugMode) {
+      log("⚠ Unhandled click code: $code");
+    }
   }
+
   Future<String?> getTokenFireBase(
       {int retries = 3, int delayMilliseconds = 1000}) async {
     try {
@@ -221,7 +235,7 @@ class NotificationService {
 
       for (int attempt = 0; attempt < retries; attempt++) {
         token = await _messaging.getToken();
-        debugPrint('adhaaaaaaaaaaam fcm Token $token');
+        if (kDebugMode) debugPrint('FCM Token obtained');
 
         if (token != null) {
           return token;
