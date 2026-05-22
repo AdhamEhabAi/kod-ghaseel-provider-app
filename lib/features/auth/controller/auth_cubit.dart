@@ -143,6 +143,18 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
+  Future<void> deleteAccount() async {
+    emit(DeleteAccountLoading());
+    final result = await authRepo.deleteAccount();
+    result.fold(
+      (Failure failure) => emit(DeleteAccountError(message: failure.message)),
+      (_) async {
+        await AppSharedPreferences.clear();
+        emit(DeleteAccountSuccess());
+      },
+    );
+  }
+
   Future<void> getDeviceInfo() async {
     try {
       final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();

@@ -114,6 +114,28 @@ class AuthRepo extends Repository {
   }
 
 
+  Future<Either<Failure, String>> deleteAccount() async {
+    return await exceptionHandler(() async {
+      final Map<String, dynamic> response = await dioHelper
+          .postData(APIEndpoints.login, <String, dynamic>{
+            'action': 'delete_account',
+            'session_token': AppSharedPreferences.getString(
+              SharedPreferencesKeys.accessToken,
+            ),
+          });
+
+      final bool success = response['success'] ?? false;
+
+      if (success) {
+        return 'Success';
+      } else {
+        throw ServerException(
+          exceptionMessage: response['message'] ?? 'فشل في حذف الحساب',
+        );
+      }
+    });
+  }
+
   Future<Either<Failure, String>> logout() async {
     return await exceptionHandler(() async {
       final Map<String, dynamic> response = await dioHelper

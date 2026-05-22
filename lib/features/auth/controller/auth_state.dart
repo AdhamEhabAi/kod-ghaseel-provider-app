@@ -44,3 +44,12 @@ class LogoutError extends AuthState {
   LogoutError({required this.message});
 }
 class FcmTokenUpdated extends AuthState {}
+
+class DeleteAccountLoading extends AuthState {}
+
+class DeleteAccountSuccess extends AuthState {}
+
+class DeleteAccountError extends AuthState {
+  final String message;
+  DeleteAccountError({required this.message});
+}
