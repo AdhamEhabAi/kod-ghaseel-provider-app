@@ -150,21 +150,34 @@ class _TopBarWidgetState extends State<TopBarWidget> {
                 ),
 
                 SizedBox(width: 5.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(s.helloName(fullName??"NAN"),
-                        style: AppTextStyle.whiteW500Size16),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                            Assets.trophyIconSVG, color: Colors.white),
-                        Text(s.roleDelegate,
-                            style: AppTextStyle.whiteW500Size10),
-                      ],
-                    ),
-                  ],
+                SizedBox(
+                  width: 120.w,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        s.helloName(fullName ?? "NAN"),
+                        style: AppTextStyle.whiteW500Size16,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                              Assets.trophyIconSVG, color: Colors.white),
+                          Flexible(
+                            child: Text(
+                              s.roleDelegate,
+                              style: AppTextStyle.whiteW500Size10,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 const Spacer(),
 
