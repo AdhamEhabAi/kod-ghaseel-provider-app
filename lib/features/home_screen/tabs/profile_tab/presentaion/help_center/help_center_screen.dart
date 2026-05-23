@@ -30,14 +30,14 @@ class HelpCenterScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 27.w),
                 child: Column(
                   children: [
-                    CustomTextFormField(
-                      hintText: s.faq_search_hint,
-                      controller: searchCtrl,
-                      colorBorder: const Color(0xffDADADA),
-                      radius: 24.r,
-                      prefixIcon: Icon(Icons.search, color: AppStyle.primaryColor),
-                    ),
-                    SizedBox(height: 25.h),
+                    // CustomTextFormField(
+                    //   hintText: s.faq_search_hint,
+                    //   controller: searchCtrl,
+                    //   colorBorder: const Color(0xffDADADA),
+                    //   radius: 24.r,
+                    //   prefixIcon: Icon(Icons.search, color: AppStyle.primaryColor),
+                    // ),
+                    // SizedBox(height: 25.h),
 
                     // Q1
                     QuestionCard(
