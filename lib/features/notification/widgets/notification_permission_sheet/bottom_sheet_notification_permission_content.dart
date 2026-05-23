@@ -1,14 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_fonts/font.dart';
 import 'package:kod_ghaseel_provider_app/Utilites/app_style/style.dart';
 import 'package:kod_ghaseel_provider_app/generated/l10n.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../../Utilites/app_assets/assets.dart';
 import 'noti_permission_row_widget.dart';
 
 class BottomSheetNotificationPermissionContent extends StatelessWidget {
@@ -28,7 +26,19 @@ class BottomSheetNotificationPermissionContent extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SvgPicture.asset(Assets.notificationPermissionIconSvg),
+            Container(
+              width: 80.w,
+              height: 80.w,
+              decoration: BoxDecoration(
+                color: AppStyle.primaryColor.withOpacity(0.12),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.notifications_active_rounded,
+                size: 44.sp,
+                color: AppStyle.primaryColor,
+              ),
+            ),
             SizedBox(height: 18.h),
             Text(
               s.tryMobileWashComfort, // ✅
