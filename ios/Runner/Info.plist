@@ -50,6 +50,11 @@
 		<key>FirebaseAppDelegateProxyEnabled</key>
 		<false/>
 
+		<!-- Disable Impeller: workaround for black-screen rendering failure on iOS/iPadOS 26.
+		     Remove this key once Flutter ships verified Impeller support for iOS 26. -->
+		<key>FLTEnableImpeller</key>
+		<false/>
+
 		<key>NSCameraUsageDescription</key>
 		<string>يحتاج التطبيق إلى الكاميرا لالتقاط صور ملف مزود الخدمة والسيارة. The app needs camera access to capture provider profile and vehicle photos.</string>
 		<key>NSPhotoLibraryUsageDescription</key>

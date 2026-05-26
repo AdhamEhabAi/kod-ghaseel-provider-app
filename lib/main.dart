@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
@@ -69,8 +70,33 @@ Future<FirebaseApp> ensureFirebase({String? name}) async {
   }
 }
 
-void main() async {
+void main() {
+  runZonedGuarded(
+    _appMain,
+    (Object error, StackTrace stack) {
+      // Catches any async error that escapes _appMain — including exceptions
+      // thrown during widget builds in release mode that would otherwise leave
+      // a silent black screen.
+      log('Fatal zone error: $error\n$stack', error: error, stackTrace: stack);
+    },
+  );
+}
+
+Future<void> _appMain() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    // Re-throw into the zone so runZonedGuarded captures it.
+    Zone.current.handleUncaughtError(
+        details.exception, details.stack ?? StackTrace.empty);
+  };
+
+  WidgetsBinding.instance.platformDispatcher.onError = (error, stack) {
+    log('PlatformDispatcher error: $error\n$stack',
+        error: error, stackTrace: stack);
+    return true;
+  };
 
   try {
     await ensureFirebase();
@@ -94,7 +120,7 @@ void main() async {
     if (kDebugMode) log('Error clearing notifications: $e');
   }
 
-  DioHelper.initialize();
+  await DioHelper.initialize();
   await AppSharedPreferences.init();
   configureDependencies();
 

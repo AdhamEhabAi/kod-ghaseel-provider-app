@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kod_ghaseel_provider_app/features/auth/presentation/login_screen.dart';
@@ -49,7 +50,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     initialLocation: splashScreen,
-    debugLogDiagnostics: true,
+    debugLogDiagnostics: kDebugMode,
     navigatorKey: globalNavKey,
     redirect: (context, state) {
       final uri = state.uri.toString();
